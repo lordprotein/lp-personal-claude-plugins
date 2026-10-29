@@ -4,8 +4,8 @@
 Everything lives in one folder (data_home):
   - $DOMOVED_HOME, if set;
   - otherwise the plugin root (the folder above scripts/);
-  - but if the plugin is installed via a marketplace (a copy inside ~/.claude/plugins
-    that updates overwrite), then ~/Documents/Домовед (user-visible folder name, kept in Russian).
+  - but if the plugin is installed via a marketplace (a copy inside <config dir>/plugins
+    that updates overwrite; config dir is ~/.claude, $CLAUDE_CONFIG_DIR or any other), then ~/Documents/Домовед (user-visible folder name, kept in Russian).
 
 Reports (HTML, PDF on request) live in data_home/reports.
 Working files of analyses and the cache are stored where the system cleans them itself:
@@ -30,11 +30,20 @@ import tempfile
 PLUGIN_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def _is_installed_copy(root, home_dir=None):
-    plugins = os.path.join(home_dir or os.path.expanduser("~"), ".claude", "plugins")
+def _is_installed_copy(root, home_dir=None, env=None):
+    """True for a marketplace copy: <config dir>/plugins/... for ~/.claude, $CLAUDE_CONFIG_DIR
+    (e.g. ~/.claude-work) or any other config dir (copies live in .../plugins/cache/...)."""
+    env = os.environ if env is None else env
     root = os.path.realpath(root)
-    plugins = os.path.realpath(plugins)
-    return root == plugins or root.startswith(plugins + os.sep)
+    config_dirs = [os.path.join(home_dir or os.path.expanduser("~"), ".claude")]
+    if env.get("CLAUDE_CONFIG_DIR"):
+        config_dirs.append(os.path.expanduser(env["CLAUDE_CONFIG_DIR"]))
+    for config_dir in config_dirs:
+        plugins = os.path.realpath(os.path.join(config_dir, "plugins"))
+        if root == plugins or root.startswith(plugins + os.sep):
+            return True
+    parts = root.split(os.sep)
+    return any(parts[i] == "plugins" and parts[i + 1] == "cache" for i in range(len(parts) - 1))
 
 
 def data_home(plugin_root=None, env=None, home_dir=None):
@@ -42,7 +51,7 @@ def data_home(plugin_root=None, env=None, home_dir=None):
     if env.get("DOMOVED_HOME"):
         return os.path.abspath(os.path.expanduser(env["DOMOVED_HOME"]))
     root = plugin_root or PLUGIN_ROOT
-    if _is_installed_copy(root, home_dir):
+    if _is_installed_copy(root, home_dir, env):
         return os.path.join(home_dir or os.path.expanduser("~"), "Documents", "Домовед")
     return root
 

@@ -27,6 +27,16 @@ class PathsTest(unittest.TestCase):
             self.assertEqual(paths.data_home(plugin_root=root, env={}, home_dir=tmp),
                              os.path.join(tmp, "Documents", "Домовед"))
 
+    def test_installed_copy_in_other_config_dir(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = os.path.join(tmp, ".claude-work")
+            root = os.path.join(work, "plugins", "cache", "lp-personal-claude-plugins", "lpp-domoved", "1.0.0")
+            os.makedirs(root)
+            docs = os.path.join(tmp, "Documents", "Домовед")
+            self.assertEqual(paths.data_home(plugin_root=root, env={"CLAUDE_CONFIG_DIR": work}, home_dir=tmp), docs)
+            # without CLAUDE_CONFIG_DIR the plugins/cache path segment is enough
+            self.assertEqual(paths.data_home(plugin_root=root, env={}, home_dir=tmp), docs)
+
     def test_system_locations(self):
         env = {}
         self.assertEqual(paths.system_cache_root(env=env, platform="darwin", home_dir="/h"), "/h/Library/Caches/domoved")

@@ -20,7 +20,7 @@ Result of the check:
 `$ROOT` = `${CLAUDE_PLUGIN_ROOT}`. If the variable was not substituted, it is the folder two levels above this SKILL.md.
 
 Paths are printed by `python3 "$ROOT/scripts/paths.py"`:
-- **reports** (HTML): `reports/` in the plugin root; `~/Documents/Домовед/reports` if the plugin is installed from a marketplace;
+- **reports** (HTML): `reports/` in the plugin root; `~/Documents/Домовед/reports` if the plugin is installed from a marketplace (any config dir, including `CLAUDE_CONFIG_DIR`);
 - **analysis working files**: the system temp folder (`domoved-work`), the system deletes old files itself;
 - **cache**: the system cache folder (macOS `~/Library/Caches/domoved`);
 - if `$DOMOVED_HOME` is set, everything lives inside it.
