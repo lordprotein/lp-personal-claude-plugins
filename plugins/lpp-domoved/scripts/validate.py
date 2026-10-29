@@ -84,12 +84,22 @@ def _texts(a):
             yield "red_flags[%d]" % i, "%s %s" % (f.get("title") or "", f.get("detail") or "")
 
 
+DATE_RE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
+
+
 def check_style(a):
     """Warnings about links and text readability."""
     warns = []
     crit = a.get("criteria") or {}
     for cid, c in crit.items():
-        if not isinstance(c, dict) or c.get("score") is None:
+        if not isinstance(c, dict):
+            continue
+        for k in ("pros", "cons", "evidence"):
+            for i, p in enumerate(c.get(k) or []):
+                d = p.get("date") if isinstance(p, dict) else None
+                if d and not (isinstance(d, str) and DATE_RE.match(d)):
+                    warns.append("%s.%s[%d]: date «%s» not in format YYYY-MM-DD, YYYY-MM or YYYY" % (cid, k, i, d))
+        if c.get("score") is None:
             continue
         links = sum(1 for e in (c.get("evidence") or []) if isinstance(e, dict) and _is_http(e.get("source_url")))
         links += sum(1 for k in ("pros", "cons") for p in (c.get(k) or []) if _point_url(p))

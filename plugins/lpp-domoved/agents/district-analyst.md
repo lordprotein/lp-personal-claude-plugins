@@ -126,7 +126,7 @@ Write `$WORK/district.json` and check it: `python3 -m json.tool`.
 ```json
 {
   "object": { "district": "" },
-  "criteria": { "transport": {"score": 0, "confidence": "", "summary": "", "pros": [{"text": "", "url": ""}], "cons": [{"text": "", "url": ""}], "evidence": [{"text": "", "source_url": ""}], "check_in_person": []}, "ecology": {}, "green": {}, "kids": {}, "amenities": {}, "safety": {} },
+  "criteria": { "transport": {"score": 0, "confidence": "", "summary": "", "pros": [{"text": "", "url": "", "date": ""}], "cons": [{"text": "", "url": "", "date": ""}], "evidence": [{"text": "", "source_url": "", "date": ""}], "check_in_person": []}, "ecology": {}, "green": {}, "kids": {}, "amenities": {}, "safety": {} },
   "red_flags": [],
   "reviews": { "district_summary": "", "district_points": [], "district": [{"text": "", "sentiment": "pos|neg|neu", "topic": "", "source": "", "url": "", "date": ""}] },
   "checklists": { "viewing": ["Проехать маршрут до работы в час пик"] },
@@ -143,7 +143,7 @@ Return at most 6 lines to the orchestrator: the six scores and the key points.
 All text below goes into the report: write it in Russian.
 
 - `summary`: at most 2 sentences.
-- `pros` and `cons`: each item at most 12 words. Write a fact from the internet as an object with a link: `{"text": "На слышимость жалуются 3 из 9 отзывов", "url": "https://..."}`. A plain string without a link is allowed only for facts from the listing.
+- `pros` and `cons`: each item at most 12 words. Write a fact from the internet as an object with a link: `{"text": "На слышимость жалуются 3 из 9 отзывов", "url": "https://..."}`. A plain string without a link is allowed only for facts from the listing. Add `"date"` to a pro, con or evidence item whose fact has a date: the review date, the publication date of the news or document (`YYYY-MM-DD`, `YYYY-MM` or `YYYY`). Omit it for timeless facts (year built, distances, listing data). The report shows the date and marks old facts.
 - Links: a criterion with medium or high confidence has at least one link in `evidence` or in the items. noise, building, legal, value_liquidity have at least two, if they exist. Map facts (metro, schools, parks, roads) are added by the assembler with map links: do not duplicate them.
 - Long explanations only as a list of short points (`comment_points`, `house_points`, `district_points`, `assumptions`): 3–6 points, each at most 20 words. Do not fill the `comment` field.
 - Numbers in Russian format: 10,57 млн ₽; 199 342 ₽/м²; 14,5%; 1,3 км. Not «10.57 млн», not «199,342 ₽».

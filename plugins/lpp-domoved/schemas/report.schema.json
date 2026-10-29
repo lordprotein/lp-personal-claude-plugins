@@ -32,6 +32,10 @@
         },
         "source_title": {
           "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "description": "Date of the underlying fact: review date, publication date of the news or document. YYYY-MM-DD, YYYY-MM or YYYY. Omit for timeless facts (year built, distances, listing data)"
         }
       }
     },
@@ -211,6 +215,10 @@
             },
             "url": {
               "type": "string"
+            },
+            "date": {
+              "type": "string",
+              "description": "Date of the underlying fact: review date, publication date of the news or document. YYYY-MM-DD, YYYY-MM or YYYY. Omit for timeless facts (year built, distances, listing data)"
             }
           }
         }

@@ -1,6 +1,6 @@
 # Scoring rubrics: 11 criteria, 0–10 scale
 
-Each criterion in the final JSON (`criteria.<id>`) contains: `score` (0–10 or `null`), `confidence`, `summary`, `pros`, `cons`, `evidence` (with `source_url`), `check_in_person`.
+Each criterion in the final JSON (`criteria.<id>`) contains: `score` (0–10 or `null`), `confidence`, `summary`, `pros`, `cons`, `evidence` (with `source_url`), `check_in_person`. Pros, cons and evidence items carry `date` (`YYYY-MM-DD`, `YYYY-MM` or `YYYY`) when the fact is dated: reviews, news, documents.
 
 These rubrics are instructions in English, but every text field that goes into the report (`summary`, `pros`, `cons`, `evidence` text, `check_in_person`) is written in Russian.
 

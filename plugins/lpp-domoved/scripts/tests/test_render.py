@@ -107,6 +107,11 @@ class RenderHtmlTest(unittest.TestCase):
             self.assertIn("try", html[max(0, m.start() - 60):m.start()])
         self.assertNotIn("\u2014", html)
 
+    def test_verdict_summary_and_fact_dates(self):
+        html = rr.render_html(load_sample())
+        for part in ("verdict-sum", "Как посчитан балл", "VERDICT_TEXT", "function factDate", "fdate-old", "dateLegend()"):
+            self.assertIn(part, html)
+
     def test_print_css_keeps_dark_theme(self):
         with open(rr.TEMPLATE, encoding="utf-8") as fh:
             tpl = fh.read()

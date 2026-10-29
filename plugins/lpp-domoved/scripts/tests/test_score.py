@@ -45,6 +45,8 @@ class ScoreTest(unittest.TestCase):
         res, _ = score.compute(make(flags=flags))
         self.assertEqual(res["penalty"], 1.0)
         self.assertEqual(res["total"], 7.0)
+        self.assertEqual(res["penalty_per_flag"], 0.3)
+        self.assertEqual(res["penalty_max"], 1.0)
 
     def test_missing_criteria_not_averaged(self):
         data = make({"safety": None})

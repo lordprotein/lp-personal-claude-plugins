@@ -1,6 +1,6 @@
 {
   "name": "lpp-domoved",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Domoved: pre-purchase check of an apartment or a house in Russia. Accepts ЦИАН, Домклик, Авито, Яндекс/2ГИС/Google Maps links or an address. Scores noise, the building, legal risks, transport, ecology, greenery, schools, amenities, safety, price and liquidity, growth potential. Produces a total score, a recommendation and an HTML report in Russian.",
   "author": {
     "name": "lordprotein"

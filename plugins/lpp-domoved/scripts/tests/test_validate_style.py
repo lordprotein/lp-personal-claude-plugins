@@ -35,6 +35,15 @@ class StyleTest(unittest.TestCase):
         a["criteria"]["kids"]["pros"] = ["школа рядом", "сад рядом"]  # not a key criterion
         self.assertFalse(any(x.startswith("kids:") for x in validate.check_style(a)))
 
+    def test_fact_dates(self):
+        a = base()
+        a["criteria"]["noise"]["pros"] = [{"text": "Тихо", "url": "https://e.ru/1", "date": "2024-03"}]
+        a["criteria"]["noise"]["evidence"].append({"text": "Отзыв", "source_url": "https://e.ru/2", "date": "2023"})
+        self.assertEqual(validate.check_style(a), [])
+        a["criteria"]["noise"]["cons"] = [{"text": "Шумно", "url": "https://e.ru/3", "date": "март 2024"}]
+        w = validate.check_style(a)
+        self.assertTrue(any(x.startswith("noise.cons[0]: date") for x in w))
+
     def test_jargon_and_numbers(self):
         a = base()
         a["valuation"] = {"comment": "все аналоги в пределах net 15%", "comment_points": ["цена 10.57 млн", "199,342 ₽/м²"]}
