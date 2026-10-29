@@ -1,0 +1,742 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Domoved analysis",
+  "description": "Single JSON analysis of a property. The skill assembles it from agent outputs and geodata, score.py adds the score block, render_report.py turns it into HTML. All human-readable text fields are written in Russian.",
+  "type": "object",
+  "required": [
+    "meta",
+    "object",
+    "criteria"
+  ],
+  "definitions": {
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "none"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "source_url": {
+          "type": "string"
+        },
+        "source_title": {
+          "type": "string"
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Retelling in your own words, in Russian, not a verbatim quote longer than 15 words"
+        },
+        "sentiment": {
+          "type": "string",
+          "enum": [
+            "pos",
+            "neg",
+            "neu"
+          ]
+        },
+        "topic": {
+          "type": "string",
+          "description": "Topic in Russian, e.g.: шум, УК, соседи, парковка, двор, транспорт, безопасность"
+        },
+        "source": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        }
+      }
+    },
+    "catalyst": {
+      "type": "object",
+      "required": [
+        "title",
+        "status"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "metro",
+            "rail",
+            "road",
+            "park",
+            "school",
+            "renovation",
+            "krt",
+            "commercial",
+            "industrial",
+            "construction",
+            "other"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "built",
+            "under_construction",
+            "aip",
+            "plan",
+            "announced",
+            "rumor"
+          ],
+          "description": "Level of certainty: built > under_construction > aip (in the targeted investment program, адресная инвестпрограмма) > plan (master plan or planning project, генплан/ППТ) > announced > rumor"
+        },
+        "eta": {
+          "type": "string"
+        },
+        "distance_m": {
+          "type": "number"
+        },
+        "effect_pct": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "priced_in": {
+          "type": "boolean",
+          "description": "Already priced into current prices (anticipation effect)"
+        },
+        "note": {
+          "type": "string"
+        },
+        "source_url": {
+          "type": "string"
+        }
+      }
+    },
+    "criterion": {
+      "type": "object",
+      "required": [
+        "score",
+        "confidence"
+      ],
+      "properties": {
+        "score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 10
+        },
+        "confidence": {
+          "$ref": "#/definitions/confidence"
+        },
+        "summary": {
+          "type": "string",
+          "description": "No more than 2 sentences, plain Russian"
+        },
+        "pros": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/point"
+          }
+        },
+        "cons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/point"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/evidence"
+          }
+        },
+        "check_in_person": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "properties": {
+        "bear": {
+          "type": "number"
+        },
+        "base": {
+          "type": "number"
+        },
+        "bull": {
+          "type": "number"
+        }
+      }
+    },
+    "point": {
+      "description": "A pros or cons item in Russian: a string or an object with a supporting link. No longer than 12 words.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "short_points": {
+      "type": "array",
+      "description": "Short items in Russian, each no longer than 20 words",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "input"
+      ],
+      "properties": {
+        "input": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "cian",
+            "domclick",
+            "avito",
+            "yandex_realty",
+            "yandex_maps",
+            "2gis",
+            "google_maps",
+            "osm",
+            "coordinates",
+            "address",
+            "other_url"
+          ]
+        },
+        "profile": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "full",
+            "quick"
+          ]
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "data_gaps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "theme": {
+          "type": "string",
+          "enum": [
+            "light",
+            "dark"
+          ],
+          "description": "Theme of the report and the PDF"
+        }
+      }
+    },
+    "object": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "secondary",
+            "new_build",
+            "private_house"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "district": {
+          "type": "string"
+        },
+        "lat": {
+          "type": "number"
+        },
+        "lon": {
+          "type": "number"
+        },
+        "price": {
+          "type": "number"
+        },
+        "area_total": {
+          "type": "number"
+        },
+        "area_kitchen": {
+          "type": "number"
+        },
+        "area_land_sotok": {
+          "type": "number"
+        },
+        "rooms": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "floor": {
+          "type": "number"
+        },
+        "floors_total": {
+          "type": "number"
+        },
+        "year_built": {
+          "type": "number"
+        },
+        "house_type": {
+          "type": "string",
+          "description": "monolith | brick | panel | block | monolith_brick | wood | other"
+        },
+        "series": {
+          "type": "string"
+        },
+        "ceiling_m": {
+          "type": "number"
+        },
+        "bathroom": {
+          "type": "string"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "windows_to": {
+          "type": "string"
+        },
+        "developer": {
+          "type": "string"
+        },
+        "complex_name": {
+          "type": "string"
+        },
+        "deadline": {
+          "type": "string"
+        },
+        "listing_url": {
+          "type": "string"
+        },
+        "listing_published": {
+          "type": "string"
+        },
+        "days_on_market": {
+          "type": "number"
+        },
+        "price_history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "description_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "criteria": {
+      "type": "object",
+      "properties": {
+        "noise": {
+          "$ref": "#/definitions/criterion"
+        },
+        "building": {
+          "$ref": "#/definitions/criterion"
+        },
+        "legal": {
+          "$ref": "#/definitions/criterion"
+        },
+        "transport": {
+          "$ref": "#/definitions/criterion"
+        },
+        "ecology": {
+          "$ref": "#/definitions/criterion"
+        },
+        "green": {
+          "$ref": "#/definitions/criterion"
+        },
+        "kids": {
+          "$ref": "#/definitions/criterion"
+        },
+        "amenities": {
+          "$ref": "#/definitions/criterion"
+        },
+        "safety": {
+          "$ref": "#/definitions/criterion"
+        },
+        "value_liquidity": {
+          "$ref": "#/definitions/criterion"
+        },
+        "future": {
+          "$ref": "#/definitions/criterion"
+        }
+      }
+    },
+    "red_flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "title",
+          "severity"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "stop",
+              "major",
+              "minor"
+            ]
+          },
+          "criterion": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "reviews": {
+      "type": "object",
+      "properties": {
+        "house_summary": {
+          "type": "string"
+        },
+        "district_summary": {
+          "type": "string"
+        },
+        "house": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/review"
+          }
+        },
+        "district": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/review"
+          }
+        },
+        "house_points": {
+          "$ref": "#/definitions/short_points"
+        },
+        "district_points": {
+          "$ref": "#/definitions/short_points"
+        },
+        "site": {
+          "type": "object",
+          "description": "Raw reviews from the house reviews page (extract_reviews.js)",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "site": {
+              "type": "string"
+            },
+            "rating": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "count": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "valuation": {
+      "type": "object",
+      "properties": {
+        "asking_price": {
+          "type": "number"
+        },
+        "price_per_m2": {
+          "type": "number"
+        },
+        "fair_price": {
+          "type": "number"
+        },
+        "fair_low": {
+          "type": "number"
+        },
+        "fair_high": {
+          "type": "number"
+        },
+        "over_under_pct": {
+          "type": "number",
+          "description": "(asking - fair) / fair * 100; positive means overpayment"
+        },
+        "bargain_discount_pct": {
+          "type": "number"
+        },
+        "district_median_ppm2": {
+          "type": "number"
+        },
+        "house_median_ppm2": {
+          "type": "number"
+        },
+        "comparables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "price": {
+                "type": "number"
+              },
+              "area": {
+                "type": "number"
+              },
+              "price_per_m2": {
+                "type": "number"
+              },
+              "adjustments_pct": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "adjusted_ppm2": {
+                "type": "number"
+              },
+              "net_adj_pct": {
+                "type": "number"
+              },
+              "gross_adj_pct": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "days_on_market": {
+          "type": "number"
+        },
+        "typical_exposure_days": {
+          "type": "number"
+        },
+        "liquidity_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mortgage_eligible": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "noise_discount_pct": {
+          "type": "number"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "comment_points": {
+          "$ref": "#/definitions/short_points"
+        }
+      }
+    },
+    "investment": {
+      "type": "object",
+      "properties": {
+        "rent_month": {
+          "type": "number"
+        },
+        "gross_yield_pct": {
+          "type": "number"
+        },
+        "net_yield_pct": {
+          "type": "number"
+        },
+        "ofz_yield_pct": {
+          "type": "number"
+        },
+        "deposit_rate_pct": {
+          "type": "number"
+        },
+        "price_to_rent": {
+          "type": "number"
+        },
+        "user_cost_pct": {
+          "type": "number"
+        },
+        "buy_vs_rent": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "comment_points": {
+          "$ref": "#/definitions/short_points"
+        }
+      }
+    },
+    "future": {
+      "type": "object",
+      "properties": {
+        "catalysts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/catalyst"
+          }
+        },
+        "threats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/catalyst"
+          }
+        },
+        "market_trend_1y_pct": {
+          "type": "number"
+        },
+        "forecast": {
+          "type": "object",
+          "properties": {
+            "y3": {
+              "$ref": "#/definitions/scenario"
+            },
+            "y5": {
+              "$ref": "#/definitions/scenario"
+            },
+            "assumptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "geo": {
+      "type": "object",
+      "description": "Output of scripts/osm_nearby.py as is. Every object in categories.*[] has a url to openstreetmap.org"
+    },
+    "checklists": {
+      "type": "object",
+      "properties": {
+        "documents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "viewing": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "questions_to_seller": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "score": {
+      "type": "object",
+      "description": "Filled in by scripts/score.py"
+    }
+  }
+}

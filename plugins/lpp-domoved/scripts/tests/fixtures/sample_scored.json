@@ -1,0 +1,816 @@
+{
+  "meta": {
+    "input": "https://www.cian.ru/sale/flat/300000001/",
+    "source": "cian",
+    "profile": "balance",
+    "mode": "full",
+    "generated_at": "2026-10-29T21:15:00+03:00",
+    "data_gaps": [
+      "Криминальная статистика по району не найдена",
+      "История переходов прав без выписки ЕГРН неизвестна"
+    ]
+  },
+  "object": {
+    "type": "secondary",
+    "title": "2-комнатная квартира, 54,3 м²",
+    "address": "Москва, ул. Перерва, 52",
+    "city": "Москва",
+    "district": "Марьино",
+    "lat": 55.6526,
+    "lon": 37.7363,
+    "price": 15900000,
+    "area_total": 54.3,
+    "area_kitchen": 8.5,
+    "rooms": 2,
+    "floor": 9,
+    "floors_total": 17,
+    "year_built": 1998,
+    "house_type": "panel",
+    "series": "П-44Т",
+    "ceiling_m": 2.74,
+    "bathroom": "раздельный",
+    "condition": "косметический ремонт",
+    "windows_to": "двор и улица",
+    "listing_url": "https://www.cian.ru/sale/flat/300000001/",
+    "listing_published": "2026-08-12",
+    "days_on_market": 78,
+    "price_history": [
+      {
+        "date": "2026-08-12",
+        "price": 16500000
+      },
+      {
+        "date": "2026-09-20",
+        "price": 15900000
+      }
+    ],
+    "description_flags": [
+      "один взрослый собственник",
+      "более 5 лет в собственности"
+    ]
+  },
+  "criteria": {
+    "noise": {
+      "score": 5.5,
+      "confidence": "medium",
+      "summary": "Панель П-44Т: средняя межквартирная звукоизоляция, жильцы жалуются на слышимость соседей и лифта. Ул. Перерва в 90 м даёт около 62 дБ днём на фасад, выходящий на улицу.",
+      "pros": [
+        "Окна спальни во двор",
+        "Перекрытия железобетонные 140 мм"
+      ],
+      "cons": [
+        "Слышимость соседей типична для серии",
+        "Половина окон на улицу с автобусным маршрутом",
+        "Шахта лифта примыкает к кухне"
+      ],
+      "evidence": [
+        {
+          "text": "Отзывы жильцов о слышимости соседей и лифта",
+          "source_url": "https://yandex.ru/maps/org/example",
+          "source_title": "Яндекс Карты"
+        },
+        {
+          "text": "Расчётный шум от ул. Перерва ~62 дБ (OSM)",
+          "source_title": "osm_nearby"
+        }
+      ],
+      "check_in_person": [
+        "Прийти вечером в 21–22 ч и послушать стены и лифт",
+        "Закрыть окна на улицу и оценить шум",
+        "Спросить про соседей сверху"
+      ]
+    },
+    "building": {
+      "score": 7.0,
+      "confidence": "high",
+      "summary": "Дом 1998 года, капремонт лифтов выполнен в 2021, кровля по плану в 2028. УК с умеренным числом жалоб.",
+      "pros": [
+        "Лифты заменены в 2021",
+        "Мусоропровод заварен",
+        "Чистые подъезды по отзывам"
+      ],
+      "cons": [
+        "Межпанельные швы требуют ремонта",
+        "Парковка во дворе переполнена вечером"
+      ],
+      "evidence": [
+        {
+          "text": "Сведения о капремонте",
+          "source_url": "https://fkr-mos.ru/",
+          "source_title": "ФКР Москвы"
+        },
+        {
+          "text": "Паспорт дома",
+          "source_url": "https://dom.gosuslugi.ru/",
+          "source_title": "ГИС ЖКХ"
+        }
+      ],
+      "check_in_person": [
+        "Осмотреть швы и углы на предмет промерзания",
+        "Спросить о протечках с кровли"
+      ]
+    },
+    "legal": {
+      "score": 6.5,
+      "confidence": "low",
+      "summary": "По объявлению один собственник более 5 лет. Без выписки ЕГРН история переходов неизвестна. Обнаружена несогласованная перепланировка кухни.",
+      "pros": [
+        "Срок владения больше 5 лет",
+        "Один взрослый собственник"
+      ],
+      "cons": [
+        "Кухня объединена с комнатой без согласования"
+      ],
+      "evidence": [
+        {
+          "text": "Фото планировки в объявлении",
+          "source_url": "https://www.cian.ru/sale/flat/300000001/",
+          "source_title": "ЦИАН"
+        }
+      ],
+      "check_in_person": [
+        "Сверить план БТИ с фактом"
+      ]
+    },
+    "transport": {
+      "score": 7.5,
+      "confidence": "high",
+      "summary": "Метро «Братиславская» в 900 м (11 мин пешком). До центра 35–40 мин на метро. Выезд на МКАД в часы пик загружен.",
+      "pros": [
+        {
+          "text": "Метро в пешей доступности",
+          "url": "https://www.openstreetmap.org/"
+        },
+        "Несколько автобусных маршрутов"
+      ],
+      "cons": [
+        "Пробки на Люблинской утром"
+      ],
+      "evidence": [
+        {
+          "text": "Расстояние до метро 900 м (OSM)",
+          "source_title": "osm_nearby"
+        }
+      ],
+      "check_in_person": []
+    },
+    "ecology": {
+      "score": 6.0,
+      "confidence": "medium",
+      "summary": "Рядом нет крупных промзон, но в 2,5 км Люберецкие поля аэрации, при восточном ветре бывает запах.",
+      "pros": [
+        "Нет ЛЭП и промзон в 500 м"
+      ],
+      "cons": [
+        "Периодический запах от станции аэрации",
+        "Магистраль в 90 м"
+      ],
+      "evidence": [
+        {
+          "text": "Жалобы на запах в отзывах о районе",
+          "source_url": "https://www.mosecom.mos.ru/",
+          "source_title": "Мосэкомониторинг"
+        }
+      ],
+      "check_in_person": [
+        "Посетить район при восточном ветре"
+      ]
+    },
+    "green": {
+      "score": 8.0,
+      "confidence": "high",
+      "summary": "Парк «Марьинский» в 450 м, набережная Москвы-реки и парк 850-летия Москвы рядом.",
+      "pros": [
+        "Крупный парк у реки",
+        "Зелёный двор"
+      ],
+      "cons": [],
+      "evidence": [
+        {
+          "text": "Парк в 450 м (OSM)",
+          "source_title": "osm_nearby"
+        }
+      ],
+      "check_in_person": []
+    },
+    "kids": {
+      "score": 7.5,
+      "confidence": "medium",
+      "summary": "Школа № 2122 в 300 м (входит в топ-300 рейтинга ДОгМ), два детских сада в 400 м.",
+      "pros": [
+        "Школа рядом с хорошим рейтингом",
+        "Сады в пешей доступности"
+      ],
+      "cons": [
+        "Школа переполнена, классы до 32 человек"
+      ],
+      "evidence": [
+        {
+          "text": "Рейтинг школ Москвы",
+          "source_url": "https://www.mos.ru/dogm/",
+          "source_title": "ДОгМ"
+        }
+      ],
+      "check_in_person": [
+        "Уточнить прикрепление дома к школе"
+      ]
+    },
+    "amenities": {
+      "score": 8.5,
+      "confidence": "high",
+      "summary": "Магазины, поликлиника и ТЦ «Мариэль» в пешей доступности.",
+      "pros": [
+        "Продукты в 100 м",
+        "Поликлиника в 700 м"
+      ],
+      "cons": [],
+      "evidence": [
+        {
+          "text": "Объекты в радиусе 800 м (OSM)",
+          "source_title": "osm_nearby"
+        }
+      ],
+      "check_in_person": []
+    },
+    "safety": {
+      "score": null,
+      "confidence": "none",
+      "summary": "Достоверной статистики по кварталу не найдено.",
+      "pros": [],
+      "cons": [],
+      "evidence": [],
+      "check_in_person": [
+        "Поговорить с жильцами у подъезда",
+        "Пройти маршрут от метро вечером"
+      ]
+    },
+    "value_liquidity": {
+      "score": 6.5,
+      "confidence": "medium",
+      "summary": "Цена на 4% выше справедливой с учётом торга. Экспозиция 78 дней в пределах нормы. Перепланировка может мешать ипотеке покупателя.",
+      "pros": [
+        "Типичная планировка, хороший спрос",
+        "Цену уже снижали"
+      ],
+      "cons": [
+        "Несогласованная перепланировка",
+        "Небольшая переплата"
+      ],
+      "evidence": [
+        {
+          "text": "6 аналогов в радиусе 1 км",
+          "source_url": "https://www.cian.ru/",
+          "source_title": "ЦИАН"
+        }
+      ],
+      "check_in_person": []
+    },
+    "future": {
+      "score": 7.0,
+      "confidence": "medium",
+      "summary": "Строится станция Бирюлёвской линии в 1,2 км (частично учтена в цене). Рядом нет КРТ-площадок, которые закроют вид.",
+      "pros": [
+        "Новая станция метро к 2028"
+      ],
+      "cons": [
+        "Расширение ул. Перерва увеличит шум"
+      ],
+      "evidence": [
+        {
+          "text": "Ход строительства Бирюлёвской линии",
+          "source_url": "https://stroi.mos.ru/",
+          "source_title": "Стройкомплекс Москвы"
+        }
+      ],
+      "check_in_person": []
+    }
+  },
+  "red_flags": [
+    {
+      "id": "unapproved_redevelopment",
+      "title": "Несогласованная перепланировка кухни",
+      "severity": "major",
+      "criterion": "legal",
+      "detail": "Объединение кухни с комнатой в доме с газом запрещено без перегородки. Банки откажут в ипотеке, при продаже возможен штраф и предписание вернуть как было.",
+      "source_url": "https://www.cian.ru/sale/flat/300000001/"
+    },
+    {
+      "id": "bus_route_noise",
+      "title": "Автобусный маршрут под окнами",
+      "severity": "minor",
+      "criterion": "noise",
+      "detail": "Половина окон выходит на улицу с интенсивным движением."
+    }
+  ],
+  "reviews": {
+    "house_summary": "Жильцы хвалят лифты и чистоту, жалуются на слышимость и нехватку парковки.",
+    "district_summary": "Марьино считают спокойным спальным районом с хорошим парком у реки. Минусы: пробки утром и запах от станции аэрации.",
+    "house": [
+      {
+        "text": "Слышно соседей сверху и шум лифта по ночам",
+        "sentiment": "neg",
+        "topic": "шум",
+        "source": "Яндекс Карты",
+        "url": "https://yandex.ru/maps/org/example",
+        "date": "2026-03"
+      },
+      {
+        "text": "Новые лифты, в подъездах чисто, УК отвечает быстро",
+        "sentiment": "pos",
+        "topic": "УК",
+        "source": "2ГИС",
+        "url": "https://2gis.ru/moscow",
+        "date": "2025-11"
+      },
+      {
+        "text": "Вечером негде поставить машину",
+        "sentiment": "neg",
+        "topic": "парковка",
+        "source": "flatinfo",
+        "url": "https://www.flatinfo.ru/",
+        "date": "2025-06"
+      }
+    ],
+    "district": [
+      {
+        "text": "Отличная набережная и парк, много места для прогулок с детьми",
+        "sentiment": "pos",
+        "topic": "зелень",
+        "source": "otzovik",
+        "url": "https://otzovik.com/",
+        "date": "2025-09"
+      },
+      {
+        "text": "Иногда пахнет со стороны полей аэрации",
+        "sentiment": "neg",
+        "topic": "экология",
+        "source": "Яндекс Карты",
+        "url": "https://yandex.ru/maps/",
+        "date": "2026-07"
+      },
+      {
+        "text": "Тихий район, вечером спокойно",
+        "sentiment": "neu",
+        "topic": "безопасность",
+        "source": "форум района",
+        "url": "https://forum.example.ru/",
+        "date": "2025-12"
+      }
+    ],
+    "site": {
+      "site": "avito",
+      "url": "https://www.avito.ru/catalog/houses/",
+      "rating": 4.2,
+      "count": 31
+    }
+  },
+  "valuation": {
+    "asking_price": 15900000,
+    "price_per_m2": 292818,
+    "fair_price": 15300000,
+    "fair_low": 14700000,
+    "fair_high": 15900000,
+    "over_under_pct": 3.9,
+    "bargain_discount_pct": 6,
+    "district_median_ppm2": 285000,
+    "house_median_ppm2": 281000,
+    "comparables": [
+      {
+        "title": "2-к, 52 м², 5/17, П-44Т",
+        "url": "https://www.cian.ru/sale/flat/300000002/",
+        "price": 14900000,
+        "area": 52.0,
+        "price_per_m2": 286538,
+        "adjustments_pct": {
+          "bargain": -6,
+          "floor": 0,
+          "condition": 2
+        },
+        "adjusted_ppm2": 275077,
+        "net_adj_pct": -4,
+        "gross_adj_pct": 8
+      },
+      {
+        "title": "2-к, 55 м², 12/22, монолит",
+        "url": "https://www.cian.ru/sale/flat/300000003/",
+        "price": 16800000,
+        "area": 55.0,
+        "price_per_m2": 305455,
+        "adjustments_pct": {
+          "bargain": -6,
+          "walls": -7,
+          "condition": 0
+        },
+        "adjusted_ppm2": 265746,
+        "net_adj_pct": -13,
+        "gross_adj_pct": 13
+      },
+      {
+        "title": "2-к, 54 м², 1/17, П-44Т",
+        "url": "https://www.cian.ru/sale/flat/300000004/",
+        "price": 13900000,
+        "area": 54.0,
+        "price_per_m2": 257407,
+        "adjustments_pct": {
+          "bargain": -6,
+          "floor": 8,
+          "condition": 0
+        },
+        "adjusted_ppm2": 262234,
+        "net_adj_pct": 2,
+        "gross_adj_pct": 14
+      }
+    ],
+    "days_on_market": 78,
+    "typical_exposure_days": 107,
+    "liquidity_flags": [
+      "unapproved_redevelopment"
+    ],
+    "mortgage_eligible": false,
+    "noise_discount_pct": 3.2,
+    "comment": "Справедливая цена 15,3 млн ₽. Разумная цель торга: 15,0–15,3 млн ₽ с учётом перепланировки.",
+    "comment_points": [
+      "Сравнительный подход по аналогам в соседних домах",
+      "Торг в Москве около 6%",
+      "Цена объявления выше справедливой на несколько процентов"
+    ]
+  },
+  "investment": {
+    "rent_month": 62000,
+    "gross_yield_pct": 4.7,
+    "net_yield_pct": 2.9,
+    "ofz_yield_pct": 14.5,
+    "deposit_rate_pct": 13.0,
+    "price_to_rent": 21.4,
+    "user_cost_pct": 9.0,
+    "buy_vs_rent": "Снимать дешевле, пока ставки высокие. Покупка оправдана для жизни на 7+ лет или при снижении ставки.",
+    "comment": "Как инвестиция для сдачи проигрывает ОФЗ и вкладам."
+  },
+  "future": {
+    "catalysts": [
+      {
+        "title": "Станция «Марьинский парк» Бирюлёвской линии",
+        "kind": "metro",
+        "status": "under_construction",
+        "eta": "2028",
+        "distance_m": 1200,
+        "effect_pct": [
+          0,
+          3
+        ],
+        "priced_in": true,
+        "note": "Метро уже рядом, эффект небольшой",
+        "source_url": "https://stroi.mos.ru/"
+      },
+      {
+        "title": "Благоустройство набережной Москвы-реки",
+        "kind": "park",
+        "status": "aip",
+        "eta": "2027",
+        "distance_m": 700,
+        "effect_pct": [
+          1,
+          2
+        ],
+        "priced_in": false,
+        "source_url": "https://www.mos.ru/"
+      }
+    ],
+    "threats": [
+      {
+        "title": "Расширение ул. Перерва до 6 полос",
+        "kind": "road",
+        "status": "plan",
+        "eta": "2029",
+        "distance_m": 90,
+        "effect_pct": [
+          -3,
+          -1
+        ],
+        "priced_in": false,
+        "source_url": "https://www.mos.ru/mka/"
+      }
+    ],
+    "market_trend_1y_pct": 4.0,
+    "forecast": {
+      "y3": {
+        "bear": -4,
+        "base": 9,
+        "bull": 18
+      },
+      "y5": {
+        "bear": 0,
+        "base": 22,
+        "bull": 38
+      },
+      "assumptions": [
+        "Номинальный рост, без учёта инфляции",
+        "Ключевая ставка снижается до 10–12% к 2028",
+        "Перепланировка узаконена"
+      ]
+    }
+  },
+  "geo": {
+    "center": {
+      "lat": 55.6526,
+      "lon": 37.7363
+    },
+    "radius_m": 1500,
+    "categories": {
+      "metro": [
+        {
+          "name": "Братиславская",
+          "distance_m": 900,
+          "lat": 55.659,
+          "lon": 37.749,
+          "tags": {}
+        },
+        {
+          "name": "Марьино",
+          "distance_m": 1350,
+          "lat": 55.65,
+          "lon": 37.744,
+          "tags": {}
+        }
+      ],
+      "school": [
+        {
+          "name": "Школа № 2122",
+          "distance_m": 300,
+          "lat": 55.654,
+          "lon": 37.737,
+          "tags": {}
+        }
+      ],
+      "kindergarten": [
+        {
+          "name": "Детский сад",
+          "distance_m": 380,
+          "lat": 55.653,
+          "lon": 37.731,
+          "tags": {}
+        }
+      ],
+      "park": [
+        {
+          "name": "Марьинский парк",
+          "distance_m": 450,
+          "lat": 55.649,
+          "lon": 37.742,
+          "tags": {}
+        }
+      ],
+      "major_road": [
+        {
+          "name": "улица Перерва",
+          "distance_m": 90,
+          "lat": 55.652,
+          "lon": 37.737,
+          "tags": {
+            "highway": "primary"
+          }
+        }
+      ],
+      "rail": [],
+      "industrial": [
+        {
+          "name": "Промзона",
+          "distance_m": 1300,
+          "lat": 55.66,
+          "lon": 37.72,
+          "tags": {}
+        }
+      ],
+      "powerline": [],
+      "grocery": [
+        {
+          "name": "Пятёрочка",
+          "distance_m": 100,
+          "lat": 55.6527,
+          "lon": 37.7368,
+          "tags": {}
+        }
+      ],
+      "clinic": [
+        {
+          "name": "Поликлиника № 210",
+          "distance_m": 700,
+          "lat": 55.657,
+          "lon": 37.739,
+          "tags": {}
+        }
+      ]
+    },
+    "counts": {
+      "metro": 2,
+      "school": 4,
+      "kindergarten": 6,
+      "park": 3,
+      "grocery": 14,
+      "clinic": 2,
+      "bar": 3
+    },
+    "nearest": {
+      "metro": 900,
+      "school": 300,
+      "kindergarten": 380,
+      "park": 450,
+      "major_road": 90,
+      "industrial": 1300,
+      "grocery": 100,
+      "clinic": 700
+    },
+    "noise_estimate": {
+      "sources": [
+        {
+          "kind": "road_primary",
+          "name": "улица Перерва",
+          "distance_m": 90,
+          "est_db": 62
+        }
+      ],
+      "est_db_max": 62,
+      "est_db_combined": 62.5,
+      "price_discount_pct": [
+        3.0,
+        6.8
+      ]
+    },
+    "suggested_scores": {
+      "transport": 7.4,
+      "green": 8.1,
+      "kids": 8.0,
+      "amenities": 8.6,
+      "ecology": 6.8,
+      "noise_external": 5.0
+    },
+    "score_notes": {
+      "noise_external": "Магистраль primary в 90 м"
+    },
+    "notes": [
+      "Данные OpenStreetMap, полнота зависит от района"
+    ]
+  },
+  "checklists": {
+    "documents": [
+      "Выписка ЕГРН об объекте и о переходе прав",
+      "Технический план или поэтажный план БТИ",
+      "Справка об отсутствии долгов за ЖКУ и капремонт",
+      "Выписка из домовой книги (ЕЖД)",
+      "Справки ПНД и НД продавца",
+      "Согласие супруга на продажу"
+    ],
+    "viewing": [
+      "Слышимость соседей вечером",
+      "Шум с улицы при закрытых окнах",
+      "Швы и углы на промерзание",
+      "Давление воды и состояние стояков",
+      "Пройти от метро до дома вечером"
+    ],
+    "questions_to_seller": [
+      "Почему продаёте?",
+      "Будет ли узаконена перепланировка до сделки?",
+      "Кто зарегистрирован в квартире?"
+    ]
+  },
+  "sources": [
+    {
+      "title": "ЦИАН: объявление",
+      "url": "https://www.cian.ru/sale/flat/300000001/"
+    },
+    {
+      "title": "ГИС ЖКХ: паспорт дома",
+      "url": "https://dom.gosuslugi.ru/"
+    },
+    {
+      "title": "Стройкомплекс Москвы",
+      "url": "https://stroi.mos.ru/"
+    },
+    {
+      "title": "OpenStreetMap",
+      "url": "https://www.openstreetmap.org/"
+    }
+  ],
+  "score": {
+    "total": 6.6,
+    "raw_total": 6.9,
+    "penalty": 0.3,
+    "capped": false,
+    "cap_reason": [],
+    "verdict_code": "negotiate",
+    "verdict_title": "Торговаться или искать альтернативы",
+    "verdict_color": "warn",
+    "profile": "balance",
+    "profile_title": "Баланс (по умолчанию, шум в приоритете)",
+    "coverage": 0.93,
+    "confidence": "medium",
+    "missing": [
+      "safety"
+    ],
+    "stop_flags": [],
+    "major_flags": [
+      "Несогласованная перепланировка кухни"
+    ],
+    "per_criterion": {
+      "noise": {
+        "title": "Тишина и шумоизоляция",
+        "icon": "🔇",
+        "score": 5.5,
+        "confidence": "medium",
+        "weight": 0.16,
+        "effective_weight": 0.172,
+        "contribution": 0.946
+      },
+      "building": {
+        "title": "Дом и его состояние",
+        "icon": "🏢",
+        "score": 7.0,
+        "confidence": "high",
+        "weight": 0.12,
+        "effective_weight": 0.129,
+        "contribution": 0.903
+      },
+      "legal": {
+        "title": "Юридическая чистота",
+        "icon": "⚖️",
+        "score": 6.5,
+        "confidence": "low",
+        "weight": 0.12,
+        "effective_weight": 0.129,
+        "contribution": 0.839
+      },
+      "transport": {
+        "title": "Транспорт и пробки",
+        "icon": "🚇",
+        "score": 7.5,
+        "confidence": "high",
+        "weight": 0.12,
+        "effective_weight": 0.129,
+        "contribution": 0.968
+      },
+      "ecology": {
+        "title": "Экология и окружение",
+        "icon": "🌫️",
+        "score": 6.0,
+        "confidence": "medium",
+        "weight": 0.1,
+        "effective_weight": 0.108,
+        "contribution": 0.648
+      },
+      "green": {
+        "title": "Зелень и отдых",
+        "icon": "🌳",
+        "score": 8.0,
+        "confidence": "high",
+        "weight": 0.07,
+        "effective_weight": 0.075,
+        "contribution": 0.6
+      },
+      "kids": {
+        "title": "Школы и детские сады",
+        "icon": "🎒",
+        "score": 7.5,
+        "confidence": "medium",
+        "weight": 0.08,
+        "effective_weight": 0.086,
+        "contribution": 0.645
+      },
+      "amenities": {
+        "title": "Повседневная инфраструктура",
+        "icon": "🛒",
+        "score": 8.5,
+        "confidence": "high",
+        "weight": 0.06,
+        "effective_weight": 0.065,
+        "contribution": 0.553
+      },
+      "safety": {
+        "title": "Безопасность и соцсреда",
+        "icon": "🛡️",
+        "score": null,
+        "confidence": "none",
+        "weight": 0.07,
+        "effective_weight": 0,
+        "contribution": 0
+      },
+      "value_liquidity": {
+        "title": "Цена и ликвидность",
+        "icon": "💰",
+        "score": 6.5,
+        "confidence": "medium",
+        "weight": 0.05,
+        "effective_weight": 0.054,
+        "contribution": 0.351
+      },
+      "future": {
+        "title": "Потенциал роста",
+        "icon": "📈",
+        "score": 7.0,
+        "confidence": "medium",
+        "weight": 0.05,
+        "effective_weight": 0.054,
+        "contribution": 0.378
+      }
+    }
+  }
+}

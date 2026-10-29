@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "lp-personal-claude-plugins",
+  "description": "Private personal plugins by lordprotein",
+  "owner": {
+    "name": "lordprotein"
+  },
+  "plugins": [
+    {
+      "name": "lpp-domoved",
+      "description": "Pre-purchase check of an apartment or a house in Russia: criteria scores, a recommendation and an HTML report in Russian",
+      "source": "./plugins/lpp-domoved"
+    }
+  ]
+}

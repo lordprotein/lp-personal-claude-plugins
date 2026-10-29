@@ -1,0 +1,1858 @@
+{
+  "center": {
+    "lat": 55.6215,
+    "lon": 37.5064
+  },
+  "radius_m": 1500,
+  "fetched_at": "2026-10-29T16:14:34Z",
+  "endpoint": "cache: /private/tmp/claude-501/-Users-lordprotein-Desktop-work-AI-Claude/cff7d68b-ba4d-438d-a5e8-cffbfe5d0d2b/scratchpad/raw_mkad.json",
+  "categories": {
+    "metro": [
+      {
+        "name": "Тёплый Стан (вход)",
+        "distance_m": 164,
+        "lat": 55.620108,
+        "lon": 37.505534,
+        "osm": "node/581040515",
+        "tags": {
+          "railway": "subway_entrance",
+          "operator": "ГУП «Московский метрополитен»",
+          "ref": "9",
+          "colour": "orange",
+          "network": "Московский метрополитен"
+        }
+      },
+      {
+        "name": "Генерала Тюленева (вход)",
+        "distance_m": 1348,
+        "lat": 55.626567,
+        "lon": 37.48689,
+        "osm": "node/12163661532",
+        "tags": {
+          "railway": "subway_entrance",
+          "operator": "ГУП «Московский метрополитен»",
+          "ref": "2",
+          "network": "Московский метрополитен"
+        }
+      }
+    ],
+    "rail_station": [],
+    "stop_bus_tram": [
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 123,
+        "lat": 55.620433,
+        "lon": 37.505869,
+        "osm": "node/604345443",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 164,
+        "lat": 55.620027,
+        "lon": 37.506571,
+        "osm": "node/604345446",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 243,
+        "lat": 55.620353,
+        "lon": 37.503106,
+        "osm": "node/302350938",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 271,
+        "lat": 55.619807,
+        "lon": 37.503306,
+        "osm": "node/302351063",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 282,
+        "lat": 55.618977,
+        "lon": 37.505995,
+        "osm": "node/9510630653",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 300,
+        "lat": 55.618803,
+        "lon": 37.506121,
+        "osm": "node/10749581153",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 322,
+        "lat": 55.618608,
+        "lon": 37.506281,
+        "osm": "node/10749581151",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 396,
+        "lat": 55.617984,
+        "lon": 37.507432,
+        "osm": "node/530513103",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 407,
+        "lat": 55.618271,
+        "lon": 37.503333,
+        "osm": "node/530513097",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "name": "Метро «Тёплый Стан»",
+        "distance_m": 423,
+        "lat": 55.617725,
+        "lon": 37.507217,
+        "osm": "node/530513110",
+        "tags": {
+          "name": "Метро «Тёплый Стан»",
+          "highway": "bus_stop"
+        }
+      }
+    ],
+    "school": [
+      {
+        "name": "Школа № 1507. Корпус школьного образования",
+        "distance_m": 633,
+        "lat": 55.627059,
+        "lon": 37.504216,
+        "osm": "relation/13025525",
+        "tags": {
+          "name": "Школа № 1507. Корпус школьного образования",
+          "amenity": "school",
+          "ref": "1507"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус школьного образования №05/3ш",
+        "distance_m": 777,
+        "lat": 55.620586,
+        "lon": 37.494139,
+        "osm": "way/118738013",
+        "tags": {
+          "name": "Школа №1532. Корпус школьного образования №05/3ш",
+          "amenity": "school"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус школьного образования №04",
+        "distance_m": 889,
+        "lat": 55.62028,
+        "lon": 37.492401,
+        "osm": "way/118792575",
+        "tags": {
+          "name": "Школа №1532. Корпус школьного образования №04",
+          "amenity": "school"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус школьного образования №02",
+        "distance_m": 892,
+        "lat": 55.617899,
+        "lon": 37.493707,
+        "osm": "way/313678454",
+        "tags": {
+          "name": "Школа №1532. Корпус школьного образования №02",
+          "amenity": "school"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус школьного образования №01",
+        "distance_m": 937,
+        "lat": 55.621922,
+        "lon": 37.491494,
+        "osm": "way/46830401",
+        "tags": {
+          "name": "Школа №1532. Корпус школьного образования №01",
+          "amenity": "school"
+        }
+      },
+      {
+        "name": "Школа № 1507. Корпус школьного образования",
+        "distance_m": 987,
+        "lat": 55.630373,
+        "lon": 37.506574,
+        "osm": "relation/13025527",
+        "tags": {
+          "name": "Школа № 1507. Корпус школьного образования",
+          "amenity": "school",
+          "ref": "1507"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1248,
+        "lat": 55.623342,
+        "lon": 37.486788,
+        "osm": "relation/13075779",
+        "tags": {
+          "amenity": "school"
+        }
+      },
+      {
+        "name": "Школа № 1273. Корпус школьного образования №2",
+        "distance_m": 1256,
+        "lat": 55.628281,
+        "lon": 37.522404,
+        "osm": "relation/3500635",
+        "tags": {
+          "name": "Школа № 1273. Корпус школьного образования №2",
+          "amenity": "school"
+        }
+      },
+      {
+        "name": "Школа № 1507. Корпус школьного образования",
+        "distance_m": 1288,
+        "lat": 55.632984,
+        "lon": 37.509036,
+        "osm": "way/820333794",
+        "tags": {
+          "name": "Школа № 1507. Корпус школьного образования",
+          "amenity": "school",
+          "ref": "1507"
+        }
+      },
+      {
+        "name": "Школа № 1273. Корпус школьного образования №6",
+        "distance_m": 1290,
+        "lat": 55.627384,
+        "lon": 37.524102,
+        "osm": "way/51357392",
+        "tags": {
+          "name": "Школа № 1273. Корпус школьного образования №6",
+          "amenity": "school"
+        }
+      }
+    ],
+    "kindergarten": [
+      {
+        "name": "Школа № 1507. Корпус дошкольного образования",
+        "distance_m": 252,
+        "lat": 55.623212,
+        "lon": 37.503778,
+        "osm": "way/967917167",
+        "tags": {
+          "name": "Школа № 1507. Корпус дошкольного образования",
+          "amenity": "kindergarten",
+          "ref": "1507"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус дошкольного образования №05/5",
+        "distance_m": 571,
+        "lat": 55.621034,
+        "lon": 37.497338,
+        "osm": "way/405306213",
+        "tags": {
+          "name": "Школа №1532. Корпус дошкольного образования №05/5",
+          "amenity": "kindergarten"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус дошкольного образования №05/3",
+        "distance_m": 631,
+        "lat": 55.617958,
+        "lon": 37.498549,
+        "osm": "way/972027578",
+        "tags": {
+          "name": "Школа №1532. Корпус дошкольного образования №05/3",
+          "amenity": "kindergarten"
+        }
+      },
+      {
+        "name": "Школа № 1507. Корпус дошкольного образования",
+        "distance_m": 660,
+        "lat": 55.627314,
+        "lon": 37.508494,
+        "osm": "way/967917190",
+        "tags": {
+          "name": "Школа № 1507. Корпус дошкольного образования",
+          "amenity": "kindergarten",
+          "ref": "1507"
+        }
+      },
+      {
+        "name": "Школа № 1507. Корпус дошкольного образования",
+        "distance_m": 709,
+        "lat": 55.627866,
+        "lon": 37.506922,
+        "osm": "way/967917191",
+        "tags": {
+          "name": "Школа № 1507. Корпус дошкольного образования",
+          "amenity": "kindergarten",
+          "ref": "1507"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус дошкольного образования №05/4",
+        "distance_m": 756,
+        "lat": 55.617694,
+        "lon": 37.496428,
+        "osm": "way/972027586",
+        "tags": {
+          "name": "Школа №1532. Корпус дошкольного образования №05/4",
+          "amenity": "kindergarten"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус дошкольного образования №05/1",
+        "distance_m": 826,
+        "lat": 55.622435,
+        "lon": 37.49335,
+        "osm": "way/46831048",
+        "tags": {
+          "name": "Школа №1532. Корпус дошкольного образования №05/1",
+          "amenity": "kindergarten"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус дошкольного образования №05/6",
+        "distance_m": 1058,
+        "lat": 55.619843,
+        "lon": 37.489806,
+        "osm": "way/972027597",
+        "tags": {
+          "name": "Школа №1532. Корпус дошкольного образования №05/6",
+          "amenity": "kindergarten"
+        }
+      },
+      {
+        "name": "Школа №1532. Корпус дошкольного образования №05/2",
+        "distance_m": 1078,
+        "lat": 55.615075,
+        "lon": 37.493537,
+        "osm": "way/972027575",
+        "tags": {
+          "name": "Школа №1532. Корпус дошкольного образования №05/2",
+          "amenity": "kindergarten"
+        }
+      },
+      {
+        "name": "Школа № 1273. Корпус дошкольного образования №4",
+        "distance_m": 1147,
+        "lat": 55.626119,
+        "lon": 37.522728,
+        "osm": "way/51357399",
+        "tags": {
+          "name": "Школа № 1273. Корпус дошкольного образования №4",
+          "amenity": "kindergarten"
+        }
+      }
+    ],
+    "university": [
+      {
+        "name": "Строительный колледж № 38",
+        "distance_m": 585,
+        "lat": 55.624181,
+        "lon": 37.498388,
+        "osm": "relation/3475197",
+        "tags": {
+          "name": "Строительный колледж № 38",
+          "amenity": "college"
+        }
+      },
+      {
+        "name": "Центр повышения квалификации специалистов здравоохранения",
+        "distance_m": 862,
+        "lat": 55.629209,
+        "lon": 37.505021,
+        "osm": "way/24322260",
+        "tags": {
+          "name": "Центр повышения квалификации специалистов здравоохранения",
+          "amenity": "college",
+          "operator": "РБОО «Центр лечебной педагогики»",
+          "opening_hours": "Mo-Fr 09:00-20:00"
+        }
+      },
+      {
+        "name": "Учебный центр федеральной противопожарной службы",
+        "distance_m": 1077,
+        "lat": 55.611939,
+        "lon": 37.50911,
+        "osm": "way/324087376",
+        "tags": {
+          "name": "Учебный центр федеральной противопожарной службы",
+          "amenity": "college"
+        }
+      }
+    ],
+    "playground": [
+      {
+        "name": null,
+        "distance_m": 189,
+        "lat": 55.623168,
+        "lon": 37.506998,
+        "osm": "way/1032013998",
+        "tags": {
+          "leisure": "playground"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 238,
+        "lat": 55.623496,
+        "lon": 37.505041,
+        "osm": "way/1029689139",
+        "tags": {
+          "leisure": "playground"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 336,
+        "lat": 55.62435,
+        "lon": 37.504604,
+        "osm": "way/1024560852",
+        "tags": {
+          "leisure": "playground"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 353,
+        "lat": 55.624608,
+        "lon": 37.507525,
+        "osm": "way/778165696",
+        "tags": {
+          "leisure": "playground"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 412,
+        "lat": 55.618449,
+        "lon": 37.502677,
+        "osm": "node/12495707737",
+        "tags": {
+          "leisure": "playground"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 462,
+        "lat": 55.625651,
+        "lon": 37.506773,
+        "osm": "way/1024560850",
+        "tags": {
+          "leisure": "playground"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 463,
+        "lat": 55.625359,
+        "lon": 37.503648,
+        "osm": "way/1298341914",
+        "tags": {
+          "leisure": "playground"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 474,
+        "lat": 55.619306,
+        "lon": 37.499932,
+        "osm": "way/1332163775",
+        "tags": {
+          "leisure": "playground"
+        }
+      }
+    ],
+    "park": [
+      {
+        "name": null,
+        "distance_m": 623,
+        "lat": 55.624731,
+        "lon": 37.498281,
+        "osm": "way/114551975",
+        "tags": {
+          "leisure": "park"
+        }
+      }
+    ],
+    "forest": [
+      {
+        "name": null,
+        "distance_m": 259,
+        "lat": 55.622725,
+        "lon": 37.510013,
+        "osm": "way/678908763",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 378,
+        "lat": 55.623713,
+        "lon": 37.511022,
+        "osm": "way/678908761",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 499,
+        "lat": 55.624391,
+        "lon": 37.513076,
+        "osm": "way/114551753",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 563,
+        "lat": 55.625282,
+        "lon": 37.512647,
+        "osm": "way/253248636",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 585,
+        "lat": 55.616556,
+        "lon": 37.509794,
+        "osm": "way/324273275",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 692,
+        "lat": 55.615287,
+        "lon": 37.501598,
+        "osm": "way/324273264",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 716,
+        "lat": 55.626917,
+        "lon": 37.512637,
+        "osm": "way/670948892",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 832,
+        "lat": 55.613883,
+        "lon": 37.507262,
+        "osm": "way/324273261",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 832,
+        "lat": 55.628039,
+        "lon": 37.513032,
+        "osm": "way/839107707",
+        "tags": {
+          "natural": "wood"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 876,
+        "lat": 55.623229,
+        "lon": 37.520001,
+        "osm": "way/260769235",
+        "tags": {
+          "natural": "wood"
+        }
+      }
+    ],
+    "water": [
+      {
+        "name": "Ляхвинский пруд",
+        "distance_m": 373,
+        "lat": 55.622096,
+        "lon": 37.50003,
+        "osm": "way/9931591",
+        "tags": {
+          "name": "Ляхвинский пруд",
+          "natural": "water"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1289,
+        "lat": 55.63295,
+        "lon": 37.501992,
+        "osm": "way/1289754567",
+        "tags": {
+          "natural": "water"
+        }
+      },
+      {
+        "name": "Битца",
+        "distance_m": 1416,
+        "lat": 55.609041,
+        "lon": 37.51164,
+        "osm": "way/835026399",
+        "tags": {
+          "name": "Битца"
+        }
+      }
+    ],
+    "grocery": [
+      {
+        "name": "Чижик",
+        "distance_m": 137,
+        "lat": 55.622588,
+        "lon": 37.505374,
+        "osm": "node/12920122415",
+        "tags": {
+          "name": "Чижик",
+          "name:ru": "Чижик",
+          "shop": "supermarket"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 159,
+        "lat": 55.620924,
+        "lon": 37.508717,
+        "osm": "node/8309243718",
+        "tags": {
+          "amenity": "marketplace",
+          "shop": "greengrocer"
+        }
+      },
+      {
+        "name": "ВкусВилл",
+        "distance_m": 212,
+        "lat": 55.619682,
+        "lon": 37.507401,
+        "osm": "node/7899377018",
+        "tags": {
+          "name": "ВкусВилл",
+          "name:ru": "ВкусВилл",
+          "shop": "convenience",
+          "opening_hours": "Mo-Su 07:00-00:00"
+        }
+      },
+      {
+        "name": "Пятёрочка",
+        "distance_m": 256,
+        "lat": 55.623693,
+        "lon": 37.50764,
+        "osm": "node/9445926049",
+        "tags": {
+          "name": "Пятёрочка",
+          "name:ru": "Пятёрочка",
+          "shop": "supermarket"
+        }
+      },
+      {
+        "name": "Eurospar",
+        "distance_m": 278,
+        "lat": 55.619709,
+        "lon": 37.509486,
+        "osm": "node/9520485812",
+        "tags": {
+          "name": "Eurospar",
+          "shop": "supermarket",
+          "opening_hours": "Mo-Su 06:00-00:00"
+        }
+      },
+      {
+        "name": "Дикси",
+        "distance_m": 412,
+        "lat": 55.619443,
+        "lon": 37.500948,
+        "osm": "node/503842106",
+        "tags": {
+          "name": "Дикси",
+          "shop": "supermarket",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "name": "ВкусВилл",
+        "distance_m": 444,
+        "lat": 55.625186,
+        "lon": 37.509131,
+        "osm": "node/4306172492",
+        "tags": {
+          "name": "ВкусВилл",
+          "name:ru": "ВкусВилл",
+          "shop": "convenience",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "name": "ДА!",
+        "distance_m": 456,
+        "lat": 55.625391,
+        "lon": 37.508699,
+        "osm": "node/9447184685",
+        "tags": {
+          "name": "ДА!",
+          "name:ru": "ДА!",
+          "shop": "supermarket"
+        }
+      },
+      {
+        "name": "Гастроном-21",
+        "distance_m": 475,
+        "lat": 55.625399,
+        "lon": 37.509509,
+        "osm": "node/8309208718",
+        "tags": {
+          "name": "Гастроном-21",
+          "shop": "convenience"
+        }
+      },
+      {
+        "name": "Продукты",
+        "distance_m": 513,
+        "lat": 55.617013,
+        "lon": 37.50831,
+        "osm": "node/4789040525",
+        "tags": {
+          "name": "Продукты",
+          "shop": "convenience",
+          "opening_hours": "24/7"
+        }
+      }
+    ],
+    "mall": [
+      {
+        "name": "Торгово-развлекательный центр \"Спектр\"",
+        "distance_m": 292,
+        "lat": 55.619427,
+        "lon": 37.509245,
+        "osm": "way/40379742",
+        "tags": {
+          "name": "Торгово-развлекательный центр \"Спектр\"",
+          "shop": "mall"
+        }
+      },
+      {
+        "name": "Торговый комплекс \"Принц плаза\"",
+        "distance_m": 377,
+        "lat": 55.618236,
+        "lon": 37.508028,
+        "osm": "way/40379444",
+        "tags": {
+          "name": "Торговый комплекс \"Принц плаза\"",
+          "shop": "mall",
+          "opening_hours": "10:00-22:00"
+        }
+      },
+      {
+        "name": "Торговый комплекс \"Твин Плаза\"",
+        "distance_m": 419,
+        "lat": 55.61775,
+        "lon": 37.505721,
+        "osm": "way/52304754",
+        "tags": {
+          "name": "Торговый комплекс \"Твин Плаза\"",
+          "shop": "mall"
+        }
+      },
+      {
+        "name": "Торгово-гостиничный комплекс",
+        "distance_m": 506,
+        "lat": 55.617781,
+        "lon": 37.511036,
+        "osm": "way/175033089",
+        "tags": {
+          "name": "Торгово-гостиничный комплекс",
+          "shop": "mall"
+        }
+      }
+    ],
+    "pharmacy": [
+      {
+        "name": "Фармленд",
+        "distance_m": 77,
+        "lat": 55.622132,
+        "lon": 37.505918,
+        "osm": "node/12254618128",
+        "tags": {
+          "name": "Фармленд",
+          "amenity": "pharmacy",
+          "opening_hours": "Mo-Su 09:00-21:00"
+        }
+      },
+      {
+        "name": "Горздрав",
+        "distance_m": 134,
+        "lat": 55.6227,
+        "lon": 37.506503,
+        "osm": "node/5382881837",
+        "tags": {
+          "name": "Горздрав",
+          "amenity": "pharmacy",
+          "opening_hours": "Mo-Su 08:00-22:00"
+        }
+      },
+      {
+        "name": "Столички",
+        "distance_m": 146,
+        "lat": 55.622714,
+        "lon": 37.505516,
+        "osm": "node/671558664",
+        "tags": {
+          "name": "Столички",
+          "amenity": "pharmacy",
+          "operator": "ООО «НЕО-ФАРМ»"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 168,
+        "lat": 55.6218,
+        "lon": 37.50378,
+        "osm": "node/12194041546",
+        "tags": {
+          "amenity": "pharmacy"
+        }
+      },
+      {
+        "name": "Сбер Еаптека",
+        "distance_m": 249,
+        "lat": 55.623638,
+        "lon": 37.507584,
+        "osm": "node/8938893979",
+        "tags": {
+          "name": "Сбер Еаптека",
+          "amenity": "pharmacy",
+          "opening_hours": "Mo-Su 09:00-21:00"
+        }
+      },
+      {
+        "name": "Неофарм",
+        "distance_m": 254,
+        "lat": 55.619218,
+        "lon": 37.506336,
+        "osm": "node/13630499560",
+        "tags": {
+          "name": "Неофарм",
+          "amenity": "pharmacy"
+        }
+      },
+      {
+        "name": "Горздрав",
+        "distance_m": 355,
+        "lat": 55.618815,
+        "lon": 37.509454,
+        "osm": "node/11185574547",
+        "tags": {
+          "name": "Горздрав",
+          "amenity": "pharmacy",
+          "opening_hours": "Mo-Su 09:00-22:00"
+        }
+      },
+      {
+        "name": "АСНА",
+        "distance_m": 390,
+        "lat": 55.619498,
+        "lon": 37.501291,
+        "osm": "node/4817494698",
+        "tags": {
+          "name": "АСНА",
+          "amenity": "pharmacy"
+        }
+      },
+      {
+        "name": "Горздрав",
+        "distance_m": 408,
+        "lat": 55.617875,
+        "lon": 37.505426,
+        "osm": "node/4815330902",
+        "tags": {
+          "name": "Горздрав",
+          "amenity": "pharmacy",
+          "opening_hours": "Mo-Fr 08:00-22:00; Sa-Su 09:00-22:00"
+        }
+      },
+      {
+        "name": "Столички",
+        "distance_m": 409,
+        "lat": 55.619542,
+        "lon": 37.500882,
+        "osm": "node/9447207611",
+        "tags": {
+          "name": "Столички",
+          "name:ru": "Столички",
+          "amenity": "pharmacy",
+          "opening_hours": "Mo-Fr 08:00-21:00;Sa-Su 09:00-21:00"
+        }
+      }
+    ],
+    "clinic": [
+      {
+        "name": "Семейный Доктор",
+        "distance_m": 114,
+        "lat": 55.620703,
+        "lon": 37.507546,
+        "osm": "node/7908153081",
+        "tags": {
+          "name": "Семейный Доктор",
+          "name:ru": "Семейный Доктор",
+          "amenity": "clinic",
+          "opening_hours": "Mo-Fr 08:00-21:00; Sa 08:30-21:00; Su 09:00-21:00"
+        }
+      },
+      {
+        "name": "Орис",
+        "distance_m": 190,
+        "lat": 55.621863,
+        "lon": 37.503451,
+        "osm": "node/4235449709",
+        "tags": {
+          "name": "Орис",
+          "amenity": "doctors",
+          "opening_hours": "Mo-Fr 08:00-20:00; Sa 09:00-20:00; Su off"
+        }
+      },
+      {
+        "name": "CMD",
+        "distance_m": 221,
+        "lat": 55.623467,
+        "lon": 37.50694,
+        "osm": "node/9447096012",
+        "tags": {
+          "name": "CMD",
+          "amenity": "doctors"
+        }
+      },
+      {
+        "name": "Поликлиника №134 филиал №2",
+        "distance_m": 334,
+        "lat": 55.622894,
+        "lon": 37.501681,
+        "osm": "way/24209440",
+        "tags": {
+          "name": "Поликлиника №134 филиал №2",
+          "amenity": "clinic",
+          "operator": "ГБУЗ \"ГП №134 ДЗМ\"",
+          "opening_hours": "Mo-Fr 08:00-20:00; Sa 09:00-18:00; Su 09:00-16:00"
+        }
+      },
+      {
+        "name": "Детская городская поликлиника №81 филиал №2",
+        "distance_m": 393,
+        "lat": 55.623039,
+        "lon": 37.500771,
+        "osm": "way/51363637",
+        "tags": {
+          "name": "Детская городская поликлиника №81 филиал №2",
+          "amenity": "clinic"
+        }
+      },
+      {
+        "name": "Пикассо",
+        "distance_m": 401,
+        "lat": 55.617932,
+        "lon": 37.505496,
+        "osm": "node/11414416618",
+        "tags": {
+          "name": "Пикассо",
+          "amenity": "doctors",
+          "healthcare:speciality": "diagnostic_radiology",
+          "opening_hours": "Mo-Su 10:00-20:00"
+        }
+      },
+      {
+        "name": "Инвитро",
+        "distance_m": 847,
+        "lat": 55.623091,
+        "lon": 37.49321,
+        "osm": "node/9612516788",
+        "tags": {
+          "name": "Инвитро",
+          "amenity": "doctors",
+          "opening_hours": "Fr 07:00-17:00; Mo-Th 07:00-19:00; Sa-Su 08:00-15:00"
+        }
+      },
+      {
+        "name": "Литех",
+        "distance_m": 1046,
+        "lat": 55.628514,
+        "lon": 37.517496,
+        "osm": "node/3744261925",
+        "tags": {
+          "name": "Литех",
+          "amenity": "clinic"
+        }
+      },
+      {
+        "name": "Поликлиника №134 филиал №3",
+        "distance_m": 1134,
+        "lat": 55.6239,
+        "lon": 37.488853,
+        "osm": "way/24009170",
+        "tags": {
+          "name": "Поликлиника №134 филиал №3",
+          "amenity": "clinic",
+          "operator": "ГБУЗ \"ГП №134 ДЗМ\"",
+          "opening_hours": "Mo-Fr 08:00-20:00; Sa 09:00-18:00; Su 09:00-16:00"
+        }
+      },
+      {
+        "name": "С-Профи",
+        "distance_m": 1281,
+        "lat": 55.630399,
+        "lon": 37.519369,
+        "osm": "node/5388179123",
+        "tags": {
+          "name": "С-Профи",
+          "amenity": "clinic",
+          "opening_hours": "Mo-Fr 08:00-21:00; Sa-Su 09:00-20:00"
+        }
+      }
+    ],
+    "hospital": [
+      {
+        "name": "Детский бронхолегочный санаторий №15",
+        "distance_m": 1151,
+        "lat": 55.624926,
+        "lon": 37.523706,
+        "osm": "relation/3325182",
+        "tags": {
+          "name": "Детский бронхолегочный санаторий №15",
+          "amenity": "hospital"
+        }
+      },
+      {
+        "name": "Центральная Клиническая Больница РАН",
+        "distance_m": 1537,
+        "lat": 55.614824,
+        "lon": 37.52783,
+        "osm": "relation/6439959",
+        "tags": {
+          "name": "Центральная Клиническая Больница РАН",
+          "amenity": "hospital"
+        }
+      }
+    ],
+    "sport": [
+      {
+        "name": "Школа мяча",
+        "distance_m": 687,
+        "lat": 55.61654,
+        "lon": 37.512919,
+        "osm": "node/12071345935",
+        "tags": {
+          "name": "Школа мяча",
+          "leisure": "sports_centre",
+          "opening_hours": "Mo-Su 10:00-20:00"
+        }
+      },
+      {
+        "name": "Солнечный",
+        "distance_m": 907,
+        "lat": 55.61869,
+        "lon": 37.492833,
+        "osm": "way/122023090",
+        "tags": {
+          "name": "Солнечный",
+          "leisure": "sports_centre"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1022,
+        "lat": 55.61236,
+        "lon": 37.508032,
+        "osm": "way/324088684",
+        "tags": {
+          "leisure": "stadium"
+        }
+      },
+      {
+        "name": "Ddx",
+        "distance_m": 1292,
+        "lat": 55.631301,
+        "lon": 37.517466,
+        "osm": "node/9584926548",
+        "tags": {
+          "name": "Ddx",
+          "leisure": "fitness_centre",
+          "opening_hours": "Mo-Su 06:00-24:00"
+        }
+      },
+      {
+        "name": "Зал бокса",
+        "distance_m": 1361,
+        "lat": 55.632338,
+        "lon": 37.516477,
+        "osm": "node/13119003874",
+        "tags": {
+          "name": "Зал бокса",
+          "leisure": "sports_centre",
+          "opening_hours": "Mo, We, Fr 17:00-22:00"
+        }
+      }
+    ],
+    "nightlife": [
+      {
+        "name": "Пивной дворик",
+        "distance_m": 355,
+        "lat": 55.62444,
+        "lon": 37.50859,
+        "osm": "node/5382881841",
+        "tags": {
+          "name": "Пивной дворик",
+          "amenity": "pub"
+        }
+      },
+      {
+        "name": "Золотой колос",
+        "distance_m": 419,
+        "lat": 55.619477,
+        "lon": 37.500766,
+        "osm": "node/12323976456",
+        "tags": {
+          "name": "Золотой колос",
+          "amenity": "bar",
+          "opening_hours": "Tu-Th, Su 13:00-00:00; Fr, Sa 13:00-02:00"
+        }
+      },
+      {
+        "name": "Кружка",
+        "distance_m": 1109,
+        "lat": 55.6302,
+        "lon": 37.51505,
+        "osm": "node/255742577",
+        "tags": {
+          "name": "Кружка",
+          "amenity": "pub"
+        }
+      },
+      {
+        "name": "Чёрная каракатица",
+        "distance_m": 1353,
+        "lat": 55.631427,
+        "lon": 37.518867,
+        "osm": "node/580988627",
+        "tags": {
+          "name": "Чёрная каракатица",
+          "amenity": "pub"
+        }
+      }
+    ],
+    "major_road": [
+      {
+        "name": "Профсоюзная улица",
+        "distance_m": 52,
+        "lat": 55.622208,
+        "lon": 37.50821,
+        "osm": "way/243271031",
+        "tags": {
+          "name": "Профсоюзная улица",
+          "name:ru": "Профсоюзная улица",
+          "highway": "secondary",
+          "lanes": "3",
+          "maxspeed": "RU:urban"
+        }
+      },
+      {
+        "name": "Профсоюзная улица",
+        "distance_m": 63,
+        "lat": 55.622369,
+        "lon": 37.508586,
+        "osm": "way/209371220",
+        "tags": {
+          "name": "Профсоюзная улица",
+          "highway": "primary",
+          "lanes": "3",
+          "maxspeed": "RU:urban"
+        }
+      },
+      {
+        "name": "Новоясеневский проспект",
+        "distance_m": 316,
+        "lat": 55.618767,
+        "lon": 37.504891,
+        "osm": "way/232537183",
+        "tags": {
+          "name": "Новоясеневский проспект",
+          "name:ru": "Новоясеневский проспект",
+          "highway": "secondary",
+          "lanes": "2",
+          "maxspeed": "RU:urban"
+        }
+      }
+    ],
+    "minor_road": [
+      {
+        "name": "Профсоюзная улица (дублёр)",
+        "distance_m": 5,
+        "lat": 55.62225,
+        "lon": 37.507237,
+        "osm": "way/232551322",
+        "tags": {
+          "name": "Профсоюзная улица (дублёр)",
+          "name:ru": "Профсоюзная улица (дублёр)",
+          "highway": "tertiary",
+          "lanes": "2"
+        }
+      },
+      {
+        "name": "улица Тёплый Стан",
+        "distance_m": 231,
+        "lat": 55.619584,
+        "lon": 37.504808,
+        "osm": "way/209386576",
+        "tags": {
+          "name": "улица Тёплый Стан",
+          "name:ru": "улица Тёплый Стан",
+          "highway": "tertiary",
+          "lanes": "4"
+        }
+      },
+      {
+        "name": "tertiary",
+        "distance_m": 259,
+        "lat": 55.620422,
+        "lon": 37.502683,
+        "osm": "way/1161948820",
+        "tags": {
+          "highway": "tertiary",
+          "lanes": "3"
+        }
+      }
+    ],
+    "railway_line": [],
+    "tram_line": [],
+    "industrial": [
+      {
+        "name": null,
+        "distance_m": 1015,
+        "lat": 55.612762,
+        "lon": 37.512296,
+        "osm": "way/284419305",
+        "tags": {
+          "landuse": "industrial"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1035,
+        "lat": 55.611975,
+        "lon": 37.510143,
+        "osm": "way/284419304",
+        "tags": {
+          "landuse": "industrial"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1055,
+        "lat": 55.611868,
+        "lon": 37.501889,
+        "osm": "way/1455309915",
+        "tags": {
+          "landuse": "industrial"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1201,
+        "lat": 55.611911,
+        "lon": 37.517042,
+        "osm": "way/1456511186",
+        "tags": {
+          "landuse": "industrial"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1253,
+        "lat": 55.610856,
+        "lon": 37.499549,
+        "osm": "way/254009273",
+        "tags": {
+          "landuse": "industrial"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1323,
+        "lat": 55.609938,
+        "lon": 37.500687,
+        "osm": "way/1291235326",
+        "tags": {
+          "landuse": "industrial"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 4079,
+        "lat": 55.595468,
+        "lon": 37.460652,
+        "osm": "way/758317256",
+        "tags": {
+          "landuse": "industrial",
+          "power": "plant"
+        }
+      },
+      {
+        "name": "Районная тепловая станция",
+        "distance_m": 4910,
+        "lat": 55.607479,
+        "lon": 37.432268,
+        "osm": "way/847284504",
+        "tags": {
+          "name": "Районная тепловая станция",
+          "landuse": "industrial",
+          "power": "plant",
+          "industrial": "heating_station"
+        }
+      }
+    ],
+    "powerline": [
+      {
+        "name": "ЛЭП 220000",
+        "distance_m": 33,
+        "lat": 55.620251,
+        "lon": 37.504087,
+        "osm": "way/41662671",
+        "tags": {
+          "voltage": "220000",
+          "power": "line"
+        }
+      }
+    ],
+    "substation": [
+      {
+        "name": null,
+        "distance_m": 396,
+        "lat": 55.623588,
+        "lon": 37.501286,
+        "osm": "way/53024970",
+        "tags": {
+          "power": "substation"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 687,
+        "lat": 55.626494,
+        "lon": 37.512855,
+        "osm": "node/9307964008",
+        "tags": {
+          "power": "substation",
+          "man_made": "street_cabinet"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1149,
+        "lat": 55.62445,
+        "lon": 37.488858,
+        "osm": "way/592726712",
+        "tags": {
+          "power": "substation",
+          "ref": "30262"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1165,
+        "lat": 55.624371,
+        "lon": 37.488562,
+        "osm": "way/592726711",
+        "tags": {
+          "power": "substation",
+          "ref": "18316"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1273,
+        "lat": 55.632664,
+        "lon": 37.510888,
+        "osm": "way/107575669",
+        "tags": {
+          "power": "substation"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1393,
+        "lat": 55.623992,
+        "lon": 37.484654,
+        "osm": "way/592726700",
+        "tags": {
+          "power": "substation",
+          "ref": "15459"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 1446,
+        "lat": 55.610612,
+        "lon": 37.49382,
+        "osm": "way/836862944",
+        "tags": {
+          "power": "substation"
+        }
+      },
+      {
+        "name": "Ясенево",
+        "distance_m": 1616,
+        "lat": 55.607122,
+        "lon": 37.502696,
+        "osm": "way/136285897",
+        "tags": {
+          "name": "Ясенево",
+          "voltage": "220000;110000;10000",
+          "power": "substation",
+          "ref": "760"
+        }
+      }
+    ],
+    "power_plant": [
+      {
+        "name": null,
+        "distance_m": 2896,
+        "lat": 55.64653,
+        "lon": 37.519172,
+        "osm": "relation/18424437",
+        "tags": {
+          "power": "plant",
+          "operator": "МОЭК"
+        }
+      },
+      {
+        "name": null,
+        "distance_m": 4079,
+        "lat": 55.595468,
+        "lon": 37.460652,
+        "osm": "way/758317256",
+        "tags": {
+          "landuse": "industrial",
+          "power": "plant"
+        }
+      },
+      {
+        "name": "Районная тепловая станция",
+        "distance_m": 4910,
+        "lat": 55.607479,
+        "lon": 37.432268,
+        "osm": "way/847284504",
+        "tags": {
+          "name": "Районная тепловая станция",
+          "landuse": "industrial",
+          "power": "plant",
+          "industrial": "heating_station"
+        }
+      },
+      {
+        "name": "РТС Чертаново",
+        "distance_m": 5033,
+        "lat": 55.623444,
+        "lon": 37.586486,
+        "osm": "relation/6442420",
+        "tags": {
+          "name": "РТС Чертаново",
+          "power": "plant",
+          "operator": "ГУП Мостеплоэнерго"
+        }
+      }
+    ],
+    "landfill": [],
+    "waste": [],
+    "cemetery": [],
+    "aerodrome": [],
+    "prison": [],
+    "psychiatric": [],
+    "construction": [
+      {
+        "name": null,
+        "distance_m": 52,
+        "lat": 55.62169,
+        "lon": 37.505644,
+        "osm": "way/24209461",
+        "tags": {
+          "landuse": "construction"
+        }
+      }
+    ],
+    "fuel": [
+      {
+        "name": "Лукойл",
+        "distance_m": 410,
+        "lat": 55.624381,
+        "lon": 37.510475,
+        "osm": "way/312258348",
+        "tags": {
+          "name": "Лукойл",
+          "name:ru": "Лукойл",
+          "amenity": "fuel",
+          "operator": "ООО \"ЛУКОЙЛ-Центрнефтепродукт\"",
+          "ref": "614",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "name": "Teboil",
+        "distance_m": 619,
+        "lat": 55.616301,
+        "lon": 37.509907,
+        "osm": "node/633132266",
+        "tags": {
+          "name": "Teboil",
+          "amenity": "fuel",
+          "opening_hours": "Mo-Su 00:10-03:45,04:00-23:55"
+        }
+      },
+      {
+        "name": "Роснефть",
+        "distance_m": 808,
+        "lat": 55.627395,
+        "lon": 37.513929,
+        "osm": "way/368278009",
+        "tags": {
+          "name": "Роснефть",
+          "name:ru": "Роснефть",
+          "amenity": "fuel",
+          "operator": "Роснефть",
+          "opening_hours": "24/7"
+        }
+      },
+      {
+        "name": "Газпромнефть",
+        "distance_m": 1278,
+        "lat": 55.614094,
+        "lon": 37.490833,
+        "osm": "node/659019561",
+        "tags": {
+          "name": "Газпромнефть",
+          "name:ru": "Газпромнефть",
+          "amenity": "fuel",
+          "shop": "yes",
+          "operator": "ООО \"Газпромнефть - Центр\"",
+          "ref": "15",
+          "opening_hours": "24/7"
+        }
+      }
+    ]
+  },
+  "counts": {
+    "metro": {
+      "500": 1,
+      "1000": 1,
+      "1500": 2
+    },
+    "rail_station": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "stop_bus_tram": {
+      "500": 13,
+      "1000": 25,
+      "1500": 53
+    },
+    "school": {
+      "500": 0,
+      "1000": 6,
+      "1500": 12
+    },
+    "kindergarten": {
+      "500": 1,
+      "1000": 7,
+      "1500": 17
+    },
+    "university": {
+      "500": 0,
+      "1000": 2,
+      "1500": 3
+    },
+    "playground": {
+      "500": 8,
+      "1000": 8,
+      "1500": 8
+    },
+    "park": {
+      "500": 0,
+      "1000": 1,
+      "1500": 1
+    },
+    "forest": {
+      "500": 3,
+      "1000": 10,
+      "1500": 25
+    },
+    "water": {
+      "500": 1,
+      "1000": 1,
+      "1500": 3
+    },
+    "grocery": {
+      "500": 9,
+      "1000": 14,
+      "1500": 40
+    },
+    "mall": {
+      "500": 3,
+      "1000": 4,
+      "1500": 4
+    },
+    "pharmacy": {
+      "500": 12,
+      "1000": 16,
+      "1500": 32
+    },
+    "clinic": {
+      "500": 6,
+      "1000": 7,
+      "1500": 13
+    },
+    "hospital": {
+      "500": 0,
+      "1000": 0,
+      "1500": 1
+    },
+    "sport": {
+      "500": 0,
+      "1000": 2,
+      "1500": 5
+    },
+    "nightlife": {
+      "500": 2,
+      "1000": 2,
+      "1500": 4
+    },
+    "major_road": {
+      "500": 3,
+      "1000": 3,
+      "1500": 3
+    },
+    "minor_road": {
+      "500": 3,
+      "1000": 3,
+      "1500": 3
+    },
+    "railway_line": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "tram_line": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "industrial": {
+      "500": 0,
+      "1000": 0,
+      "1500": 6
+    },
+    "powerline": {
+      "500": 1,
+      "1000": 1,
+      "1500": 1
+    },
+    "substation": {
+      "500": 1,
+      "1000": 2,
+      "1500": 7
+    },
+    "power_plant": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "landfill": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "waste": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "cemetery": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "aerodrome": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "prison": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "psychiatric": {
+      "500": 0,
+      "1000": 0,
+      "1500": 0
+    },
+    "construction": {
+      "500": 1,
+      "1000": 1,
+      "1500": 1
+    },
+    "fuel": {
+      "500": 1,
+      "1000": 3,
+      "1500": 4
+    }
+  },
+  "nearest": {
+    "metro": 164,
+    "rail_station": null,
+    "stop_bus_tram": 123,
+    "school": 633,
+    "kindergarten": 252,
+    "university": 585,
+    "playground": 189,
+    "park": 623,
+    "forest": 259,
+    "water": 373,
+    "grocery": 137,
+    "mall": 292,
+    "pharmacy": 77,
+    "clinic": 114,
+    "hospital": 1151,
+    "sport": 687,
+    "nightlife": 355,
+    "major_road": 52,
+    "minor_road": 5,
+    "railway_line": null,
+    "tram_line": null,
+    "industrial": 1015,
+    "powerline": 33,
+    "substation": 396,
+    "power_plant": 2896,
+    "landfill": null,
+    "waste": null,
+    "cemetery": null,
+    "aerodrome": null,
+    "prison": null,
+    "psychiatric": null,
+    "construction": 52,
+    "fuel": 410
+  },
+  "noise_estimate": {
+    "sources": [
+      {
+        "kind": "road_primary",
+        "name": "Профсоюзная улица",
+        "distance_m": 63,
+        "est_db": 64.0
+      },
+      {
+        "kind": "road_tertiary",
+        "name": "Профсоюзная улица (дублёр)",
+        "distance_m": 5,
+        "est_db": 64.0
+      },
+      {
+        "kind": "road_secondary",
+        "name": "Профсоюзная улица",
+        "distance_m": 52,
+        "est_db": 60.9
+      },
+      {
+        "kind": "road_secondary",
+        "name": "Новоясеневский проспект",
+        "distance_m": 316,
+        "est_db": 52.1
+      },
+      {
+        "kind": "road_tertiary",
+        "name": "улица Тёплый Стан",
+        "distance_m": 231,
+        "est_db": 50.4
+      },
+      {
+        "kind": "road_tertiary",
+        "name": "tertiary",
+        "distance_m": 259,
+        "est_db": 49.9
+      }
+    ],
+    "est_db_max": 64.0,
+    "est_db_combined": 68.0,
+    "method": "ориентировочно: дневной уровень у фасада, обращённого к источнику; линейный источник, -3 дБ на удвоение расстояния от 10 м, без учёта экранирования зданиями и шумозащитных экранов. Окна во двор обычно на 10–20 дБ тише.",
+    "price_discount_pct": [
+      5.2,
+      11.7
+    ]
+  },
+  "suggested_scores": {
+    "noise_external": 3.1,
+    "transport": 10.0,
+    "green": 6.1,
+    "kids": 8.9,
+    "amenities": 9.9,
+    "ecology": 6.3
+  },
+  "score_notes": {
+    "noise_external": "оценка шума снаружи 68.0 дБ",
+    "transport": "метро 164 м, станция ж/д None м, остановок в 500 м: 13",
+    "green": "парк 623 м, лес 259 м, вода 373 м",
+    "kids": "школа 633 м (6 в 1 км), сад 252 м (7 в 1 км); качество школ и прикрепление не учтены",
+    "amenities": "продукты 137 м, аптека 77 м, поликлиника 114 м, ТЦ 292 м, спорт 687 м",
+    "ecology": "штрафы: ЛЭП −2.5, магистраль ближе 150 м −0.7"
+  },
+  "notes": [
+    "Данные OpenStreetMap: полнота зависит от города, отсутствие объекта в OSM не гарантирует его отсутствия.",
+    "Оценки suggested_scores предварительные, их уточняют агенты по отзывам и официальным данным.",
+    "Рядом стройплощадка (52 м): проверить, что строят и не закроет ли вид."
+  ],
+  "errors": []
+}

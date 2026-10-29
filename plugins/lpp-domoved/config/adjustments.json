@@ -1,0 +1,60 @@
+{
+  "_comment": "Guidelines from valuation practice and research. Values from the Leifer (Лейфер) and СтатРиелт handbooks are paid and not reconciled: refine them manually for your city. Percentages of the price per m².",
+  "comparable_adjustments_pct": {
+    "order": ["bargain", "date", "location_metro", "house_type_walls", "floor", "area", "condition"],
+    "floor": { "first": [-10, -5], "last": [-5, -2], "last_new_build_tech_floor": [0, 0], "middle": [0, 0] },
+    "walls_vs_panel": { "monolith": [5, 10], "brick": [5, 10], "monolith_brick": [5, 10], "panel": [0, 0], "block": [-3, 0], "wood": [-20, -10] },
+    "metro_walk_10min_moscow_spb": [5, 15],
+    "area_scale_per_10pct_more_area": [-3, -1],
+    "condition": { "none_or_shell": [-15, -8], "needs_repair": [-10, -5], "cosmetic": [0, 0], "euro": [5, 10], "designer": [8, 15] },
+    "apartments_vs_flat": [-20, -10],
+    "quality_rules": { "max_net_adjustment_pct": 15, "max_gross_adjustment_pct": 25, "min_comparables": 3, "max_comparables": 7 }
+  },
+  "bargain_discount_pct": {
+    "default": 5,
+    "range": [3, 11],
+    "by_city": { "Москва": 6, "Санкт-Петербург": 6, "Нижний Новгород": 10.8, "Краснодар": 9.5, "Красноярск": 9.3, "Екатеринбург": 7.5, "Воронеж": 7.3, "Уфа": 7.0 },
+    "source": "Этажи 2025 (Russia average 6.3%), Норматив 3.5 to 4%, IRN.RU (Moscow 5 to 10%)"
+  },
+  "liquidity": {
+    "exposure_days": { "fast": 60, "normal_max": 110, "slow": 150 },
+    "flags": ["first_floor", "walk_through_rooms", "kitchen_lt_6", "combined_bathroom_2plus_rooms", "wooden_slabs", "share_or_room", "apartments_status", "old_series", "unapproved_redevelopment", "not_mortgage_eligible", "atypical_size", "overpriced_vs_fair", "price_cuts_history"],
+    "not_mortgage_eligible_is_major": true
+  },
+  "noise": {
+    "ndi_pct_per_db": { "road": [0.4, 0.9], "aircraft": 0.67, "rail": [0.2, 0.7] },
+    "threshold_db": 55,
+    "who_night_guideline_db": 45
+  },
+  "decay_m": {
+    "metro":     { "full": 400, "zero": 1200, "premium_pct": 4 },
+    "rail":      { "full": 500, "zero": 1500 },
+    "park":      { "full": 150, "zero": 600, "premium_pct_max": 20 },
+    "large_park":{ "full": 300, "zero": 1500 },
+    "powerline": { "full": 30,  "zero": 200, "discount_pct": [2, 10] },
+    "landfill":  { "full": 500, "zero": 5000, "discount_pct_max": 13 },
+    "industrial":{ "full": 100, "zero": 1000 },
+    "school":    { "full": 300, "zero": 1500 },
+    "kindergarten": { "full": 300, "zero": 1000 },
+    "grocery":   { "full": 200, "zero": 800 },
+    "clinic":    { "full": 500, "zero": 2000 }
+  },
+  "future_effects_pct": {
+    "metro_station_where_transit_poor": [3, 10],
+    "metro_station_where_transit_ok": [0, 3],
+    "renovation_program_flat_per_year": [0, 10],
+    "krt_or_park": "qualitative"
+  },
+  "investment": {
+    "vacancy_pct": [8, 15],
+    "tax_options_pct": { "npd": 4, "ndfl": 13, "ndfl_high": 15, "ip_usn": 6 },
+    "maintenance_reserve_months_rent": [0.5, 1.0],
+    "net_vs_gross_gap_pp": [1.5, 2.5],
+    "gross_yield_benchmarks_pct": { "Москва": 4.7, "Санкт-Петербург": 4.9, "регионы": 5.5 },
+    "user_cost_components_pct": { "maintenance_depreciation": [2, 3], "risk_premium": 2 }
+  },
+  "forecast": {
+    "momentum_share_of_last_year": [0.25, 0.5],
+    "single_flat_band_widening": 1.5
+  }
+}

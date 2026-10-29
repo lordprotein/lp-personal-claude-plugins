@@ -1,0 +1,46 @@
+{
+  "criteria": {
+    "noise":           { "title": "Тишина и шумоизоляция",          "icon": "🔇" },
+    "building":        { "title": "Дом и его состояние",            "title_private_house": "Дом и участок", "icon": "🏢" },
+    "legal":           { "title": "Юридическая чистота",            "icon": "⚖️" },
+    "transport":       { "title": "Транспорт и пробки",             "icon": "🚇" },
+    "ecology":         { "title": "Экология и окружение",           "icon": "🌫️" },
+    "green":           { "title": "Зелень и отдых",                 "icon": "🌳" },
+    "kids":            { "title": "Школы и детские сады",           "icon": "🎒" },
+    "amenities":       { "title": "Повседневная инфраструктура",    "icon": "🛒" },
+    "safety":          { "title": "Безопасность и соцсреда",        "icon": "🛡️" },
+    "value_liquidity": { "title": "Цена и ликвидность",             "icon": "💰" },
+    "future":          { "title": "Потенциал роста",                "icon": "📈" }
+  },
+  "profiles": {
+    "balance": {
+      "title": "Баланс (по умолчанию, шум в приоритете)",
+      "weights": { "noise": 0.16, "building": 0.12, "legal": 0.12, "transport": 0.12, "ecology": 0.10, "green": 0.07, "kids": 0.08, "amenities": 0.06, "safety": 0.07, "value_liquidity": 0.05, "future": 0.05 }
+    },
+    "family": {
+      "title": "Семья с детьми",
+      "weights": { "noise": 0.13, "building": 0.10, "legal": 0.12, "transport": 0.09, "ecology": 0.11, "green": 0.11, "kids": 0.15, "amenities": 0.06, "safety": 0.08, "value_liquidity": 0.03, "future": 0.02 }
+    },
+    "investment": {
+      "title": "Инвестиция и перепродажа",
+      "weights": { "noise": 0.08, "building": 0.10, "legal": 0.14, "transport": 0.14, "ecology": 0.06, "green": 0.05, "kids": 0.05, "amenities": 0.05, "safety": 0.05, "value_liquidity": 0.15, "future": 0.13 }
+    },
+    "quiet": {
+      "title": "Максимальная тишина",
+      "weights": { "noise": 0.25, "building": 0.12, "legal": 0.11, "transport": 0.09, "ecology": 0.10, "green": 0.08, "kids": 0.06, "amenities": 0.05, "safety": 0.06, "value_liquidity": 0.04, "future": 0.04 }
+    }
+  },
+  "verdicts": [
+    { "min": 8.5, "code": "strong_buy", "title": "Сильная покупка",                        "color": "good" },
+    { "min": 7.0, "code": "buy_after_checks", "title": "Покупать после проверки пунктов",  "color": "ok" },
+    { "min": 5.5, "code": "negotiate", "title": "Торговаться или искать альтернативы",     "color": "warn" },
+    { "min": 0.0, "code": "avoid", "title": "Не рекомендуется",                            "color": "bad" }
+  ],
+  "rules": {
+    "stop_flag_cap": 5.4,
+    "major_flag_penalty": 0.3,
+    "major_flag_penalty_max": 1.0,
+    "min_coverage_for_verdict": 0.6,
+    "confidence_factor": { "high": 1.0, "medium": 0.85, "low": 0.6, "none": 0.0 }
+  }
+}

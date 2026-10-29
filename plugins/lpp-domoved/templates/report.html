@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Домовед</title>
+<style>
+:root {
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --surface-2: #f0eee9;
+  --text: #1d1d1b;
+  --muted: #6b6a66;
+  --line: #e2dfd8;
+  --accent: #2f5d50;
+  --accent-soft: #e3eee9;
+  --good: #2e7d4f;
+  --ok: #4f7d2e;
+  --warn: #b7791f;
+  --bad: #c0392b;
+  --good-soft: #e3f2e8;
+  --ok-soft: #ecf3e2;
+  --warn-soft: #fbf0dc;
+  --bad-soft: #fbe5e2;
+  --none: #a5a39d;
+  --radar-fill: rgba(47, 93, 80, .18);
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
+  --radius: 14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141513; --surface: #1c1d1b; --surface-2: #252623; --text: #ecebe6; --muted: #9c9a93;
+    --line: #33342f; --accent: #7fc0a8; --accent-soft: #1f2e29;
+    --good: #5cc287; --ok: #9fcb6b; --warn: #e3a948; --bad: #ef7466;
+    --good-soft: #1b2e22; --ok-soft: #232c19; --warn-soft: #33281a; --bad-soft: #3a1f1c;
+    --none: #6d6b66; --radar-fill: rgba(127, 192, 168, .2); --shadow: none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141513; --surface: #1c1d1b; --surface-2: #252623; --text: #ecebe6; --muted: #9c9a93;
+  --line: #33342f; --accent: #7fc0a8; --accent-soft: #1f2e29;
+  --good: #5cc287; --ok: #9fcb6b; --warn: #e3a948; --bad: #ef7466;
+  --good-soft: #1b2e22; --ok-soft: #232c19; --warn-soft: #33281a; --bad-soft: #3a1f1c;
+  --none: #6d6b66; --radar-fill: rgba(127, 192, 168, .2); --shadow: none; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); scroll-behavior: smooth; scroll-padding-top: 64px; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased; overflow-wrap: anywhere;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3 { line-height: 1.25; margin: 0; }
+h2 { font-size: 20px; margin-bottom: 14px; letter-spacing: -.01em; }
+h3 { font-size: 15px; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.num { font-variant-numeric: tabular-nums; }
+
+.brand { font-weight: 700; letter-spacing: -.01em; font-size: 13px; color: var(--muted); }
+.brand span { color: var(--accent); }
+header.obj .brand { display: none; }
+
+/* nav */
+nav.top {
+  position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+}
+nav.top .wrap { display: flex; align-items: center; gap: 12px; height: 52px; }
+nav.top .brand { color: var(--text); font-size: 15px; white-space: nowrap; }
+.navlinks { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
+.navlinks::-webkit-scrollbar { display: none; }
+.navlinks a { color: var(--muted); padding: 6px 10px; border-radius: 8px; font-size: 13.5px; white-space: nowrap; }
+.navlinks a:hover { background: var(--surface-2); color: var(--text); text-decoration: none; }
+.navlinks a.active { color: var(--text); background: var(--surface-2); }
+.pdf-btn {
+  border: 1px solid var(--accent); background: var(--accent); color: var(--surface); border-radius: 8px;
+  height: 34px; padding: 0 12px; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 600; flex: none; white-space: nowrap;
+}
+.pdf-btn:hover { filter: brightness(1.08); }
+@media (max-width: 520px) { .pdf-btn { padding: 0 9px; font-size: 12px; } nav.top .brand { display: none; } }
+.theme-btn {
+  border: 1px solid var(--line); background: var(--surface); color: var(--text); border-radius: 8px;
+  width: 34px; height: 34px; cursor: pointer; font-size: 15px; flex: none;
+}
+summary.crit-head { list-style: none; cursor: pointer; }
+summary.crit-head::-webkit-details-marker { display: none; }
+details.crit:not([open]) > .crit-head { border-bottom: 0; }
+.crit-head .chev { color: var(--muted); font-size: 12px; transition: transform .15s; }
+details.crit[open] > .crit-head .chev { transform: rotate(90deg); }
+.check { cursor: pointer; }
+.check input { margin-top: 4px; accent-color: var(--accent); width: 16px; height: 16px; flex: none; }
+.check .box { display: none; }
+.check.done > span:last-child { color: var(--muted); text-decoration: line-through; }
+
+/* header */
+header.obj { padding: 28px 0 8px; }
+.obj-type { display: inline-block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 6px; }
+header.obj h1 { font-size: 26px; letter-spacing: -.02em; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; color: var(--muted); font-size: 14px; }
+.facts b { color: var(--text); font-weight: 600; }
+.meta-line { margin-top: 10px; font-size: 13px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 14px; }
+
+section { padding: 22px 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: center; }
+.ring { position: relative; width: 200px; height: 200px; margin: 0 auto; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring .val { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring .big { font-size: 54px; font-weight: 750; letter-spacing: -.03em; line-height: 1; }
+.ring .of { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.verdict { display: inline-flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; padding: 8px 14px; border-radius: 10px; }
+.v-good { background: var(--good-soft); color: var(--good); }
+.v-ok { background: var(--ok-soft); color: var(--ok); }
+.v-warn { background: var(--warn-soft); color: var(--warn); }
+.v-bad { background: var(--bad-soft); color: var(--bad); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+.chip { font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+.chip b { color: var(--text); font-weight: 600; }
+.alert { border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; }
+.alert-stop { background: var(--bad-soft); color: var(--bad); border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); }
+.alert-major { background: var(--warn-soft); color: var(--warn); border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent); }
+.alert b { display: block; margin-bottom: 4px; }
+.alert ul { margin: 0; padding-left: 18px; color: var(--text); }
+.alert li { margin: 3px 0; }
+.alert .detail { color: var(--muted); font-size: 13px; }
+.short { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.short h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 6px; }
+.list-plain { list-style: none; padding: 0; margin: 0; }
+.list-plain li { padding: 4px 0 4px 22px; position: relative; }
+.list-plain li::before { position: absolute; left: 0; top: 4px; font-weight: 700; }
+.pros li::before { content: "+"; color: var(--good); }
+.cons li::before { content: "−"; color: var(--bad); }
+.checks li::before { content: "→"; color: var(--accent); }
+
+/* criteria overview */
+.overview { display: grid; grid-template-columns: minmax(260px, 380px) 1fr; gap: 24px; align-items: center; }
+.radar svg { width: 100%; height: auto; display: block; overflow: visible; }
+.radar text { font-size: 10.5px; fill: var(--muted); }
+.crit-row { display: grid; grid-template-columns: 1fr 120px 44px 18px; gap: 10px; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.crit-row:last-child { border-bottom: 0; }
+.crit-row .name { font-size: 14px; }
+.crit-row .name small { color: var(--muted); margin-left: 6px; font-size: 12px; }
+.bar { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: 99px; }
+.crit-row .sc { text-align: right; font-weight: 650; }
+.crit-row.nodata .name, .crit-row.nodata .sc { color: var(--none); }
+.conf { width: 10px; height: 10px; border-radius: 50%; display: inline-block; border: 2px solid var(--muted); }
+.conf-high { background: var(--muted); }
+.conf-medium { background: linear-gradient(90deg, var(--muted) 50%, transparent 50%); }
+.conf-low { background: transparent; }
+.conf-none { border-style: dashed; border-color: var(--none); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+
+/* criterion cards */
+.crit { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px; }
+.crit > .crit-head { padding: 14px 16px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 28px 1fr auto 14px; gap: 10px; align-items: center; }
+.crit > .crit-head .ic { font-size: 18px; }
+.crit > .crit-head .t { font-weight: 600; }
+.crit > .crit-head .s1 { color: var(--muted); font-size: 13px; display: block; font-weight: 400; margin-top: 2px; }
+.pill { font-weight: 700; font-size: 14px; padding: 3px 10px; border-radius: 8px; min-width: 46px; text-align: center; }
+.crit-body { padding: 14px 16px 16px 54px; }
+.crit-body .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 10px 0; }
+.crit-body h4 { margin: 12px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.ev { font-size: 13.5px; margin: 0; padding-left: 18px; }
+.ev li { margin: 3px 0; }
+
+/* price */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.kpi { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; }
+.kpi .l { font-size: 12px; color: var(--muted); }
+.kpi .v { font-size: 20px; font-weight: 700; margin-top: 2px; letter-spacing: -.01em; }
+.kpi .v.bad { color: var(--bad); } .kpi .v.good { color: var(--good); }
+.scale { position: relative; height: 64px; margin: 22px 6px 8px; }
+.scale .track { position: absolute; left: 0; right: 0; top: 28px; height: 8px; border-radius: 99px; background: var(--surface-2); }
+.scale .range { position: absolute; top: 28px; height: 8px; border-radius: 99px; background: color-mix(in srgb, var(--good) 45%, transparent); }
+.scale .mark { position: absolute; top: 18px; width: 2px; height: 28px; transform: translateX(-1px); }
+.scale .mark .lab { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 12px; white-space: nowrap; font-weight: 600; }
+.scale .mark.ask { background: var(--text); }
+.scale .mark.fair { background: var(--good); }
+.scale .mark.fair .lab { top: 32px; color: var(--good); }
+.scale .ends { position: absolute; top: 44px; left: 0; right: 0; display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th, td { text-align: left; padding: 8px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 500; font-size: 12.5px; }
+td.r, th.r { text-align: right; }
+th, td { overflow-wrap: normal; }
+table.cmp td:first-child { min-width: 130px; }
+table.cmp th, table.cmp td { min-width: 140px; }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tag { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--surface-2); color: var(--muted); margin: 2px 4px 2px 0; }
+.tag.bad { background: var(--bad-soft); color: var(--bad); }
+.tag.good { background: var(--good-soft); color: var(--good); }
+.tag.warn { background: var(--warn-soft); color: var(--warn); }
+.meter { height: 10px; background: var(--surface-2); border-radius: 99px; position: relative; margin: 8px 0 4px; }
+.meter > i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; }
+.meter > b { position: absolute; top: -4px; width: 2px; height: 18px; background: var(--text); }
+
+/* future */
+.timeline { position: relative; padding-left: 22px; }
+.timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+.tl { position: relative; padding: 0 0 16px; }
+.tl::before { content: ""; position: absolute; left: -21px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+.tl.threat::before { border-color: var(--bad); }
+.tl .h { font-weight: 600; }
+.tl .m { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.st { font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 6px; margin-right: 6px; white-space: nowrap; }
+.st-built { background: var(--good-soft); color: var(--good); }
+.st-under_construction { background: var(--ok-soft); color: var(--ok); }
+.st-aip { background: var(--accent-soft); color: var(--accent); }
+.st-plan { background: var(--warn-soft); color: var(--warn); }
+.st-announced, .st-rumor { background: var(--surface-2); color: var(--muted); }
+.scen { display: grid; grid-template-columns: 60px 1fr; gap: 10px; align-items: center; margin: 10px 0; }
+.scen .bars { position: relative; height: 34px; background: var(--surface-2); border-radius: 8px; }
+.scen .zero { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--muted); opacity: .5; }
+.scen .seg { position: absolute; top: 9px; height: 16px; border-radius: 4px; background: color-mix(in srgb, var(--accent) 30%, transparent); }
+.scen .pt { position: absolute; top: 4px; width: 3px; height: 26px; border-radius: 2px; background: var(--accent); transform: translateX(-1px); }
+.scen .labs { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 3px; }
+.disclaimer { font-size: 12.5px; color: var(--muted); border-left: 3px solid var(--line); padding: 4px 0 4px 12px; margin-top: 14px; }
+
+/* yields */
+.yrow { display: grid; grid-template-columns: 150px 1fr 60px; gap: 10px; align-items: center; margin: 8px 0; font-size: 14px; }
+.yrow .bar { height: 12px; }
+
+/* geo */
+.geo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.geo-cat { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; }
+.geo-cat h3 { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; }
+.geo-cat ul { list-style: none; margin: 0; padding: 0; font-size: 13.5px; }
+.geo-cat li { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; }
+.geo-cat li span:last-child { color: var(--muted); white-space: nowrap; }
+.geo-cat.neg h3 { color: var(--bad); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { display: inline-block; border: 1px solid var(--line); background: var(--surface); padding: 7px 12px; border-radius: 8px; font-size: 13.5px; color: var(--text); }
+.btn:hover { text-decoration: none; background: var(--surface-2); }
+
+/* reviews */
+.rev { padding: 10px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 10px 1fr; gap: 10px; }
+.rev:last-child { border-bottom: 0; }
+.rev .dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; }
+.dot.pos { background: var(--good); } .dot.neg { background: var(--bad); } .dot.neu { background: var(--none); }
+.rev .src { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+/* checklists */
+.check { display: flex; gap: 10px; align-items: flex-start; padding: 5px 0; }
+.check .box { flex: none; width: 14px; height: 14px; margin-top: 4px; border: 1.5px solid var(--muted); border-radius: 3px; }
+.check-cols { columns: 2; column-gap: 28px; }
+.check-cols .check { break-inside: avoid; }
+@media (max-width: 700px) { .check-cols { columns: 1; } }
+.progress { font-size: 12.5px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+
+footer { padding: 30px 0 50px; color: var(--muted); font-size: 12.5px; }
+.empty { color: var(--muted); font-size: 14px; font-style: italic; }
+
+@media (max-width: 860px) {
+  .hero, .overview, .grid2, .short { grid-template-columns: 1fr; }
+  .grid3 { grid-template-columns: 1fr; }
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .radar { max-width: 360px; margin: 0 auto; }
+}
+@media (max-width: 520px) {
+  header.obj h1 { font-size: 21px; }
+  .card { padding: 16px; }
+  .ring { width: 170px; height: 170px; }
+  .ring .big { font-size: 46px; }
+  .crit-row { grid-template-columns: 1fr 70px 38px 14px; gap: 8px; }
+  .crit-body { padding-left: 16px; }
+  .crit-body .cols { grid-template-columns: 1fr; }
+  .yrow { grid-template-columns: 110px 1fr 52px; }
+  .verdict { font-size: 17px; }
+}
+/* source chips */
+.src-chip { display: inline-flex; align-items: center; gap: 3px; font-size: 11.5px; line-height: 1.4; padding: 1px 7px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent); margin: 2px 4px 2px 0; white-space: nowrap; max-width: 260px; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; }
+.src-chip:hover { text-decoration: none; filter: brightness(.97); }
+.src-mini { font-size: 11px; margin-left: 6px; padding: 0 6px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.src-mini:hover { text-decoration: none; }
+.src-count { font-size: 11.5px; color: var(--muted); font-weight: 500; margin-left: 8px; white-space: nowrap; }
+.points { margin: 6px 0 0; padding-left: 18px; }
+.points li { margin: 3px 0; }
+.points.muted li { color: var(--muted); }
+.sub-h { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 4px; font-weight: 600; }
+
+/* first page: key facts */
+.keyrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+.keybox { background: var(--surface-2); border-radius: 12px; padding: 10px 12px; }
+.keybox .l { font-size: 12px; color: var(--muted); }
+.keybox .v { font-size: 18px; font-weight: 700; margin-top: 2px; }
+.keybox .s { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.keybox .v.bad { color: var(--bad); } .keybox .v.good { color: var(--good); }
+.next { margin-top: 16px; background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; }
+.next h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); margin-bottom: 4px; }
+.next ol { margin: 0; padding-left: 20px; }
+.next li { margin: 3px 0; }
+
+/* geo v2 */
+.env-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.env-group { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; }
+.env-group > h3 { font-size: 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.env-group.neg { background: var(--warn-soft); grid-column: 1 / -1; }
+.env-group.neg .env-cols { columns: 2; column-gap: 24px; }
+.env-group.neg .env-row { break-inside: avoid; border-top: 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 80%, transparent); }
+@media (max-width: 700px) { .env-group.neg .env-cols { columns: 1; } }
+.env-group.neg > h3 { color: var(--warn); }
+.env-row { display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; align-items: start; padding: 7px 0; border-top: 1px solid color-mix(in srgb, var(--line) 80%, transparent); }
+.env-row:first-of-type { border-top: 0; }
+.env-row .ei { font-size: 17px; line-height: 1.3; text-align: center; }
+.env-row .el { font-size: 12px; color: var(--muted); }
+.env-row .en { font-size: 14px; }
+.env-row .ex { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.env-row .ed { font-size: 14px; font-weight: 650; white-space: nowrap; text-align: right; }
+.env-row .ed.near { color: var(--bad); }
+.env-ok { font-size: 13.5px; color: var(--good); padding: 4px 0; }
+.env-warn { font-size: 13px; background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 8px 12px; margin-top: 10px; }
+.noise-box { background: var(--surface-2); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+.noise-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.noise-head b { font-size: 15px; }
+.noise-val { font-size: 20px; font-weight: 750; }
+.nscale { position: relative; margin: 30px 0 4px; }
+.nscale .zones { display: grid; grid-template-columns: 10fr 10fr 10fr 15fr; height: 10px; border-radius: 99px; overflow: hidden; }
+.nscale .zones i:nth-child(1) { background: color-mix(in srgb, var(--good) 55%, transparent); }
+.nscale .zones i:nth-child(2) { background: color-mix(in srgb, var(--ok) 45%, transparent); }
+.nscale .zones i:nth-child(3) { background: color-mix(in srgb, var(--warn) 55%, transparent); }
+.nscale .zones i:nth-child(4) { background: color-mix(in srgb, var(--bad) 55%, transparent); }
+.nscale .zlabs { display: grid; grid-template-columns: 10fr 10fr 10fr 15fr; font-size: 11.5px; color: var(--muted); margin-top: 4px; text-align: center; }
+.nscale .pin { position: absolute; top: -6px; width: 3px; height: 22px; background: var(--text); border-radius: 2px; transform: translateX(-1px); }
+.nscale .pin span { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.noise-src { font-size: 13px; margin-top: 8px; }
+.noise-src li { margin: 2px 0; }
+
+@page { size: A4; margin: 13mm 12mm 14mm; }
+@media print {
+  :root:not([data-theme="dark"]) {
+    --bg: #ffffff; --surface: #ffffff; --surface-2: #f2f1ed; --text: #1d1d1b; --muted: #5f5e5a; --line: #dedbd3;
+    --accent: #2f5d50; --accent-soft: #e3eee9; --good: #2e7d4f; --ok: #4f7d2e; --warn: #a86d12; --bad: #b8352a;
+    --good-soft: #e3f2e8; --ok-soft: #ecf3e2; --warn-soft: #fbf0dc; --bad-soft: #fbe5e2; --none: #9a9892;
+    --radar-fill: rgba(47, 93, 80, .18); --shadow: none; color-scheme: light;
+  }
+  html, body, * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  nav.top, .theme-btn, .pdf-btn, .btns, .check input { display: none !important; }
+  .check .box { display: inline-block; }
+  .check.done > span:last-child { text-decoration: none; color: var(--text); }
+  .crit-head .chev { display: none; }
+  html { scroll-padding-top: 0; background: var(--bg); }
+  body { background: var(--bg); zoom: 0.74; }
+  :root:not([data-theme="dark"]) body { background: #fff; }
+  #criteria { break-before: page; }
+  header.obj .brand { display: block !important; }
+  body { line-height: 1.45; }
+  .list-plain li { padding: 2px 0 2px 22px; }
+  .list-plain li::before { top: 2px; }
+  .crit-body { padding-top: 6px; padding-bottom: 8px; }
+  .crit-body .cols { margin: 6px 0; }
+  .crit-body h4 { margin: 8px 0 3px; }
+  .crit { margin-bottom: 8px; }
+  .points li { margin: 1px 0; }
+  .env-group, .noise-box, .keybox, .next { break-inside: avoid; }
+  .env-groups { grid-template-columns: 1fr 1fr; }
+  .keyrow { grid-template-columns: repeat(3, 1fr); }
+  .wrap { max-width: none; padding: 0; }
+  header.obj { padding-top: 0; }
+  header.obj h1 { font-size: 22px; }
+  section { padding: 8px 0; }
+  h2 { font-size: 16px; margin-bottom: 8px; break-after: avoid; }
+  h3, h4 { break-after: avoid; }
+  .card { box-shadow: none; break-inside: auto; }
+  .check-wide { break-inside: auto; }
+  .hero, .overview, .crit-head, .geo-cat, .kpi, .kpis, .tl, .rev, tr, .alert, .scen, .scale, .check, .grid2 > .card, .grid3 > .card { break-inside: avoid; }
+  .card { padding: 16px; }
+  .crit > .crit-head .s1 { display: none; }
+  /* keep two-column grids on A4 */
+  .hero { grid-template-columns: 170px 1fr; gap: 18px; }
+  .ring { width: 160px; height: 160px; }
+  .ring .big { font-size: 42px; }
+  .overview { grid-template-columns: 360px 1fr; gap: 18px; }
+  .grid2, .short { grid-template-columns: 1fr 1fr; }
+  .grid3 { grid-template-columns: repeat(3, 1fr); }
+  .kpis { grid-template-columns: repeat(4, 1fr); }
+  .crit-row { grid-template-columns: 1fr 110px 40px 14px; }
+  .crit-body .cols { grid-template-columns: 1fr 1fr; }
+  .crit > .crit-head { padding: 9px 12px; }
+  .crit-body { padding: 8px 12px 10px 50px; }
+  .table-scroll { overflow: visible; }
+  a { color: var(--text); text-decoration: none; }
+  #sources .ev a[href^="http"]::after {
+    content: " (" attr(href) ")"; font-size: 8.5px; color: var(--muted); word-break: break-all;
+  }
+  footer { padding: 10px 0 0; }
+}
+</style>
+</head>
+<body>
+<script type="application/json" id="data">/*__DATA__*/</script>
+
+
+<nav class="top"><div class="wrap">
+  <div class="brand"><b>Дом<span>овед</span></b></div>
+  <div class="navlinks" id="navlinks"></div>
+  <button class="pdf-btn" id="pdfBtn" type="button" title="Сохранить отчёт в PDF в текущей теме">Сохранить PDF</button>
+  <button class="theme-btn" id="themeBtn" type="button" title="Сменить тему" aria-label="Сменить тему">◐</button>
+</div></nav>
+
+<main class="wrap" id="app"></main>
+
+<footer class="wrap" id="footer"></footer>
+
+<script>
+(function () {
+  "use strict";
+  // the initial theme comes from the renderer (data-theme); the button toggles the current one
+  var root = document.documentElement;
+  if (!root.getAttribute("data-theme")) root.setAttribute("data-theme", window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+  var D;
+  try { D = JSON.parse(document.getElementById("data").textContent); } catch (e) { D = {}; }
+  D = D || {};
+  var O = D.object || {}, S = D.score || {}, C = D.criteria || {}, V = D.valuation || {},
+      F = D.future || {}, I = D.investment || {}, G = D.geo || {}, R = D.reviews || {}, K = D.checklists || {};
+
+  var CRIT_ORDER = ["noise", "building", "legal", "transport", "ecology", "green", "kids", "amenities", "safety", "value_liquidity", "future"];
+  var CRIT_DEFAULT = {
+    noise: ["Тишина и шумоизоляция", "🔇"], building: ["Дом и его состояние", "🏢"], legal: ["Юридическая чистота", "⚖️"],
+    transport: ["Транспорт и пробки", "🚇"], ecology: ["Экология и окружение", "🍃"], green: ["Зелень и отдых", "🌳"],
+    kids: ["Школы и детские сады", "🎒"], amenities: ["Повседневная инфраструктура", "🛒"], safety: ["Безопасность и соцсреда", "🛡️"],
+    value_liquidity: ["Цена и ликвидность", "💰"], future: ["Потенциал роста", "📈"]
+  };
+  var SHORT = { noise: "Тишина", building: "Дом", legal: "Юр. чистота", transport: "Транспорт", ecology: "Экология", green: "Зелень",
+    kids: "Дети", amenities: "Инфраструктура", safety: "Безопасность", value_liquidity: "Цена", future: "Рост" };
+  var TYPE = { secondary: "Вторичка", new_build: "Новостройка", private_house: "Частный дом" };
+  var CONF = { high: "высокая", medium: "средняя", low: "низкая", none: "нет данных" };
+  var STATUS = { built: "Построено", under_construction: "Строится", aip: "В адресной инвестпрограмме", plan: "В генплане или ППТ", announced: "Анонс", rumor: "Слухи" };
+  var GEO_TITLES = {
+    metro: ["Метро", 0], rail: ["Ж/д и электрички", 0], tram: ["Трамвай", 0], bus_stop: ["Остановки", 0], school: ["Школы", 0], kindergarten: ["Детские сады", 0],
+    park: ["Парки", 0], forest: ["Лес", 0], water: ["Водоёмы", 0], grocery: ["Продукты", 0], clinic: ["Поликлиники", 0], hospital: ["Больницы", 0], pharmacy: ["Аптеки", 0],
+    mall: ["ТЦ", 0], sport: ["Спорт", 0], major_road: ["Магистрали", 1], railway_line: ["Ж/д пути", 1], industrial: ["Промзоны", 1], powerline: ["ЛЭП", 1],
+    landfill: ["Полигоны и свалки", 1], airport: ["Аэропорты", 1], cemetery: ["Кладбища", 1], bar: ["Бары и клубы", 1], prison: ["Учреждения ФСИН", 1],
+    psych: ["ПНД и наркодиспансеры", 1], power_plant: ["ТЭЦ и электростанции", 1], wastewater: ["Очистные сооружения", 1]
+  };
+  var LIQ = {
+    first_floor: "1-й этаж", walk_through_rooms: "проходные комнаты", kitchen_lt_6: "кухня меньше 6 м²", combined_bathroom_2plus_rooms: "совмещённый санузел",
+    wooden_slabs: "деревянные перекрытия", share_or_room: "доля или комната", apartments_status: "статус апартаментов", old_series: "старая серия дома",
+    unapproved_redevelopment: "несогласованная перепланировка", not_mortgage_eligible: "не проходит по ипотеке", atypical_size: "нетипичная площадь",
+    overpriced_vs_fair: "цена выше рынка", price_cuts_history: "история снижений цены"
+  };
+
+  // ---------- helpers ----------
+  function h(tag, attrs) {
+    var el = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (!Object.prototype.hasOwnProperty.call(attrs, k) || attrs[k] == null) continue;
+      if (k === "class") el.className = attrs[k];
+      else if (k === "text") el.textContent = attrs[k];
+      else if (k === "style") el.setAttribute("style", attrs[k]);
+      else el.setAttribute(k, attrs[k]);
+    }
+    for (var i = 2; i < arguments.length; i++) add(el, arguments[i]);
+    return el;
+  }
+  function add(el, c) {
+    if (c == null || c === false) return;
+    if (Array.isArray(c)) { c.forEach(function (x) { add(el, x); }); return; }
+    el.appendChild(typeof c === "object" ? c : document.createTextNode(String(c)));
+  }
+  function svg(tag, attrs) {
+    var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (var k in attrs) if (attrs[k] != null) el.setAttribute(k, attrs[k]);
+    for (var i = 2; i < arguments.length; i++) { var c = arguments[i]; if (c) el.appendChild(typeof c === "object" ? c : document.createTextNode(String(c))); }
+    return el;
+  }
+  function safeUrl(u) { return (typeof u === "string" && /^https?:\/\//i.test(u)) ? u : null; }
+  function link(u, text) {
+    var s = safeUrl(u);
+    return s ? h("a", { href: s, target: "_blank", rel: "noopener noreferrer", text: text || hostOf(s) }) : (text ? document.createTextNode(text) : null);
+  }
+  function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return u; } }
+  function isNum(v) { return typeof v === "number" && isFinite(v); }
+  var nf = new Intl.NumberFormat("ru-RU");
+  function money(v) {
+    if (!isNum(v)) return "н/д";
+    if (Math.abs(v) >= 1e6) return new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 2 }).format(v / 1e6) + " млн ₽";
+    return nf.format(Math.round(v)) + " ₽";
+  }
+  function rub(v) { return isNum(v) ? nf.format(Math.round(v)) + " ₽" : "н/д"; }
+  function dec(v, d) { return isNum(v) ? new Intl.NumberFormat("ru-RU", { minimumFractionDigits: d == null ? 1 : d, maximumFractionDigits: d == null ? 1 : d }).format(v) : "н/д"; }
+  function pct(v, sign) { if (!isNum(v)) return "н/д"; var s = dec(Math.abs(v), Math.abs(v) < 10 && v % 1 ? 1 : (v % 1 ? 1 : 0)); return (sign ? (v > 0 ? "+" : v < 0 ? "−" : "") : (v < 0 ? "−" : "")) + s + "%"; }
+  function meters(m) { if (!isNum(m)) return "н/д"; return m >= 1000 ? dec(m / 1000, 1) + " км" : Math.round(m) + " м"; }
+  function scoreColor(s) {
+    if (!isNum(s)) return "var(--none)";
+    return s >= 8 ? "var(--good)" : s >= 6.5 ? "var(--ok)" : s >= 5 ? "var(--warn)" : "var(--bad)";
+  }
+  function scoreSoft(s) {
+    if (!isNum(s)) return "var(--surface-2)";
+    return s >= 8 ? "var(--good-soft)" : s >= 6.5 ? "var(--ok-soft)" : s >= 5 ? "var(--warn-soft)" : "var(--bad-soft)";
+  }
+  function arr(x) { return Array.isArray(x) ? x : []; }
+  function critInfo(k) {
+    var p = (S.per_criterion || {})[k] || {}, c = C[k] || {}, d = CRIT_DEFAULT[k] || [k, "•"];
+    var title = p.title || d[0];
+    if (k === "building" && O.type === "private_house" && !p.title) title = "Дом и участок";
+    var sc = isNum(c.score) ? c.score : (isNum(p.score) ? p.score : null);
+    return { key: k, title: title, icon: d[1] || p.icon, score: sc, conf: c.confidence || p.confidence || (sc == null ? "none" : "medium"),
+      weight: p.weight, c: c };
+  }
+  function confDot(conf) { return h("span", { class: "conf conf-" + (conf || "none"), title: "Уверенность: " + (CONF[conf] || "нет данных") }); }
+
+  // ---------- readability of agent texts ----------
+  var HT = { monolith: "монолит", panel: "панель", brick: "кирпич", block: "блоки", monolith_brick: "монолит и кирпич", wood: "дерево", other: "другое" };
+  function deJargon(s) {
+    if (typeof s !== "string") return s == null ? "" : String(s);
+    return s
+      .replace(/\bmortgage_eligible\s*=\s*true\b/gi, "ипотека возможна")
+      .replace(/\bmortgage_eligible\s*=\s*false\b/gi, "ипотека под вопросом")
+      .replace(/\bpriced_in\b/gi, "уже в цене")
+      .replace(/\bgeo_brief\b:?\s*/gi, "").replace(/\bsuggested_scores\b\.?\w*/gi, "оценка по карте")
+      .replace(/\bnoise_external\b/gi, "шум снаружи").replace(/\bpartial\b:?/gi, "неполные данные:")
+      .replace(/\bnet\s+(\d+%)\s*\/\s*gross\s+(\d+%)/gi, "чистая $1, валовая $2")
+      .replace(/\s*\(([^()]*?),\s*конфиг\)/g, " ($1)").replace(/\s*\(конфиг\)/g, "").replace(/,?\s*конфиг\b/g, "")
+      .replace(/\bпо OSM\b/g, "по карте").replace(/\s*\(OSM\)/g, " (по карте)").replace(/\bOSM\b/g, "OpenStreetMap")
+      .replace(/(\d{1,3}),(\d{3})(?=\s*₽)/g, "$1 $2")
+      .replace(/(\d)\.(\d{1,2})(?=\s*(млн|тыс|%|дБ|км|п\.п\.|[–-]\s*\d))/g, "$1,$2")
+      .replace(/\bannounced\s*\/\s*rumor\b/gi, "анонсы и слухи").replace(/\bannounced\b/gi, "анонс").replace(/\brumor\b/gi, "слухи")
+      .replace(/\bunder_construction\b/gi, "строится").replace(/\bUser cost\b/g, "Стоимость владения")
+      .replace(/\s+\u2014\s+/g, ": ").replace(/\s{2,}/g, " ").trim();
+  }
+  var ABBR = /(?:\b(?:ул|б-р|бул|пр|пр-т|пер|ш|г|д|к|корп|стр|им|млн|тыс|руб|кв|эт|мин|т\.е|т\.к|см|рис|п\.п|в т\.ч|обл|р-н|св|ст|оц|прим|ср|напр)\.)$/i;
+  function splitSentences(text) {
+    var t = deJargon(text); if (!t) return [];
+    var parts = [], buf = "", i, ch;
+    for (i = 0; i < t.length; i++) {
+      ch = t[i]; buf += ch;
+      if ((ch === "." || ch === "!" || ch === "?" || ch === ";") && /\s/.test(t[i + 1] || "") && /[А-ЯЁA-Z«"(0-9]/.test((t.slice(i + 1).trim()[0]) || "")) {
+        if (ch === "." && ABBR.test(buf.trim())) continue;
+        if (ch === "." && /\d\.$/.test(buf) && /^\s*\d/.test(t.slice(i + 1))) continue;
+        parts.push(buf.trim()); buf = "";
+      }
+    }
+    if (buf.trim()) parts.push(buf.trim());
+    return parts.map(function (p) { return p.replace(/[;.]$/, ""); }).filter(Boolean);
+  }
+  function toPoints(points, text, max) {
+    max = max || 6;
+    var list = arr(points).map(deJargon).filter(Boolean);
+    if (!list.length && text) list = splitSentences(text);
+    return list.slice(0, Math.max(max, 10));
+  }
+  function pointsEl(points, text, cls, max) {
+    var list = toPoints(points, text, max);
+    if (!list.length) return null;
+    return h("ul", { class: "points" + (cls ? " " + cls : "") }, list.map(function (p) { return h("li", { text: p }); }));
+  }
+  // short text as a paragraph, long text as a list
+  function para(text, cls) {
+    var t = deJargon(text); if (!t) return null;
+    if (t.length <= 240) return h("p", { class: cls || null, style: "margin:0", text: t });
+    return pointsEl(null, t, cls);
+  }
+  var TOPIC = { transport: "транспорт", traffic: "пробки", ecology: "экология", kids: "дети", school: "школы", schools: "школы", noise: "шум",
+    safety: "безопасность", building: "дом", house: "дом", management: "УК", uk: "УК", parking: "парковка", amenities: "инфраструктура",
+    green: "зелень", general: "общая оценка", neighbors: "соседи", elevator: "лифты", lifts: "лифты", yard: "двор", price: "цена" };
+  function topicRu(t) { if (!t) return ""; var k = String(t).toLowerCase().trim(); if (TOPIC[k]) return TOPIC[k]; return /[a-z]/i.test(k) ? "" : t; }
+  function lcFirst(t) { t = String(t || ""); return /^[А-ЯЁA-Z][а-яёa-z]/.test(t) ? t[0].toLowerCase() + t.slice(1) : t; }
+  function itemText(x) { return deJargon(x && typeof x === "object" ? (x.text || x.title || "") : x); }
+  function itemUrl(x) { return x && typeof x === "object" ? safeUrl(x.url || x.source_url) : null; }
+  function srcMini(u) { var s = safeUrl(u); return s ? h("a", { class: "src-mini", href: s, target: "_blank", rel: "noopener noreferrer", title: s, text: "↗ " + hostOf(s) }) : null; }
+  function srcChip(u, title) {
+    var s = safeUrl(u); if (!s) return null;
+    return h("a", { class: "src-chip", href: s, target: "_blank", rel: "noopener noreferrer", title: s, text: "↗ " + (title ? deJargon(title) : hostOf(s)) });
+  }
+  function itemList(list, cls) {
+    return h("ul", { class: "list-plain " + cls }, list.map(function (x) { return h("li", null, itemText(x), srcMini(itemUrl(x))); }));
+  }
+  function critSources(c) {
+    var seen = {}, out = [];
+    arr(c.evidence).forEach(function (e) { var u = safeUrl(e && e.source_url); if (u && !seen[u]) { seen[u] = 1; out.push([u, e.source_title]); } });
+    arr(c.pros).concat(arr(c.cons)).forEach(function (x) { var u = itemUrl(x); if (u && !seen[u]) { seen[u] = 1; out.push([u, null]); } });
+    return out;
+  }
+  function shortAddr(a) {
+    a = String(a || "").replace(/^\s*\d{6},?\s*/, "").replace(/^\s*(Россия|Российская Федерация),\s*/i, "");
+    var admin = /(обл\.|^обл$|област|(^|\s)край$|р-н|район|поселени|автономн|республик|городской округ|муниципальн)/i;
+    var parts = a.split(",").map(function (p) { return p.trim(); }).filter(Boolean);
+    var kept = parts.filter(function (p) { return !admin.test(p); });
+    return (kept.length >= 2 ? kept : parts).join(", ");
+  }
+  function sectionCard(id, title, body, sub) {
+    return h("section", { id: id }, h("h2", null, title, sub ? h("span", { class: "muted small", style: "font-weight:400;margin-left:8px" }, sub) : null), body);
+  }
+
+  var app = document.getElementById("app");
+  var navItems = [];
+  function addSection(id, label, el) { if (!el) return; app.appendChild(el); navItems.push([id, label]); }
+
+  // ---------- printing and PDF ----------
+  var savedOpen = null;
+  function openAll() {
+    var ds = document.querySelectorAll("details");
+    if (savedOpen === null) savedOpen = Array.prototype.map.call(ds, function (d) { return d.open; });
+    for (var i = 0; i < ds.length; i++) ds[i].open = true;
+  }
+  function restoreAll() {
+    if (savedOpen === null) return;
+    var ds = document.querySelectorAll("details");
+    for (var i = 0; i < ds.length; i++) if (i < savedOpen.length) ds[i].open = savedOpen[i];
+    savedOpen = null;
+  }
+  // printing uses the current theme: print CSS does not override dark; the file name comes from document.title
+  document.getElementById("pdfBtn").addEventListener("click", function () {
+    openAll();
+    setTimeout(function () { window.print(); }, 60);
+  });
+  window.addEventListener("beforeprint", openAll);
+  window.addEventListener("afterprint", restoreAll);
+
+
+  // ---------- compare page ----------
+  if (Array.isArray(D.compare)) { renderCompare(D.compare, D.compare_meta || {}); return; }
+
+  function renderCompare(list, cm) {
+    list = list.filter(Boolean);
+    function sc(a) { return a.score || {}; }
+    function ob(a) { return a.object || {}; }
+    function va(a) { return a.valuation || {}; }
+    function critScore(a, k) { var c = (a.criteria || {})[k] || {}; var p = (sc(a).per_criterion || {})[k] || {}; return isNum(c.score) ? c.score : (isNum(p.score) ? p.score : null); }
+    function stops(a) {
+      var f = arr(a.red_flags).filter(function (x) { return x.severity === "stop"; }).map(function (x) { return x.title; });
+      return f.length ? f : arr(sc(a).stop_flags);
+    }
+    function majors(a) {
+      var f = arr(a.red_flags).filter(function (x) { return x.severity === "major"; }).map(function (x) { return x.title; });
+      return f.length ? f : arr(sc(a).major_flags);
+    }
+    var eligible = list.filter(function (a) { return !stops(a).length && isNum(sc(a).total); });
+    var winner = eligible.slice().sort(function (a, b) { return sc(b).total - sc(a).total; })[0] || null;
+
+    app.appendChild(h("header", { class: "obj" },
+      h("div", { class: "brand", style: "margin-bottom:10px" }, "Дом", h("span", { text: "овед" }), " · проверка перед покупкой"),
+      h("span", { class: "obj-type", text: "Сравнение" }),
+      h("h1", { text: "Сравнение объектов: " + list.length }),
+      h("div", { class: "meta-line" },
+        cm.profile_title || (list[0] && sc(list[0]).profile_title) ? h("span", { text: "Профиль: " + (cm.profile_title || sc(list[0]).profile_title) }) : null,
+        h("span", { text: "Отчёт от " + new Date(cm.generated_at || Date.now()).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" }) }))));
+
+    if (winner) {
+      var wv = sc(winner), wcol = { good: "good", ok: "ok", warn: "warn", bad: "bad" }[wv.verdict_color] || "ok";
+      app.appendChild(h("section", { id: "winner" }, h("div", { class: "card" },
+        h("div", { class: "small muted", text: "Лучший вариант по выбранному профилю" }),
+        h("h2", { style: "margin:6px 0 10px" }, ob(winner).address || ob(winner).title || "Объект",
+          winner.report_href ? h("span", { class: "small", style: "font-weight:400;margin-left:10px" }, h("a", { href: winner.report_href, text: "полный отчёт →" })) : null),
+        h("div", { class: "verdict v-" + wcol, text: dec(wv.total, 1) + " / 10 · " + (wv.verdict_title || "") }),
+        list.length - eligible.length > 0 ? h("p", { class: "small muted", style: "margin:10px 0 0", text: "Объекты со стоп-факторами в выборе победителя не участвуют." }) : null)));
+      navItems.push(["winner", "Победитель"]);
+    } else if (list.length) {
+      app.appendChild(h("section", { id: "winner" }, h("div", { class: "alert alert-stop" }, h("b", { text: "У всех объектов есть стоп-факторы или нет итогового балла" }))));
+    }
+
+    // rows: [label, getter, mode, formatter] mode: max | min | none
+    var rows = [
+      ["Тип", function (a) { return TYPE[ob(a).type] || "н/д"; }, "none"],
+      ["Цена", function (a) { return isNum(ob(a).price) ? ob(a).price : va(a).asking_price; }, "none", money],
+      ["Цена за м²", function (a) { var o = ob(a); return isNum(va(a).price_per_m2) ? va(a).price_per_m2 : (isNum(o.price) && isNum(o.area_total) ? o.price / o.area_total : null); }, "min", rub],
+      ["Площадь", function (a) { return ob(a).area_total; }, "none", function (v) { return dec(v, v % 1 ? 1 : 0) + " м²"; }],
+      ["Этаж", function (a) { var o = ob(a); return isNum(o.floor) ? o.floor + (isNum(o.floors_total) ? "/" + o.floors_total : "") : "н/д"; }, "none"],
+      ["Год постройки", function (a) { return ob(a).year_built; }, "none", String],
+      ["sep", "Итог"],
+      ["Итоговый балл", function (a) { return sc(a).total; }, "max", function (v) { return dec(v, 1); }, true],
+      ["Вердикт", function (a) { return sc(a).verdict_title || "н/д"; }, "none"],
+      ["Уверенность", function (a) { return CONF[sc(a).confidence] || "н/д"; }, "none"],
+      ["sep", "Критерии"]
+    ];
+    CRIT_ORDER.forEach(function (k) { rows.push([CRIT_DEFAULT[k][0], function (a) { return critScore(a, k); }, "max", function (v) { return dec(v, 1); }, true]); });
+    rows.push(["sep", "Цена и риски"]);
+    rows.push(["Справедливая цена", function (a) { return va(a).fair_price; }, "none", money]);
+    rows.push(["Переплата", function (a) { return va(a).over_under_pct; }, "min", function (v) { return pct(v, true); }]);
+    rows.push(["Прогноз 5 лет (база)", function (a) { return (((a.future || {}).forecast || {}).y5 || {}).base; }, "max", function (v) { return pct(v, true); }]);
+    rows.push(["Стоп-факторы", function (a) { return stops(a); }, "flags-stop"]);
+    rows.push(["Серьёзные риски", function (a) { return majors(a); }, "flags-major"]);
+
+    var thead = h("tr", null, h("th", { text: "" }), list.map(function (a, i) {
+      var o = ob(a), href = a.report_href && !/^javascript:/i.test(a.report_href) ? a.report_href : null;
+      return h("th", { style: "min-width:150px" }, h("div", { style: "color:var(--text);font-weight:600", text: (i + 1) + ". " + (o.address || o.title || "Объект") }),
+        h("div", { class: "small" }, href ? h("a", { href: href, text: "полный отчёт" }) : null, href && safeUrl(o.listing_url) ? " · " : null, safeUrl(o.listing_url) ? link(o.listing_url, "объявление ↗") : null));
+    }));
+    var tbody = h("tbody");
+    rows.forEach(function (r) {
+      if (r[0] === "sep") { tbody.appendChild(h("tr", null, h("td", { colspan: list.length + 1, style: "padding-top:16px;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600", text: r[1] }))); return; }
+      var vals = list.map(function (a) { return r[1](a); });
+      var nums = vals.filter(isNum), best = null;
+      if (r[2] === "max" && nums.length > 1) best = Math.max.apply(null, nums);
+      if (r[2] === "min" && nums.length > 1) best = Math.min.apply(null, nums);
+      if (best != null && Math.max.apply(null, nums) === Math.min.apply(null, nums)) best = null;
+      tbody.appendChild(h("tr", null, h("td", { class: "muted", text: r[0] }), vals.map(function (v) {
+        if (r[2] === "flags-stop" || r[2] === "flags-major") {
+          var l = arr(v);
+          return h("td", null, l.length ? l.map(function (t) { return h("div", { class: "tag " + (r[2] === "flags-stop" ? "bad" : "warn"), text: t }); }) : h("span", { class: "muted", text: "нет" }));
+        }
+        var txt = v == null || v === "" ? "н/д" : (isNum(v) && r[3] ? r[3](v) : String(v));
+        var isBest = best != null && v === best;
+        var style = isBest ? "background:var(--good-soft);color:var(--good);font-weight:700" : "";
+        if (r[4] && isNum(v) && !isBest) style = "color:" + scoreColor(v) + ";font-weight:600";
+        if (r[4] && !isNum(v)) txt = "нет данных";
+        return h("td", { class: "num", style: style, text: txt });
+      })));
+    });
+    var tbl = h("div", { class: "card" }, h("div", { class: "table-scroll" }, h("table", { class: "cmp" }, h("thead", null, thead), tbody)),
+      h("div", { class: "small muted", style: "margin-top:8px", text: "Зелёным выделен лучший объект в строке. Для цены за м² и переплаты лучше меньшее значение." }));
+    app.appendChild(h("section", { id: "table" }, h("h2", { text: "Критерий × объект" }), tbl));
+    navItems.push(["table", "Таблица"]);
+    var nlc = document.getElementById("navlinks");
+    navItems.forEach(function (n) { nlc.appendChild(h("a", { href: "#" + n[0], text: n[1] })); });
+
+    document.getElementById("footer").appendChild(h("p", { text: "Сравнение носит информационный характер и не является индивидуальной инвестиционной рекомендацией или юридической консультацией." }));
+  }
+
+  // ---------- header ----------
+  (function () {
+    var facts = [];
+    if (isNum(O.price)) facts.push(["Цена", money(O.price)]);
+    if (isNum(O.area_total)) facts.push(["Площадь", dec(O.area_total, O.area_total % 1 ? 1 : 0) + " м²"]);
+    if (isNum(V.price_per_m2) || (isNum(O.price) && isNum(O.area_total))) facts.push(["За м²", rub(V.price_per_m2 || O.price / O.area_total)]);
+    if (O.rooms != null) facts.push(["Комнат", String(O.rooms)]);
+    if (isNum(O.floor)) facts.push(["Этаж", O.floor + (isNum(O.floors_total) ? " из " + O.floors_total : "")]);
+    if (isNum(O.area_land_sotok)) facts.push(["Участок", dec(O.area_land_sotok, O.area_land_sotok % 1 ? 1 : 0) + " сот."]);
+    if (isNum(O.year_built)) facts.push(["Год", String(O.year_built)]);
+    if (O.house_type) facts.push(["Дом", HT[O.house_type] || O.house_type]);
+    if (O.series && !/не найден/i.test(O.series)) facts.push(["Серия", deJargon(O.series)]);
+    if (O.developer) facts.push(["Застройщик", O.developer]);
+    if (O.deadline) facts.push(["Сдача", O.deadline]);
+
+    var meta = [];
+    var gen = (D.meta || {}).generated_at;
+    if (gen) { var dt = new Date(gen); meta.push("Отчёт от " + (isNaN(dt) ? gen : dt.toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" }))); }
+    if (S.profile_title || S.profile) meta.push("Профиль: " + (S.profile_title || S.profile));
+    var lu = safeUrl(O.listing_url) || safeUrl((D.meta || {}).input);
+
+    app.appendChild(h("header", { class: "obj" },
+      h("div", { class: "brand", style: "margin-bottom:10px" }, "Дом", h("span", { text: "овед" }), " · проверка перед покупкой"),
+      h("span", { class: "obj-type", text: [TYPE[O.type] || "Объект", O.city || shortAddr(O.address).split(",")[0]].filter(Boolean).join(" · ") }),
+      h("h1", { text: O.address ? shortAddr(O.address) : (O.title || "Объект без адреса") }),
+      O.title && O.address ? h("div", { class: "muted", style: "margin-top:4px", text: O.title + (shortAddr(O.address) !== O.address ? " · " + O.address : "") }) : null,
+      h("div", { class: "facts" }, facts.map(function (f) { return h("span", null, f[0] + ": ", h("b", { text: f[1] })); })),
+      h("div", { class: "meta-line" }, meta.map(function (m) { return h("span", { text: m }); }), lu ? link(lu, "Объявление на " + hostOf(lu) + " ↗") : null)
+    ));
+  })();
+
+  // ---------- hero ----------
+  (function () {
+    var total = isNum(S.total) ? S.total : null;
+    var col = { good: "good", ok: "ok", warn: "warn", bad: "bad" }[S.verdict_color] || (total == null ? "warn" : total >= 8.5 ? "good" : total >= 7 ? "ok" : total >= 5.5 ? "warn" : "bad");
+    var r = 84, circ = 2 * Math.PI * r, frac = total == null ? 0 : Math.max(0, Math.min(1, total / 10));
+    var ring = h("div", { class: "ring" },
+      svg("svg", { viewBox: "0 0 200 200" },
+        svg("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: "var(--surface-2)", "stroke-width": 14 }),
+        svg("circle", { cx: 100, cy: 100, r: r, fill: "none", stroke: "var(--" + col + ")", "stroke-width": 14, "stroke-linecap": "round",
+          "stroke-dasharray": (circ * frac) + " " + circ })),
+      h("div", { class: "val" }, h("div", { class: "big num", text: total == null ? "н/д" : dec(total, 1) }), h("div", { class: "of", text: "из 10" })));
+
+    var right = h("div");
+    var stopFlags = arr(D.red_flags).filter(function (f) { return f.severity === "stop"; });
+    var majorFlags = arr(D.red_flags).filter(function (f) { return f.severity === "major"; });
+    if (!stopFlags.length && arr(S.stop_flags).length) stopFlags = S.stop_flags.map(function (t) { return { title: t }; });
+    if (!majorFlags.length && arr(S.major_flags).length) majorFlags = S.major_flags.map(function (t) { return { title: t }; });
+
+    function flagList(list) {
+      return h("ul", null, list.map(function (f) {
+        return h("li", null, h("span", { text: deJargon(f.title) }), srcMini(f.source_url), f.detail ? h("div", { class: "detail", text: splitSentences(f.detail).slice(0, 2).join(". ") }) : null);
+      }));
+    }
+    if (stopFlags.length) right.appendChild(h("div", { class: "alert alert-stop" },
+      h("b", { text: "⛔ Стоп-факторы" + (S.capped ? ": итог ограничен сверху" : "") }), flagList(stopFlags)));
+
+    right.appendChild(h("div", { class: "verdict v-" + col, text: S.verdict_title || "Вердикт не рассчитан" }));
+    var chips = h("div", { class: "chips" });
+    chips.appendChild(h("span", { class: "chip" }, "Уверенность: ", h("b", { text: CONF[S.confidence] || "н/д" })));
+    if (isNum(S.coverage)) chips.appendChild(h("span", { class: "chip" }, "Покрытие данных: ", h("b", { text: Math.round(S.coverage * 100) + "%" })));
+    if (isNum(S.penalty) && S.penalty > 0) chips.appendChild(h("span", { class: "chip" }, "Штраф за риски: ", h("b", { text: "−" + dec(S.penalty, 1) })));
+    if (isNum(S.raw_total) && isNum(total) && Math.abs(S.raw_total - total) > 0.05) chips.appendChild(h("span", { class: "chip" }, "До штрафов: ", h("b", { text: dec(S.raw_total, 1) })));
+    if (arr(S.missing).length) chips.appendChild(h("span", { class: "chip" }, "Нет данных: ", h("b", { text: S.missing.map(function (k) { return SHORT[k] || k; }).join(", ") })));
+    right.appendChild(chips);
+
+    if (majorFlags.length) right.appendChild(h("div", { class: "alert alert-major", style: "margin-top:12px" }, h("b", { text: "Серьёзные риски" }), flagList(majorFlags)));
+
+    // short pros / cons from most weighted criteria
+    var keys = CRIT_ORDER.slice().sort(function (a, b) { return ((critInfo(b).weight || 0) - (critInfo(a).weight || 0)); });
+    function collect(field, n) {
+      var out = [];
+      for (var round = 0; round < 3 && out.length < n; round++) keys.forEach(function (k) {
+        var it = arr((C[k] || {})[field])[round];
+        if (it && out.length < n && out.indexOf(it) < 0) out.push(it);
+      });
+      return out;
+    }
+    var pros = collect("pros", 3), cons = collect("cons", 3);
+
+    // key figures
+    var key = h("div", { class: "keyrow" });
+    function keybox(l, v, s, cls) { key.appendChild(h("div", { class: "keybox" }, h("div", { class: "l", text: l }), h("div", { class: "v num" + (cls ? " " + cls : ""), text: v }), s ? h("div", { class: "s", text: s }) : null)); }
+    var askP = isNum(V.asking_price) ? V.asking_price : O.price;
+    if (isNum(V.over_under_pct)) keybox(V.over_under_pct > 0 ? "Переплата к рынку" : "Ниже рынка", pct(Math.abs(V.over_under_pct)),
+      money(askP) + " против " + money(V.fair_price), V.over_under_pct > 3 ? "bad" : V.over_under_pct < -3 ? "good" : "");
+    else if (isNum(askP)) keybox("Цена", money(askP), isNum(V.fair_price) ? "справедливая " + money(V.fair_price) : null);
+    var fc0 = F.forecast || {};
+    if (fc0.y3 && isNum(fc0.y3.base)) keybox("Прогноз цены, 3 года", pct(fc0.y3.base, true), (fc0.y5 && isNum(fc0.y5.base) ? "5 лет: " + pct(fc0.y5.base, true) + ", " : "") + "базовый сценарий");
+    var nSrc = arr(D.sources).length;
+    var nCrit = CRIT_ORDER.filter(function (k) { return isNum(critInfo(k).score); }).length;
+    keybox("Надёжность данных", CONF[S.confidence] ? CONF[S.confidence][0].toUpperCase() + CONF[S.confidence].slice(1) : "н/д",
+      nCrit + " из " + CRIT_ORDER.length + " критериев" + (nSrc ? ", " + nSrc + " источников" : ""));
+    right.appendChild(key);
+
+    if (pros.length || cons.length) right.appendChild(h("div", { class: "short" },
+      h("div", null, h("h3", { text: "Сильные стороны" }), itemList(pros, "pros")),
+      h("div", null, h("h3", { text: "Риски" }), itemList(cons, "cons"))));
+
+    // what to do next
+    var next = [];
+    if (isNum(V.over_under_pct) && V.over_under_pct > 3 && isNum(V.fair_price)) {
+      next.push("Торговаться: справедливая цена около " + money(V.fair_price) + (isNum(V.fair_high) ? ", разумный потолок " + money(V.fair_high) : ""));
+    }
+    stopFlags.concat(majorFlags).filter(function (f) { return !(f.criterion === "value_liquidity" && /цен/i.test(f.title || "") && next.length); })
+      .slice(0, 1).forEach(function (f) { next.push("Снять риск: " + lcFirst(deJargon(f.title))); });
+    arr(K.documents).slice(0, 2).forEach(function (t) { next.push("Запросить: " + lcFirst(deJargon(t))); });
+    arr(K.questions_to_seller).slice(0, 1).forEach(function (t) { next.push("Спросить у продавца: " + lcFirst(deJargon(t))); });
+    var view = arr(K.viewing).slice();
+    if (!view.length) CRIT_ORDER.forEach(function (k) { arr((C[k] || {}).check_in_person).forEach(function (t) { if (view.length < 2) view.push(t); }); });
+    view.slice(0, 2).forEach(function (t) { next.push("На просмотре: " + lcFirst(deJargon(t))); });
+    var heroCard = h("div", { class: "card" }, h("div", { class: "hero" }, ring, right),
+      next.length ? h("div", { class: "next" }, h("h3", { text: "Что сделать дальше" }), h("ol", null, next.slice(0, 6).map(function (t) { return h("li", { text: t }); }))) : null);
+
+    addSection("summary", "Итог", h("section", { id: "summary" }, heroCard));
+  })();
+
+  // ---------- overview: radar + rows ----------
+  (function () {
+    var items = CRIT_ORDER.map(critInfo);
+    var n = items.length, cx = 160, cy = 150, R = 105;
+    var s = svg("svg", { viewBox: "-38 -4 396 308", role: "img", "aria-label": "Радар баллов по критериям" });
+    function pt(i, v) { var a = -Math.PI / 2 + i * 2 * Math.PI / n; return [cx + Math.cos(a) * R * v, cy + Math.sin(a) * R * v]; }
+    [0.25, 0.5, 0.75, 1].forEach(function (lv) {
+      var p = items.map(function (_, i) { return pt(i, lv).join(","); }).join(" ");
+      s.appendChild(svg("polygon", { points: p, fill: "none", stroke: "var(--line)", "stroke-width": 1 }));
+    });
+    items.forEach(function (it, i) {
+      var e = pt(i, 1); s.appendChild(svg("line", { x1: cx, y1: cy, x2: e[0], y2: e[1], stroke: "var(--line)", "stroke-width": 1 }));
+      var l = pt(i, 1.17), anchor = Math.abs(l[0] - cx) < 8 ? "middle" : (l[0] > cx ? "start" : "end");
+      s.appendChild(svg("text", { x: l[0], y: l[1] + 3, "text-anchor": anchor }, SHORT[it.key] || it.title));
+    });
+    var poly = items.map(function (it, i) { return pt(i, isNum(it.score) ? it.score / 10 : 0).join(","); }).join(" ");
+    s.appendChild(svg("polygon", { points: poly, fill: "var(--radar-fill)", stroke: "var(--accent)", "stroke-width": 2, "stroke-linejoin": "round" }));
+    items.forEach(function (it, i) {
+      var p = pt(i, isNum(it.score) ? it.score / 10 : 0);
+      s.appendChild(svg("circle", { cx: p[0], cy: p[1], r: isNum(it.score) ? 3.5 : 3, fill: isNum(it.score) ? "var(--accent)" : "var(--surface)", stroke: isNum(it.score) ? "none" : "var(--none)", "stroke-dasharray": isNum(it.score) ? null : "2 2" }));
+    });
+
+    var rows = h("div", null, items.map(function (it) {
+      var has = isNum(it.score);
+      return h("a", { href: "#c-" + it.key, class: "crit-row" + (has ? "" : " nodata"), style: "color:inherit;text-decoration:none" },
+        h("div", { class: "name" }, it.title, isNum(it.weight) ? h("small", { text: Math.round(it.weight * 100) + "%" }) : null),
+        h("div", { class: "bar" }, h("i", { style: "width:" + (has ? it.score * 10 : 0) + "%;background:" + scoreColor(it.score) })),
+        h("div", { class: "sc num", text: has ? dec(it.score, 1) : "н/д" }),
+        confDot(it.conf));
+    }));
+    var legend = h("div", { class: "legend" },
+      h("span", null, confDot("high"), "высокая уверенность"), h("span", null, confDot("medium"), "средняя"),
+      h("span", null, confDot("low"), "низкая"), h("span", null, confDot("none"), "нет данных, проверить лично"));
+    var card = h("div", { class: "card overview" }, h("div", { class: "radar" }, s), h("div", null, rows, legend));
+    addSection("criteria", "Критерии", sectionCard("criteria", "Оценка по критериям", card, "процент: вес в итоге"));
+  })();
+
+  // ---------- criterion details ----------
+  (function () {
+    var wrap = h("div");
+    CRIT_ORDER.forEach(function (k) {
+      var it = critInfo(k), c = it.c || {};
+      var has = isNum(it.score);
+      var body = h("div", { class: "crit-body" });
+      if (c.summary) body.appendChild(para(c.summary));
+      if (!has) body.appendChild(h("p", { class: "empty", text: "Достоверных данных не нашлось. Критерий не влияет на итог: проверьте его лично." }));
+      if (arr(c.pros).length || arr(c.cons).length) body.appendChild(h("div", { class: "cols" },
+        h("div", null, h("h4", { text: "Плюсы" }), arr(c.pros).length ? itemList(c.pros, "pros") : h("div", { class: "empty", text: "нет" })),
+        h("div", null, h("h4", { text: "Минусы" }), arr(c.cons).length ? itemList(c.cons, "cons") : h("div", { class: "empty", text: "нет" }))));
+      var ev = arr(c.evidence).filter(function (e) { return e && e.text; });
+      if (ev.length) body.appendChild(h("div", null, h("h4", { text: "На чём основана оценка" }),
+        h("ul", { class: "ev" }, ev.map(function (e) {
+          var src = safeUrl(e.source_url);
+          return h("li", null, deJargon(e.text), src ? srcMini(src) : (e.source_title ? h("span", { class: "muted small", text: " · " + deJargon(e.source_title) }) : null));
+        }))));
+      var srcs = critSources(c);
+      if (!srcs.length && has) body.appendChild(h("div", { class: "small muted", style: "margin-top:8px", text: "Ссылок-подтверждений нет: оценка по косвенным данным." }));
+      var sum1 = splitSentences(c.summary || "")[0] || "";
+      var oneLine = sum1.length > 120 ? sum1.slice(0, 117).replace(/\s+\S*$/, "") + "…" : sum1;
+      wrap.appendChild(h("details", { class: "crit", id: "c-" + k },
+        h("summary", { class: "crit-head" }, h("span", { class: "ic", text: it.icon }),
+          h("span", { class: "t" }, it.title, h("span", { class: "src-count", text: srcs.length ? "📎 " + srcs.length : "📎 0" }),
+            h("span", { class: "s1" }, oneLine, (oneLine ? " · " : "") + "уверенность: " + (CONF[it.conf] || "н/д"))),
+          h("span", { class: "pill num", style: "background:" + scoreSoft(it.score) + ";color:" + scoreColor(it.score), text: has ? dec(it.score, 1) : "н/д" }),
+          h("span", { class: "chev", text: "▶" })),
+        body));
+    });
+    addSection("details", "Подробно", sectionCard("details", "Подробно по критериям", wrap));
+  })();
+
+  // ---------- price & liquidity ----------
+  (function () {
+    var has = Object.keys(V).length > 0;
+    if (!has) return;
+    var card = h("div", { class: "card" });
+    var ask = isNum(V.asking_price) ? V.asking_price : O.price;
+    var kpis = h("div", { class: "kpis" });
+    function kpi(l, v, cls) { kpis.appendChild(h("div", { class: "kpi" }, h("div", { class: "l", text: l }), h("div", { class: "v num" + (cls ? " " + cls : ""), text: v }))); }
+    kpi("Цена объявления", money(ask));
+    kpi("Справедливая цена", money(V.fair_price));
+    if (isNum(V.over_under_pct)) kpi(V.over_under_pct > 0 ? "Переплата" : "Ниже рынка", pct(Math.abs(V.over_under_pct)), V.over_under_pct > 3 ? "bad" : V.over_under_pct < -3 ? "good" : "");
+    if (isNum(V.bargain_discount_pct)) kpi("Типичный торг в городе", pct(V.bargain_discount_pct));
+    card.appendChild(kpis);
+
+    if (isNum(V.fair_low) && isNum(V.fair_high) && isNum(ask)) {
+      var lo = Math.min(V.fair_low, ask), hi = Math.max(V.fair_high, ask), pad = (hi - lo) * 0.25 || hi * 0.05;
+      lo -= pad; hi += pad;
+      function x(v) { return ((v - lo) / (hi - lo) * 100) + "%"; }
+      var sc = h("div", { class: "scale" },
+        h("div", { class: "track" }),
+        h("div", { class: "range", style: "left:" + x(V.fair_low) + ";width:calc(" + x(V.fair_high) + " - " + x(V.fair_low) + ")" }),
+        isNum(V.fair_price) ? h("div", { class: "mark fair", style: "left:" + x(V.fair_price) }, h("span", { class: "lab", text: "справедливая " + money(V.fair_price) })) : null,
+        h("div", { class: "mark ask", style: "left:" + x(ask) }, h("span", { class: "lab", text: "цена " + money(ask) })),
+        h("div", { class: "ends" }, h("span", { text: "" }), h("span", { text: "" })));
+      card.appendChild(h("div", { class: "small muted", style: "margin-top:16px", text: "Диапазон справедливой цены: " + money(V.fair_low) + " – " + money(V.fair_high) }));
+      card.appendChild(sc);
+    }
+
+    var how = pointsEl(V.comment_points, V.comment, null, 7);
+    if (how) card.appendChild(h("div", null, h("div", { class: "sub-h", text: "Как считали" }), how));
+
+    var cols = h("div", { class: "grid2", style: "margin-top:18px" });
+    // liquidity
+    var liq = h("div", null, h("h3", { style: "margin-bottom:8px", text: "Ликвидность" }));
+    var dom = isNum(V.days_on_market) ? V.days_on_market : O.days_on_market;
+    if (isNum(dom)) {
+      var typ = isNum(V.typical_exposure_days) ? V.typical_exposure_days : 110, maxd = Math.max(dom, typ, 150) * 1.1;
+      liq.appendChild(h("div", { class: "small" }, "В продаже ", h("b", { text: dom + " дн." }), " · типично для рынка ", h("b", { text: typ + " дн." })));
+      liq.appendChild(h("div", { class: "meter" }, h("i", { style: "width:" + (dom / maxd * 100) + "%;background:" + (dom > 150 ? "var(--bad)" : dom > typ ? "var(--warn)" : "var(--good)") }),
+        h("b", { style: "left:" + (typ / maxd * 100) + "%", title: "типичный срок" })));
+    }
+    if (V.mortgage_eligible === true || V.mortgage_eligible === false) {
+      liq.appendChild(h("div", { style: "margin:10px 0 6px" }, h("span", { class: "tag " + (V.mortgage_eligible ? "good" : "bad"), text: V.mortgage_eligible ? "✓ Проходит по ипотеке" : "✕ Риск отказа банка в ипотеке" })));
+    }
+    if (arr(V.liquidity_flags).length) liq.appendChild(h("div", null, V.liquidity_flags.map(function (f) { return h("span", { class: "tag warn", text: LIQ[f] || f }); })));
+    if (arr(O.price_history).length > 1) {
+      liq.appendChild(h("div", { class: "small muted", style: "margin-top:10px", text: "История цены: " + O.price_history.map(function (p) { return (p.date || "") + " " + money(p.price); }).join(" → ") }));
+    }
+    cols.appendChild(liq);
+
+    // medians & noise
+    var side = h("div", null, h("h3", { style: "margin-bottom:8px", text: "Цена за м² и шум" }));
+    var tbl = h("table", null, h("tbody", null,
+      isNum(V.price_per_m2) ? h("tr", null, h("td", { text: "Этот объект" }), h("td", { class: "r num", text: rub(V.price_per_m2) })) : null,
+      isNum(V.house_median_ppm2) ? h("tr", null, h("td", { text: "Медиана по дому" }), h("td", { class: "r num", text: rub(V.house_median_ppm2) })) : null,
+      isNum(V.district_median_ppm2) ? h("tr", null, h("td", { text: "Медиана по району" }), h("td", { class: "r num", text: rub(V.district_median_ppm2) })) : null,
+      isNum(V.noise_discount_pct) ? h("tr", null, h("td", { text: "Скидка за шум снаружи" }),
+        h("td", { class: "r num", text: V.noise_discount_pct > 0 ? "−" + dec(V.noise_discount_pct, 1) + "%" + (isNum(ask) ? " ≈ " + money(ask * V.noise_discount_pct / 100) : "") : "не влияет" })) : null));
+    side.appendChild(tbl);
+    cols.appendChild(side);
+    card.appendChild(cols);
+
+    if (arr(V.comparables).length) {
+      var keys = [];
+      V.comparables.forEach(function (c) { Object.keys(c.adjustments_pct || {}).forEach(function (k) { if (keys.indexOf(k) < 0) keys.push(k); }); });
+      // hide columns where every comparable has a 0 adjustment
+      keys = keys.filter(function (k) { return V.comparables.some(function (c) { var v = (c.adjustments_pct || {})[k]; return isNum(v) && v !== 0; }); });
+      var ADJ = { bargain: "торг", date: "дата", location_metro: "локация", location: "локация", house_type_walls: "стены", walls: "стены", floor: "этаж", area: "площадь", condition: "ремонт" };
+      var t = h("table", null,
+        h("thead", null, h("tr", null, h("th", { text: "Аналог" }), h("th", { class: "r", text: "Цена" }), h("th", { class: "r", text: "₽/м²" }),
+          keys.map(function (k) { return h("th", { class: "r", text: ADJ[k] || k }); }), h("th", { class: "r", text: "После поправок" }), h("th", { class: "r", text: "Сумма поправок" }))),
+        h("tbody", null, V.comparables.map(function (c, ci) {
+          var weak = (isNum(c.net_adj_pct) && Math.abs(c.net_adj_pct) > 15) || (isNum(c.gross_adj_pct) && c.gross_adj_pct > 25);
+          return h("tr", null,
+            h("td", null, link(c.url, deJargon(c.title) || ("Аналог " + (ci + 1) + (safeUrl(c.url) ? ", " + hostOf(c.url) : ""))) || ("Аналог " + (ci + 1)), isNum(c.area) ? h("div", { class: "small muted", text: dec(c.area, c.area % 1 ? 1 : 0) + " м²" }) : null, weak ? h("span", { class: "tag warn", style: "margin-left:6px", text: "слабый" }) : null),
+            h("td", { class: "r num", text: money(c.price) }), h("td", { class: "r num", text: rub(c.price_per_m2) }),
+            keys.map(function (k) { var v = (c.adjustments_pct || {})[k]; return h("td", { class: "r num", text: isNum(v) ? pct(v, true) : "н/д" }); }),
+            h("td", { class: "r num", text: rub(c.adjusted_ppm2) }),
+            h("td", { class: "r num muted", text: (isNum(c.net_adj_pct) ? pct(c.net_adj_pct, true) : "н/д") + " / " + (isNum(c.gross_adj_pct) ? pct(c.gross_adj_pct) : "н/д") }));
+        })));
+      card.appendChild(h("h3", { style: "margin:20px 0 6px", text: "Аналоги и поправки (сравнительный подход)" }));
+      card.appendChild(h("div", { class: "table-scroll" }, t));
+      card.appendChild(h("div", { class: "small muted", style: "margin-top:6px", text: "Сумма поправок: чистая / валовая. Аналог слабый, если чистая больше 15% или валовая больше 25%." }));
+    }
+    addSection("price", "Цена", sectionCard("price", "Цена и ликвидность", card));
+  })();
+
+  // ---------- future ----------
+  (function () {
+    var cats = arr(F.catalysts), threats = arr(F.threats), fc = F.forecast || {};
+    if (!cats.length && !threats.length && !fc.y3 && !fc.y5) return;
+    function tlItem(c, isThreat) {
+      var st = c.status || "rumor";
+      var ep = Array.isArray(c.effect_pct) && c.effect_pct.length === 2 && isNum(c.effect_pct[0]) && isNum(c.effect_pct[1]) ? c.effect_pct : null;
+      var eff = !ep ? null : (ep[0] === 0 && ep[1] === 0) ? "на цену не влияет"
+        : "эффект на цену " + (ep[0] === 0 ? "0" : pct(ep[0], true).replace("%", "")) + "…" + pct(ep[1], true);
+      var m = [c.eta ? "срок: " + deJargon(c.eta) : null, isNum(c.distance_m) ? meters(c.distance_m) + " от дома" : null, eff].filter(Boolean).join(" · ");
+      return h("div", { class: "tl" + (isThreat ? " threat" : "") },
+        h("div", null, h("span", { class: "st st-" + st, text: STATUS[st] || st }),
+          c.priced_in === true ? h("span", { class: "tag", text: "уже в цене" }) : c.priced_in === false ? h("span", { class: "tag good", text: "ещё не в цене" }) : null),
+        h("div", { class: "h", style: "margin-top:4px" }, deJargon(c.title || ""), srcMini(c.source_url)),
+        m ? h("div", { class: "m", text: m }) : null,
+        c.note ? h("div", { class: "m", text: deJargon(c.note) }) : null);
+    }
+    var left = h("div", { class: "card" }, h("h3", { style: "margin-bottom:12px", text: "Что изменится рядом" }));
+    if (cats.length) { left.appendChild(h("div", { class: "small muted", style: "margin-bottom:8px", text: "Катализаторы роста" })); left.appendChild(h("div", { class: "timeline" }, cats.map(function (c) { return tlItem(c, false); }))); }
+    if (threats.length) { left.appendChild(h("div", { class: "small muted", style: "margin:6px 0 8px", text: "Угрозы" })); left.appendChild(h("div", { class: "timeline" }, threats.map(function (c) { return tlItem(c, true); }))); }
+    left.appendChild(h("div", { class: "small muted", style: "margin-top:4px", text: "Уровни гарантированности: построено > строится > в адресной инвестпрограмме > в генплане или ППТ > анонс > слухи. В прогноз входят только первые три." }));
+
+    var right = h("div", { class: "card" }, h("h3", { style: "margin-bottom:6px", text: "Сценарии роста цены" }));
+    if (isNum(F.market_trend_1y_pct)) right.appendChild(h("div", { class: "small muted", text: "Рынок района за последний год: " + pct(F.market_trend_1y_pct, true) }));
+    var vals = [];
+    ["y3", "y5"].forEach(function (k) { var s = fc[k] || {}; ["bear", "base", "bull"].forEach(function (b) { if (isNum(s[b])) vals.push(s[b]); }); });
+    if (vals.length) {
+      var mn = Math.min(0, Math.min.apply(null, vals)) - 5, mx = Math.max.apply(null, vals) + 5;
+      function px(v) { return ((v - mn) / (mx - mn) * 100) + "%"; }
+      [["y3", "3 года"], ["y5", "5 лет"]].forEach(function (p) {
+        var s = fc[p[0]]; if (!s) return;
+        var lo = isNum(s.bear) ? s.bear : s.base, hi = isNum(s.bull) ? s.bull : s.base;
+        right.appendChild(h("div", { class: "scen" }, h("div", { class: "small", style: "font-weight:600", text: p[1] }),
+          h("div", null,
+            h("div", { class: "bars" }, h("div", { class: "zero", style: "left:" + px(0) }),
+              isNum(lo) && isNum(hi) ? h("div", { class: "seg", style: "left:" + px(lo) + ";width:calc(" + px(hi) + " - " + px(lo) + ")" }) : null,
+              isNum(s.base) ? h("div", { class: "pt", style: "left:" + px(s.base), title: "базовый" }) : null),
+            h("div", { class: "labs num" }, h("span", { text: "пессим. " + pct(s.bear, true) }), h("span", { style: "color:var(--text);font-weight:600", text: "база " + pct(s.base, true) }), h("span", { text: "оптим. " + pct(s.bull, true) })))));
+      });
+      if (isNum(O.price) && fc.y5 && isNum(fc.y5.base)) right.appendChild(h("div", { class: "small", style: "margin-top:6px" }, "Базовая цена через 5 лет: ", h("b", { text: money(O.price * (1 + fc.y5.base / 100)) })));
+    } else right.appendChild(h("div", { class: "empty", text: "Прогноз не рассчитан" }));
+    if (arr(fc.assumptions).length) right.appendChild(h("div", null, h("h4", { class: "small muted", style: "margin:14px 0 4px;text-transform:uppercase;letter-spacing:.06em", text: "Допущения" }),
+      h("ul", { class: "ev muted" }, fc.assumptions.map(function (a) { return h("li", { text: deJargon(a) }); }))));
+    right.appendChild(h("div", { class: "disclaimer", text: "Прогноз номинальный и построен на сценариях. Рост цены не гарантирован: по исследованиям, большая часть эффекта от инфраструктуры закладывается в цену ещё до открытия." }));
+    addSection("future", "Будущее", sectionCard("future", "Будущее района и прогноз", h("div", { class: "grid2" }, left, right)));
+  })();
+
+  // ---------- investment ----------
+  (function () {
+    if (!Object.keys(I).length) return;
+    var card = h("div", { class: "card" });
+    var kp = h("div", { class: "kpis" });
+    function kpi(l, v) { kp.appendChild(h("div", { class: "kpi" }, h("div", { class: "l", text: l }), h("div", { class: "v num", text: v }))); }
+    if (isNum(I.rent_month)) kpi("Аренда в месяц", rub(I.rent_month));
+    if (isNum(I.price_to_rent)) kpi("Цена / годовая аренда", dec(I.price_to_rent, 1) + " лет");
+    if (isNum(I.user_cost_pct)) kpi("Стоимость владения в год", pct(I.user_cost_pct));
+    if (isNum(I.net_yield_pct)) kpi("Чистая доходность", pct(I.net_yield_pct));
+    card.appendChild(kp);
+    var ys = [["Валовая доходность", I.gross_yield_pct, "var(--accent)"], ["Чистая доходность", I.net_yield_pct, "var(--accent)"],
+      ["ОФЗ", I.ofz_yield_pct, "var(--muted)"], ["Вклад", I.deposit_rate_pct, "var(--muted)"]].filter(function (y) { return isNum(y[1]); });
+    if (ys.length) {
+      var mx = Math.max.apply(null, ys.map(function (y) { return y[1]; })) * 1.1;
+      card.appendChild(h("div", { style: "margin-top:16px" }, ys.map(function (y) {
+        return h("div", { class: "yrow" }, h("span", { text: y[0] }), h("div", { class: "bar" }, h("i", { style: "width:" + (y[1] / mx * 100) + "%;background:" + y[2] })), h("span", { class: "num", style: "text-align:right", text: pct(y[1]) }));
+      })));
+    }
+    if (I.buy_vs_rent) card.appendChild(h("p", { style: "margin:14px 0 0" }, h("b", { text: "Купить или снимать: " }), deJargon(I.buy_vs_rent)));
+    var ipts = pointsEl(I.comment_points, I.comment, "muted", 6);
+    if (ipts) card.appendChild(h("div", null, h("div", { class: "sub-h", text: "Пояснения" }), ipts));
+    addSection("invest", "Инвестиция", sectionCard("invest", "Инвестиционный взгляд", card));
+  })();
+
+  // ---------- geo ----------
+  (function () {
+    var cats = G.categories || {};
+    var ne = G.noise_estimate || {};
+    if (!Object.keys(cats).length && !ne.sources) return;
+    // key: [label, icon, label for unnamed, plural unit]
+    var GEO = {
+      metro: ["Метро", "🚇", "Станция метро", "станций"], rail_station: ["Ж/д станции и МЦД", "🚆", "Ж/д станция", "станций"],
+      stop_bus_tram: ["Остановки", "🚌", "Остановка", "остановок"],
+      school: ["Школы", "🏫", "Школа", "школ"], kindergarten: ["Детские сады", "🧸", "Детский сад", "садов"],
+      playground: ["Детские площадки", "🛝", "Детская площадка", "площадок"], university: ["Вузы и колледжи", "🎓", "Учебное заведение", "вузов"],
+      park: ["Парки и скверы", "🌳", "Парк или сквер", "парков"], forest: ["Лес", "🌲", "Лесной массив", "массивов"],
+      water: ["Водоёмы", "💧", "Водоём", "водоёмов"], sport: ["Спорт", "🏃", "Спортивный объект", "объектов"],
+      grocery: ["Продукты", "🛒", "Магазин продуктов", "магазинов"], pharmacy: ["Аптеки", "💊", "Аптека", "аптек"],
+      clinic: ["Поликлиники", "🩺", "Поликлиника", "поликлиник"], hospital: ["Больницы", "🏥", "Больница", "больниц"],
+      mall: ["Торговые центры", "🛍️", "Торговый центр", "ТЦ"],
+      major_road: ["Магистрали", "🛣️", "Магистраль", "дорог"], minor_road: ["Улицы с движением", "🚗", "Улица", "улиц"],
+      railway_line: ["Ж/д пути", "🛤️", "Ж/д пути", "путей"], tram_line: ["Трамвайные пути", "🚋", "Трамвайная линия", "линий"],
+      industrial: ["Промзоны", "🏭", "Промзона", "промзон"], substation: ["Подстанции", "🔌", "Электроподстанция", "подстанций"],
+      powerline: ["ЛЭП", "⚡", "Линия электропередачи", "линий"], power_plant: ["Электростанции и ТЭЦ", "🏭", "Электростанция", "станций"],
+      landfill: ["Полигоны и свалки", "🗑️", "Полигон или свалка", "полигонов"], waste: ["Мусорные объекты", "♻️", "Мусорный объект", "объектов"],
+      fuel: ["АЗС", "⛽", "АЗС", "АЗС"], nightlife: ["Бары и клубы", "🍸", "Бар", "заведений"], construction: ["Стройки", "🏗️", "Стройплощадка", "строек"],
+      cemetery: ["Кладбища", "🪦", "Кладбище", "кладбищ"], prison: ["Учреждения ФСИН", "🔒", "Учреждение ФСИН", "учреждений"],
+      psychiatric: ["ПНД и наркодиспансеры", "🏥", "Диспансер", "учреждений"], aerodrome: ["Аэропорты и аэродромы", "✈️", "Аэродром", "аэродромов"]
+    };
+    // distance below which an object "interferes"
+    var NEAR = { major_road: 150, minor_road: 60, railway_line: 300, tram_line: 100, industrial: 500, substation: 50, powerline: 200, power_plant: 1000,
+      landfill: 3000, waste: 500, fuel: 100, nightlife: 100, construction: 200, cemetery: 300, prison: 500, psychiatric: 300, aerodrome: 5000 };
+    var GROUPS = [
+      ["Транспорт", "🚉", ["metro", "rail_station", "stop_bus_tram"], false],
+      ["Дети", "🎒", ["school", "kindergarten", "playground", "university"], false],
+      ["Отдых", "🌿", ["park", "forest", "water", "sport"], false],
+      ["Быт", "🏪", ["grocery", "pharmacy", "clinic", "hospital", "mall"], false],
+      ["Что может мешать", "⚠️", ["major_road", "railway_line", "tram_line", "industrial", "substation", "powerline", "power_plant", "landfill", "waste", "fuel", "nightlife", "construction", "cemetery", "prison", "psychiatric", "aerodrome", "minor_road"], true]
+    ];
+    function osmUrl(it) { return safeUrl(it.url) || (it.osm ? "https://www.openstreetmap.org/" + it.osm : null); }
+    function within(k, r) {
+      var c = (G.counts || {})[k];
+      if (c && typeof c === "object") return isNum(c[String(r)]) ? c[String(r)] : null;
+      return arr(cats[k]).filter(function (x) { return isNum(x.distance_m) && x.distance_m <= r; }).length;
+    }
+    var FORMS = { stop_bus_tram: ["остановка", "остановки", "остановок"], metro: ["вход", "входа", "входов"], rail_station: ["станция", "станции", "станций"],
+      school: ["корпус", "корпуса", "корпусов"], kindergarten: ["корпус", "корпуса", "корпусов"], park: ["участок", "участка", "участков"] };
+    function plural(n, k) {
+      var f = FORMS[k] || ["объект", "объекта", "объектов"], m10 = n % 10, m100 = n % 100;
+      var w = (m10 === 1 && m100 !== 11) ? f[0] : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? f[1] : f[2];
+      return n + " " + w;
+    }
+    function catRow(k, neg) {
+      var list = arr(cats[k]).filter(function (x) { return isNum(x.distance_m); }).sort(function (a, b) { return a.distance_m - b.distance_m; });
+      if (!list.length) return null;
+      var m = GEO[k] || [k, "•", "Объект", "объектов"];
+      var first = list[0];
+      // collapse identical names
+      var byName = {}, order = [];
+      list.forEach(function (x) { var n = x.name || ""; if (!byName[n]) { byName[n] = []; order.push(n); } byName[n].push(x); });
+      var nm = first.name || m[2];
+      var same = byName[first.name || ""].length;
+      var url = osmUrl(first);
+      var extra = [];
+      order.filter(function (n) { return n && n !== (first.name || ""); }).slice(0, 2).forEach(function (n) { extra.push(n + " (" + meters(byName[n][0].distance_m) + ")"); });
+      var n1k = within(k, 1000);
+      var more = isNum(n1k) && n1k > 1 && ["substation", "minor_road", "powerline"].indexOf(k) < 0 ? "всего в 1 км: " + n1k : null;
+      var ex = [extra.length ? "также: " + extra.join(", ") : null, more].filter(Boolean).join(" · ");
+      var near = neg && NEAR[k] && first.distance_m <= NEAR[k];
+      return h("div", { class: "env-row" },
+        h("span", { class: "ei", text: m[1] }),
+        h("div", null, h("div", { class: "el", text: m[0] }),
+          h("div", { class: "en" }, url ? h("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: nm, style: "color:inherit" }) : nm,
+            first.name && same > 1 ? h("span", { class: "muted small", text: ", " + plural(same, k) }) : null),
+          ex ? h("div", { class: "ex", text: ex }) : null),
+        h("span", { class: "ed num" + (near ? " near" : ""), text: meters(first.distance_m) }));
+    }
+
+    var lat = isNum(O.lat) ? O.lat : (G.center || {}).lat, lon = isNum(O.lon) ? O.lon : (G.center || {}).lon;
+    var card = h("div", { class: "card" });
+    if (isNum(lat) && isNum(lon)) {
+      var bt = h("div", { class: "btns", style: "margin-bottom:14px" },
+        link("https://yandex.ru/maps/?pt=" + lon + "," + lat + "&z=16&l=map", "📍 Яндекс Карты ↗"),
+        link("https://2gis.ru/geo/" + lon + "," + lat, "📍 2ГИС ↗"),
+        link("https://www.openstreetmap.org/?mlat=" + lat + "&mlon=" + lon + "#map=16/" + lat + "/" + lon, "📍 OpenStreetMap ↗"));
+      var bb = bt.querySelectorAll("a"); for (var b = 0; b < bb.length; b++) bb[b].className = "btn";
+      card.appendChild(bt);
+    }
+
+    var linear = ["major_road", "railway_line", "tram_line", "powerline"];
+    var partial = G.partial === true || (arr(G.errors).length > 0 && !linear.some(function (k) { return arr(cats[k]).length; }));
+
+    // noise
+    var dbv = isNum(ne.est_db_combined) ? ne.est_db_combined : ne.est_db_max;
+    if (isNum(dbv) || arr(ne.sources).length) {
+      var lo = 35, hi = 80, posv = Math.max(lo, Math.min(hi, isNum(dbv) ? dbv : lo));
+      var zone = !isNum(dbv) ? "" : dbv < 45 ? "тихо" : dbv < 55 ? "норма" : dbv < 65 ? "шумно" : "очень шумно";
+      var colr = !isNum(dbv) ? "var(--muted)" : dbv < 45 ? "var(--good)" : dbv < 55 ? "var(--ok)" : dbv < 65 ? "var(--warn)" : "var(--bad)";
+      var disc = Array.isArray(ne.price_discount_pct) ? ne.price_discount_pct : null;
+      var discTxt = disc && (disc[1] > 0 || disc[0] > 0) ? "Снижает цену примерно на " + dec(disc[0], 1) + "–" + dec(disc[1], 1) + "%" : "На цену не влияет";
+      var srcs = arr(ne.sources).map(function (s) {
+        var kind = { road_motorway: "трасса", road_trunk: "магистраль", road_primary: "крупная улица", road_secondary: "улица с движением", road_tertiary: "улица", rail: "ж/д", tram: "трамвай", aircraft: "самолёты" }[s.kind] || "";
+        if (kind && s.name && String(s.name).toLowerCase().indexOf(kind) >= 0) kind = "";
+        return h("li", null, (s.name || "Источник шума") + (kind ? " (" + kind + ")" : "") + ": " + meters(s.distance_m) + (isNum(s.est_db) ? ", около " + Math.round(s.est_db) + " дБ" : ""));
+      });
+      card.appendChild(h("div", { class: "noise-box" },
+        h("div", { class: "noise-head" }, h("b", { text: "🔊 Шум с улицы (расчёт по карте)" }),
+          h("span", null, h("span", { class: "noise-val num", style: "color:" + colr, text: isNum(dbv) ? "≈ " + Math.round(dbv) + " дБ" : "н/д" }), zone ? h("span", { class: "muted", text: " · " + zone }) : null)),
+        h("div", { class: "nscale" },
+          h("div", { class: "zones" }, h("i"), h("i"), h("i"), h("i")),
+          isNum(dbv) ? h("div", { class: "pin", style: "left:" + ((posv - lo) / (hi - lo) * 100) + "%" }, h("span", { text: Math.round(dbv) + " дБ" })) : null,
+          h("div", { class: "zlabs" }, h("span", { text: "тихо, до 45" }), h("span", { text: "норма, 45–55" }), h("span", { text: "шумно, 55–65" }), h("span", { text: "очень шумно, 65+" }))),
+        h("div", { class: "small", style: "margin-top:8px" }, h("b", { text: discTxt + "." }), " Окна во двор обычно тише на 10–20 дБ."),
+        srcs.length ? h("ul", { class: "points noise-src" }, srcs) : null,
+        partial ? h("div", { class: "env-warn", text: "⚠️ Данные о магистралях, ж/д и ЛЭП не загрузились: реальный шум от дорог может быть выше. Проверьте на месте в час пик." }) : null));
+    }
+
+    var groupsEl = h("div", { class: "env-groups" });
+    GROUPS.forEach(function (g) {
+      var rows = g[2].map(function (k) { return catRow(k, g[3]); }).filter(Boolean);
+      if (!rows.length && !g[3]) return;
+      var box = h("div", { class: "env-group" + (g[3] ? " neg" : "") }, h("h3", null, h("span", { text: g[1] }), h("span", { text: g[0] })));
+      if (rows.length) { var holder = g[3] ? h("div", { class: "env-cols" }) : box; rows.forEach(function (r) { holder.appendChild(r); }); if (g[3]) box.appendChild(holder); }
+      else box.appendChild(h("div", { class: "env-ok", text: "✓ Рядом ничего мешающего не найдено" + (partial ? " (кроме неучтённых дорог)" : "") }));
+      groupsEl.appendChild(box);
+    });
+    card.appendChild(groupsEl);
+    card.appendChild(h("div", { class: "small muted", style: "margin-top:12px", text: "Расстояния по прямой по данным OpenStreetMap" + (isNum(G.radius_m) ? ", радиус поиска " + meters(G.radius_m) : "") + ". Красным отмечено то, что слишком близко. Названия кликабельны: откроется объект на карте." }));
+    addSection("geo", "Окружение", sectionCard("geo", "Что рядом", card));
+  })();
+
+  // ---------- reviews ----------
+  (function () {
+    var hs = arr(R.house), ds = arr(R.district), site = R.site && typeof R.site === "object" ? R.site : null;
+    if (!hs.length && !ds.length && !R.house_summary && !R.district_summary && !site && !arr(R.house_points).length && !arr(R.district_points).length) return;
+    var SITE = { avito: "Авито", cian: "ЦИАН", domclick: "Домклик", yandex_realty: "Яндекс Недвижимость", yandex_maps: "Яндекс Карты", "2gis": "2ГИС" };
+    function col(title, points, summary, list, siteInfo) {
+      var pos = list.filter(function (r) { return r.sentiment === "pos"; }).length, neg = list.filter(function (r) { return r.sentiment === "neg"; }).length;
+      var siteEl = null;
+      if (siteInfo && (isNum(siteInfo.rating) || isNum(siteInfo.count) || siteInfo.url)) {
+        var nm = SITE[siteInfo.site] || siteInfo.site || hostOf(siteInfo.url || "");
+        siteEl = h("div", { class: "keybox", style: "margin:8px 0" },
+          h("div", { class: "l", text: "Рейтинг дома на " + nm }),
+          h("div", { class: "v num" }, isNum(siteInfo.rating) ? "★ " + dec(siteInfo.rating, 1) : "н/д", isNum(siteInfo.count) ? h("span", { class: "muted small", style: "font-weight:500", text: " · " + siteInfo.count + " отзывов" }) : null),
+          siteInfo.url ? h("div", { class: "s" }, srcChip(siteInfo.url, "открыть отзывы на " + nm)) : null,
+          siteInfo.blocked ? h("div", { class: "s", text: "Тексты отзывов не загрузились: откройте страницу сами." }) : null);
+      }
+      return h("div", { class: "card" },
+        h("h3", null, title, list.length ? h("span", { class: "muted small", style: "font-weight:400;margin-left:8px", text: "👍 " + pos + " · 👎 " + neg }) : null),
+        siteEl,
+        pointsEl(points, summary, null, 5),
+        list.length ? h("div", { style: "margin-top:6px" }, list.map(function (r) {
+          return h("div", { class: "rev" }, h("span", { class: "dot " + (r.sentiment || "neu") }),
+            h("div", null, h("div", { text: deJargon(r.text || "") }),
+              h("div", { class: "src" }, [topicRu(r.topic) ? h("span", { class: "tag", text: topicRu(r.topic) }) : null, r.url ? srcChip(r.url, r.source || hostOf(r.url)) : (r.source || ""), r.date ? " · " + r.date : ""])));
+        })) : (siteEl ? null : h("div", { class: "empty", text: "Отзывов не найдено" })));
+    }
+    addSection("reviews", "Отзывы", sectionCard("reviews", "Отзывы", h("div", { class: "grid2" },
+      col("О доме", R.house_points, R.house_summary, hs, site), col("О районе", R.district_points, R.district_summary, ds, null)), "пересказ, ссылки на источники"));
+  })();
+
+  // ---------- checklists ----------
+  (function () {
+    var groups = [["documents", "Документы, которые нужно запросить"], ["questions_to_seller", "Вопросы продавцу"], ["viewing", "Проверить на просмотре"]];
+    var extra = [];
+    var seenV = {};
+    arr(K.viewing).forEach(function (t) { seenV[String(t).toLowerCase()] = 1; });
+    CRIT_ORDER.forEach(function (k) { arr((C[k] || {}).check_in_person).forEach(function (t) {
+      var key = String(t).toLowerCase(); if (seenV[key]) return; seenV[key] = 1;
+      extra.push((SHORT[k] || "") + ": " + lcFirst(deJargon(t)));
+    }); });
+    var lists = {};
+    groups.forEach(function (g) { lists[g[0]] = arr(K[g[0]]).slice(); });
+    lists.viewing = lists.viewing.concat(extra);
+    if (!lists.documents.length && !lists.questions_to_seller.length && !lists.viewing.length) return;
+    var storeKey = "domoved:" + (O.listing_url || O.address || "obj");
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem(storeKey) || "{}") || {}; } catch (e) { state = {}; }
+    function save() { try { localStorage.setItem(storeKey, JSON.stringify(state)); } catch (e) { /* storage unavailable */ } }
+    var grid = h("div");
+    var top = h("div", { class: "grid2" });
+    groups.forEach(function (g) {
+      var items = lists[g[0]]; if (!items.length) return;
+      var wide = g[0] === "viewing";
+      var prog = h("span", { class: "progress" });
+      function upd() { var d = items.filter(function (_, i) { return state[g[0] + ":" + i]; }).length; prog.textContent = d + " из " + items.length; }
+      var box = h("div", { class: "card" + (wide ? " check-wide" : ""), style: wide ? "margin-top:16px" : null },
+        h("h3", { style: "display:flex;justify-content:space-between;gap:8px;margin-bottom:8px" }, h("span", { text: g[1] }), prog));
+      var listEl = h("div", { class: wide ? "check-cols" : null });
+      items.forEach(function (t, i) {
+        var id = g[0] + ":" + i;
+        var cb = h("input", { type: "checkbox" }); cb.checked = !!state[id];
+        var lab = h("label", { class: "check" + (cb.checked ? " done" : "") }, cb, h("span", { class: "box", text: "" }), h("span", { text: deJargon(t) }));
+        cb.addEventListener("change", function () { state[id] = cb.checked; lab.className = "check" + (cb.checked ? " done" : ""); save(); upd(); });
+        listEl.appendChild(lab);
+      });
+      upd();
+      box.appendChild(listEl);
+      (wide ? grid : top).appendChild(box);
+    });
+    if (top.childNodes.length) grid.insertBefore(top, grid.firstChild);
+    addSection("checklists", "Чеклисты", sectionCard("checklists", "Чеклисты перед сделкой", grid, "отметки сохраняются в этом браузере"));
+  })();
+
+  // ---------- sources & footer ----------
+  (function () {
+    var src = arr(D.sources);
+    var gaps = arr((D.meta || {}).data_gaps);
+    if (src.length || gaps.length) {
+      var card = h("div", { class: "card" });
+      if (gaps.length) card.appendChild(h("div", { style: "margin-bottom:12px" }, h("h3", { style: "margin-bottom:6px", text: "Пробелы в данных" }), h("ul", { class: "ev muted" }, gaps.map(function (g) { return h("li", { text: g }); }))));
+      if (src.length) card.appendChild(h("div", null, h("h3", { style: "margin-bottom:6px", text: "Источники" }),
+        h("ul", { class: "ev" }, src.map(function (s) { return h("li", null, link(s.url, s.title || hostOf(s.url)) || (s.title || "")); }))));
+      addSection("sources", "Источники", sectionCard("sources", "Источники", card));
+    }
+    document.getElementById("footer").appendChild(h("div", null,
+      h("p", { text: "Отчёт Домоведа носит информационный характер. Он не является индивидуальной инвестиционной рекомендацией, юридической консультацией или отчётом об оценке по 135-ФЗ. Перед сделкой проверьте документы с юристом и закажите выписки ЕГРН." }),
+      h("p", { text: "Расстояния: OpenStreetMap. Поправки и эффекты: российская оценочная практика и зарубежные исследования (см. методику плагина)." })));
+  })();
+
+
+  // ---------- nav ----------
+  (function () {
+    var nl = document.getElementById("navlinks");
+    var links = navItems.map(function (n) { var el = h("a", { href: "#" + n[0], text: n[1] }); nl.appendChild(el); return el; });
+    if ("IntersectionObserver" in window) {
+      var obs = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          links.forEach(function (a) { a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id); });
+        });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+      navItems.forEach(function (n) { var el = document.getElementById(n[0]); if (el) obs.observe(el); });
+    }
+    function openHash() {
+      if (location.hash === "#print") { openAll(); return; }
+      var t = location.hash && document.getElementById(location.hash.slice(1)); if (t && t.tagName === "DETAILS") t.open = true;
+    }
+    window.addEventListener("hashchange", openHash); openHash();
+  })();
+
+})();
+</script>
+</body>
+</html>
