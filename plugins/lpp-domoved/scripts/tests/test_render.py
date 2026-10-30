@@ -109,8 +109,18 @@ class RenderHtmlTest(unittest.TestCase):
 
     def test_verdict_summary_and_fact_dates(self):
         html = rr.render_html(load_sample())
-        for part in ("verdict-sum", "Как посчитан балл", "VERDICT_TEXT", "function factDate", "fdate-old", "dateLegend()"):
+        for part in ("verdict-sum", "sum-list", "Как посчитан балл", "Как считается итог", "VERDICT_TEXT", "function factDate", "fdate-old", "dateLegend()"):
             self.assertIn(part, html)
+
+    def test_pros_cons_colors_in_every_theme(self):
+        with open(rr.TEMPLATE, encoding="utf-8") as fh:
+            tpl = fh.read()
+        css = tpl[:tpl.index("</style>")]
+        # light, two dark blocks and print
+        self.assertEqual(css.count("--good-text:"), 4)
+        self.assertEqual(css.count("--bad-text:"), 4)
+        self.assertIn(".pc.good h3, .pc.good h4", css)
+        self.assertIn(".pc.bad h3, .pc.bad h4", css)
 
     def test_print_css_keeps_dark_theme(self):
         with open(rr.TEMPLATE, encoding="utf-8") as fh:
@@ -298,6 +308,8 @@ def section(dom, sid):
 
 
 def text_of(fragment):
+    # number highlights are inline: drop them without adding a space
+    fragment = re.sub(r'<span class="n">(.*?)</span>', r"\1", fragment)
     return re.sub(r"<[^>]+>", " ", fragment)
 
 
@@ -324,10 +336,29 @@ class DomTest(unittest.TestCase):
                                      "Экспозиция 2 дня, медиана района 185 882 ₽/м². Ставка ипотеки снижает спрос.")
         d["investment"]["comment_points"] = ["Аренда около 46 тыс. ₽", "Чистая доходность 3,3%"]
         d["criteria"]["noise"]["pros"] = [{"text": "Окна во двор", "url": "https://example.org/proof"}, "Монолит"]
+        d["criteria"]["noise"]["cons"] = [{"text": "Слышно соседей", "url": "https://example.org/r1", "date": "2025-06"}]
+        d["criteria"]["building"]["cons"] = [{"text": "Грязно в холлах", "url": "https://example.org/r2", "date": "2021"}]
         cls.dom = dump_dom(d, theme="dark")
 
     def test_theme_applied(self):
         self.assertIn('data-theme="dark"', self.dom)
+
+    def test_date_legend_once(self):
+        self.assertEqual(self.dom.count('class="fdate-legend"'), 1)
+
+    def test_numbers_highlighted(self):
+        self.assertIn('<span class="n">199 342 ₽/м²</span>', section(self.dom, "price"))
+
+    def test_score_calc_is_one_line(self):
+        summary = section(self.dom, "summary")
+        self.assertIn("calc-line", summary)
+        self.assertNotIn("Покрытие данных</b>", summary)
+        self.assertIn("Как считается итог", section(self.dom, "criteria"))
+
+    def test_price_why_block(self):
+        t = text_of(section(self.dom, "price"))
+        self.assertIn("Продавец просит за м²", t)
+        self.assertIn("Обычно в районе за м²", t)
 
     def test_env_groups_human_labels(self):
         geo = text_of(section(self.dom, "geo"))

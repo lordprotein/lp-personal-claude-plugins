@@ -44,6 +44,28 @@ class StyleTest(unittest.TestCase):
         w = validate.check_style(a)
         self.assertTrue(any(x.startswith("noise.cons[0]: date") for x in w))
 
+    def test_review_facts_need_dates(self):
+        a = base()
+        a["reviews"] = {"house": [{"text": "Грязно в холлах", "sentiment": "neg", "url": "https://www.avito.ru/rev"},
+                                  {"text": "Чат жильцов", "sentiment": "pos", "url": "https://www.avito.ru/rev", "date": "2025-07"}]}
+        a["criteria"]["building"]["cons"] = [{"text": "Периодически грязно в холлах лифтов", "url": "https://www.avito.ru/rev"}]
+        a["criteria"]["noise"]["cons"] = [{"text": "На слышимость жалуются 3 из 9", "url": "https://e.ru/x"}]
+        a["criteria"]["kids"]["pros"] = [{"text": "Школа в 300 м", "url": "https://e.ru/s"}]
+        w = validate.check_style(a)
+        self.assertTrue(any(x.startswith("reviews.house[0]: review without date") for x in w))
+        self.assertFalse(any(x.startswith("reviews.house[1]") for x in w))
+        self.assertTrue(any(x.startswith("building.cons[0]: fact from reviews") for x in w))
+        self.assertTrue(any(x.startswith("noise.cons[0]: fact from reviews") for x in w))
+        self.assertFalse(any(x.startswith("kids.") for x in w))
+
+    def test_price_jargon(self):
+        a = base()
+        a["valuation"] = {"comment_points": ["Аналог в том же доме: 49,5 м²", "Экспозиция превысит 150 дней", "Похожая квартира дешевле"]}
+        w = validate.check_style(a)
+        self.assertTrue(any(x.startswith("valuation.comment_points[0]") for x in w))
+        self.assertTrue(any(x.startswith("valuation.comment_points[1]") for x in w))
+        self.assertFalse(any(x.startswith("valuation.comment_points[2]") for x in w))
+
     def test_jargon_and_numbers(self):
         a = base()
         a["valuation"] = {"comment": "все аналоги в пределах net 15%", "comment_points": ["цена 10.57 млн", "199,342 ₽/м²"]}

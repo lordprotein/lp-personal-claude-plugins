@@ -23,6 +23,8 @@
   --warn-soft: #fbf0dc;
   --bad-soft: #fbe5e2;
   --none: #a5a39d;
+  --good-text: #2a6b45;
+  --bad-text: #a3402f;
   --radar-fill: rgba(47, 93, 80, .18);
   --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.04);
   --radius: 14px;
@@ -33,7 +35,7 @@
     --bg: #141513; --surface: #1c1d1b; --surface-2: #252623; --text: #ecebe6; --muted: #9c9a93;
     --line: #33342f; --accent: #7fc0a8; --accent-soft: #1f2e29;
     --good: #5cc287; --ok: #9fcb6b; --warn: #e3a948; --bad: #ef7466;
-    --good-soft: #1b2e22; --ok-soft: #232c19; --warn-soft: #33281a; --bad-soft: #3a1f1c;
+    --good-soft: #1b2e22; --ok-soft: #232c19; --warn-soft: #33281a; --bad-soft: #3a1f1c; --good-text: #8fd4a8; --bad-text: #f2a49a;
     --none: #6d6b66; --radar-fill: rgba(127, 192, 168, .2); --shadow: none; color-scheme: dark;
   }
 }
@@ -41,7 +43,7 @@
   --bg: #141513; --surface: #1c1d1b; --surface-2: #252623; --text: #ecebe6; --muted: #9c9a93;
   --line: #33342f; --accent: #7fc0a8; --accent-soft: #1f2e29;
   --good: #5cc287; --ok: #9fcb6b; --warn: #e3a948; --bad: #ef7466;
-  --good-soft: #1b2e22; --ok-soft: #232c19; --warn-soft: #33281a; --bad-soft: #3a1f1c;
+  --good-soft: #1b2e22; --ok-soft: #232c19; --warn-soft: #33281a; --bad-soft: #3a1f1c; --good-text: #8fd4a8; --bad-text: #f2a49a;
   --none: #6d6b66; --radar-fill: rgba(127, 192, 168, .2); --shadow: none; color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -139,12 +141,6 @@ section { padding: 22px 0; }
 .chip { font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
 .chip b { color: var(--text); font-weight: 600; }
 .verdict-sum { margin: 10px 0 0; max-width: 70ch; font-size: 15px; line-height: 1.5; }
-.calc { margin: 10px 0 4px; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; font-size: 13px; color: var(--muted); }
-.calc .formula { color: var(--text); }
-.calc .formula b { font-weight: 700; }
-.calc ul { margin: 6px 0 0; padding-left: 18px; }
-.calc li { margin: 2px 0; }
-.calc li b { color: var(--text); font-weight: 600; }
 .alert { border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; }
 .alert-stop { background: var(--bad-soft); color: var(--bad); border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); }
 .alert-major { background: var(--warn-soft); color: var(--warn); border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent); }
@@ -160,6 +156,48 @@ section { padding: 22px 0; }
 .pros li::before { content: "+"; color: var(--good); }
 .cons li::before { content: "−"; color: var(--bad); }
 .checks li::before { content: "→"; color: var(--accent); }
+/* pros / cons: a lightly tinted panel per side, one item per row, date and source on their own line */
+.pc { border-radius: 12px; padding: 10px 14px 6px; border: 1px solid; }
+.pc.good { background: color-mix(in srgb, var(--good) 6%, var(--surface)); border-color: color-mix(in srgb, var(--good) 20%, transparent); }
+.pc.bad { background: color-mix(in srgb, var(--bad) 6%, var(--surface)); border-color: color-mix(in srgb, var(--bad) 20%, transparent); }
+.short .pc h3, .crit-body .pc h4 { margin: 0 0 2px; }
+.pc.good h3, .pc.good h4 { color: var(--good-text); }
+.pc.bad h3, .pc.bad h4 { color: var(--bad-text); }
+.pc .list-plain li { padding: 8px 0 8px 22px; line-height: 1.45; }
+.pc .list-plain li + li { border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+.pc .list-plain li::before { top: 8px; }
+.pc .empty { padding: 6px 0 8px; }
+.it-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.it-meta .fdate, .it-meta .src-mini { margin-left: 0; }
+.chip.c-good b { color: var(--good-text); }
+.chip.c-warn b { color: var(--warn); }
+.chip.c-bad b { color: var(--bad-text); }
+.n { font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.detail .n, .muted .n, .s .n, .howto .n, .calc-line .n { color: var(--text); }
+.calc-line { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+.calc-line b { color: var(--text); font-weight: 650; }
+.sum-list { margin: 10px 0 0; padding-left: 18px; max-width: 70ch; font-size: 15px; line-height: 1.5; }
+.sum-list li { margin: 3px 0; }
+.howto { margin-top: 14px; font-size: 13px; color: var(--muted); }
+.howto > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+.howto ul { margin: 6px 0 0; padding-left: 18px; }
+.howto li { margin: 3px 0; }
+.howto li b { color: var(--text); font-weight: 600; }
+.why { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; margin-top: 16px; }
+.why h3 { font-size: 14px; margin-bottom: 6px; }
+.why-grid { display: grid; grid-template-columns: 1fr auto; font-size: 14px; }
+.why-grid > span { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.why-grid > span.last { border-bottom: 0; }
+.why-grid .wv { font-weight: 650; white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; }
+.why-grid .wv { padding-left: 12px; }
+.why-grid .cmp { margin-right: 10px; }
+.why-grid .total { font-weight: 600; }
+.why-grid .wv.total { color: var(--bad-text); }
+.why-grid .wv.total.good { color: var(--good-text); }
+.cmp { font-size: 12px; font-weight: 600; padding: 1px 6px; border-radius: 6px; white-space: nowrap; }
+.cmp.down { color: var(--bad-text); background: var(--bad-soft); }
+.cmp.up { color: var(--good-text); background: var(--good-soft); }
+.cmp.eq { color: var(--muted); background: var(--surface); }
 
 /* criteria overview */
 .overview { display: grid; grid-template-columns: minmax(260px, 380px) 1fr; gap: 24px; align-items: center; }
@@ -370,7 +408,7 @@ li.is-old, .rev.is-old { opacity: .62; }
   :root:not([data-theme="dark"]) {
     --bg: #ffffff; --surface: #ffffff; --surface-2: #f2f1ed; --text: #1d1d1b; --muted: #5f5e5a; --line: #dedbd3;
     --accent: #2f5d50; --accent-soft: #e3eee9; --good: #2e7d4f; --ok: #4f7d2e; --warn: #a86d12; --bad: #b8352a;
-    --good-soft: #e3f2e8; --ok-soft: #ecf3e2; --warn-soft: #fbf0dc; --bad-soft: #fbe5e2; --none: #9a9892;
+    --good-soft: #e3f2e8; --ok-soft: #ecf3e2; --warn-soft: #fbf0dc; --bad-soft: #fbe5e2; --none: #9a9892; --good-text: #24603d; --bad-text: #9c3a2b;
     --radar-fill: rgba(47, 93, 80, .18); --shadow: none; color-scheme: light;
   }
   html, body, * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -590,6 +628,20 @@ li.is-old, .rev.is-old { opacity: .62; }
     if (buf.trim()) parts.push(buf.trim());
     return parts.map(function (p) { return p.replace(/[;.]$/, ""); }).filter(Boolean);
   }
+  // numbers with units get a light highlight so they do not get lost in the text
+  var NUM_RE = /(?<![\wа-яё])[−+-]?(?:\d{1,3}(?:[ \u00a0\u202f]\d{3})+|\d+)(?:[.,]\d+)?(?:\s?[–-]\s?(?:\d{1,3}(?:[ \u00a0\u202f]\d{3})+|\d+)(?:[.,]\d+)?)?(?:[ \u00a0](?:млрд|млн|тыс\.?))?(?:[ \u00a0]?(?:₽\/м²|₽|%|п\.п\.|м²|дБ|км|мин\.?|дн\.|дней|дня|день|лет|года|год|г\.|м(?![а-яё])))?(?![\wа-яё])/gi;
+  function rich(text) {
+    var t = text == null ? "" : String(text), out = [], last = 0, m;
+    NUM_RE.lastIndex = 0;
+    while ((m = NUM_RE.exec(t))) {
+      if (!m[0]) { NUM_RE.lastIndex++; continue; }
+      if (m.index > last) out.push(t.slice(last, m.index));
+      out.push(h("span", { class: "n", text: m[0] }));
+      last = m.index + m[0].length;
+    }
+    if (last < t.length) out.push(t.slice(last));
+    return out;
+  }
   function toPoints(points, text, max) {
     max = max || 6;
     var list = arr(points).map(deJargon).filter(Boolean);
@@ -599,12 +651,12 @@ li.is-old, .rev.is-old { opacity: .62; }
   function pointsEl(points, text, cls, max) {
     var list = toPoints(points, text, max);
     if (!list.length) return null;
-    return h("ul", { class: "points" + (cls ? " " + cls : "") }, list.map(function (p) { return h("li", { text: p }); }));
+    return h("ul", { class: "points" + (cls ? " " + cls : "") }, list.map(function (p) { return h("li", null, rich(p)); }));
   }
   // short text as a paragraph, long text as a list
   function para(text, cls) {
     var t = deJargon(text); if (!t) return null;
-    if (t.length <= 240) return h("p", { class: cls || null, style: "margin:0", text: t });
+    if (t.length <= 240) return h("p", { class: cls || null, style: "margin:0" }, rich(t));
     return pointsEl(null, t, cls);
   }
   var TOPIC = { transport: "транспорт", traffic: "пробки", ecology: "экология", kids: "дети", school: "школы", schools: "школы", noise: "шум",
@@ -659,7 +711,10 @@ li.is-old, .rev.is-old { opacity: .62; }
     return { cls: cls, label: label, el: h("span", { class: "fdate fdate-" + cls, title: hint, text: label }) };
   }
   function itemDate(x) { return x && typeof x === "object" ? factDate(x.date) : null; }
+  var legendShown = false;
   function dateLegend() {
+    if (legendShown) return null;
+    legendShown = true;
     return h("div", { class: "fdate-legend" }, "Дата факта: ",
       h("span", { class: "fdate fdate-fresh", text: "до года" }), " ",
       h("span", { class: "fdate fdate-aging", text: "от 1 до 3 лет, перепроверить" }), " ",
@@ -668,7 +723,9 @@ li.is-old, .rev.is-old { opacity: .62; }
   function itemList(list, cls) {
     return h("ul", { class: "list-plain " + cls }, list.map(function (x) {
       var fd = itemDate(x);
-      return h("li", { class: fd && fd.cls === "old" ? "is-old" : null }, itemText(x), fd ? fd.el : null, srcMini(itemUrl(x)));
+      var src = srcMini(itemUrl(x));
+      return h("li", { class: fd && fd.cls === "old" ? "is-old" : null }, h("div", null, rich(itemText(x))),
+        fd || src ? h("div", { class: "it-meta" }, fd ? fd.el : null, src) : null);
     }));
   }
   function critSources(c) {
@@ -864,7 +921,7 @@ li.is-old, .rev.is-old { opacity: .62; }
 
     function flagList(list) {
       return h("ul", null, list.map(function (f) {
-        return h("li", null, h("span", { text: deJargon(f.title) }), srcMini(f.source_url), f.detail ? h("div", { class: "detail", text: splitSentences(f.detail).slice(0, 2).join(". ") }) : null);
+        return h("li", null, h("span", null, rich(deJargon(f.title))), srcMini(f.source_url), f.detail ? h("div", { class: "detail" }, rich(splitSentences(f.detail).slice(0, 2).join(". "))) : null);
       }));
     }
     if (stopFlags.length) right.appendChild(h("div", { class: "alert alert-stop" },
@@ -876,51 +933,43 @@ li.is-old, .rev.is-old { opacity: .62; }
     var scored = CRIT_ORDER.map(critInfo).filter(function (it) { return isNum(it.score); });
     var nStop = Math.max(stopFlags.length, arr(S.stop_flags).length), nMajor = Math.max(majorFlags.length, arr(S.major_flags).length);
     var sum = [];
-    if (VERDICT_TEXT[S.verdict_code]) sum.push(VERDICT_TEXT[S.verdict_code]);
-    var why = [];
-    if (isNum(V.over_under_pct) && Math.abs(V.over_under_pct) > 3) why.push("цена на " + pct(Math.abs(V.over_under_pct)) + (V.over_under_pct > 0 ? " выше" : " ниже") + " рынка");
-    if (nStop) why.push(ruN(nStop, ["стоп-фактор", "стоп-фактора", "стоп-факторов"]) + (stopFlags[0] ? " (" + lcFirst(deJargon(stopFlags[0].title)) + ")" : ""));
-    if (nMajor) why.push(ruN(nMajor, ["серьёзный риск", "серьёзных риска", "серьёзных рисков"]) + (majorFlags[0] ? " (" + lcFirst(deJargon(majorFlags[0].title)) + (nMajor > 1 ? " и другие" : "") + ")" : ""));
-    if (why.length) sum.push(ucFirst(why.join(", ")) + ".");
+    if (isNum(V.over_under_pct) && Math.abs(V.over_under_pct) > 3) {
+      var diff = isNum(V.fair_price) && isNum(V.asking_price || O.price) ? Math.abs((V.asking_price || O.price) - V.fair_price) : null;
+      sum.push("Цена на " + pct(Math.abs(V.over_under_pct)) + (V.over_under_pct > 0 ? " выше" : " ниже") + " рынка" +
+        (diff ? (V.over_under_pct > 0 ? ": переплата около " : ": выгода около ") + money(diff) : ""));
+    }
+    // the flags themselves are listed in the alerts right above and below
+    if (nStop) sum.push(ruN(nStop, ["стоп-фактор", "стоп-фактора", "стоп-факторов"]) + ": покупать нельзя, пока не сняты (список выше)");
+    if (nMajor) sum.push(ruN(nMajor, ["серьёзный риск", "серьёзных риска", "серьёзных рисков"]) + ", каждый снижает итог (список ниже)");
     if (scored.length >= 3) {
       var byScore = scored.slice().sort(function (a, b) { return (b.score - a.score) || ((b.weight || 0) - (a.weight || 0)); });
       var best = byScore[0], worst = byScore[byScore.length - 1];
-      if (best.score - worst.score >= 1) sum.push("Сильнее всего: " + lcFirst(SHORT[best.key] || best.title) + " (" + dec(best.score, 1) + "), слабее всего: " + lcFirst(SHORT[worst.key] || worst.title) + " (" + dec(worst.score, 1) + ").");
+      if (best.score - worst.score >= 1) sum.push("Сильнее всего: " + lcFirst(SHORT[best.key] || best.title) + " " + dec(best.score, 1) + " · слабее всего: " + lcFirst(SHORT[worst.key] || worst.title) + " " + dec(worst.score, 1));
     }
-    if (sum.length) right.appendChild(h("p", { class: "verdict-sum", text: sum.join(" ") }));
+    if (VERDICT_TEXT[S.verdict_code]) right.appendChild(h("p", { class: "verdict-sum", text: VERDICT_TEXT[S.verdict_code] }));
+    if (sum.length) right.appendChild(h("ul", { class: "sum-list" }, sum.map(function (t) { return h("li", null, rich(ucFirst(t))); })));
 
     var chips = h("div", { class: "chips" });
-    chips.appendChild(h("span", { class: "chip" }, "Уверенность: ", h("b", { text: CONF[S.confidence] || "н/д" })));
-    if (isNum(S.coverage)) chips.appendChild(h("span", { class: "chip" }, "Покрытие данных: ", h("b", { text: Math.round(S.coverage * 100) + "%" })));
-    if (arr(S.missing).length) chips.appendChild(h("span", { class: "chip" }, "Нет данных: ", h("b", { text: S.missing.map(function (k) { return SHORT[k] || k; }).join(", ") })));
+    // the value is colored by how good it is
+    var confCls = { high: "c-good", medium: "c-warn", low: "c-bad" }[S.confidence] || "";
+    chips.appendChild(h("span", { class: "chip " + confCls }, "Уверенность: ", h("b", { text: CONF[S.confidence] || "н/д" })));
+    if (isNum(S.coverage)) chips.appendChild(h("span", { class: "chip " + (S.coverage >= 0.8 ? "c-good" : S.coverage >= 0.5 ? "c-warn" : "c-bad") }, "Покрытие данных: ", h("b", { text: Math.round(S.coverage * 100) + "%" })));
+    if (arr(S.missing).length) chips.appendChild(h("span", { class: "chip c-warn" }, "Нет данных: ", h("b", { text: S.missing.map(function (k) { return SHORT[k] || k; }).join(", ") })));
     right.appendChild(chips);
 
-    // how the total was calculated
+    // how the total was calculated: one line here, the explanation sits next to the criteria
     if (isNum(S.raw_total) && isNum(total)) {
-      var profileName = S.profile_title ? " профиля «" + S.profile_title + "»" : " профиля";
-      var base = "средний балл по " + ruN(scored.length, ["критерию", "критериям", "критериям"]) + " с учётом весов" + profileName + " и надёжности данных";
-      var hasPenalty = isNum(S.penalty) && S.penalty > 0;
-      var formula = h("div", { class: "formula" }), notes = [];
-      if (!hasPenalty && !S.capped) {
-        formula.appendChild(h("span", null, "Итог ", h("b", { text: dec(total, 1) }), ": " + base + ". Штрафов нет."));
-      } else {
-        formula.appendChild(h("span", null, ucFirst(base) + ": ", h("b", { text: dec(S.raw_total, 1) })));
-        if (hasPenalty) {
-          var per = isNum(S.penalty_per_flag) ? S.penalty_per_flag : (nMajor ? S.penalty / nMajor : null);
-          var rule = per ? " (по " + dec(per, 1) + " за каждый" + (isNum(S.penalty_max) ? ", всего не больше " + dec(S.penalty_max, 1) : "") + ")" : "";
-          formula.appendChild(h("span", null, " → минус ", h("b", { text: dec(S.penalty, 1) }), " за " + (nMajor ? ruN(nMajor, ["серьёзный риск", "серьёзных риска", "серьёзных рисков"]) : "серьёзные риски") + rule));
-          notes.push(["Штраф за риски", "серьёзные риски снижают итог, даже если по отдельным критериям объект выглядит хорошо. Риск перестаёт штрафовать, когда его сняли документами или проверкой."]);
-        }
-        if (S.capped) {
-          formula.appendChild(h("span", null, " → стоп-фактор ограничивает итог: не выше " + (isNum(S.stop_flag_cap) ? dec(S.stop_flag_cap, 1) : dec(total, 1))));
-          notes.push(["Стоп-фактор", "риск, при котором покупать нельзя, пока его не сняли. С ним итог не поднимется выше порога, как бы хорошо ни выглядело остальное."]);
-        }
-        formula.appendChild(h("span", null, " → итог ", h("b", { text: dec(total, 1) }), "."));
+      var hasPenalty = isNum(S.penalty) && S.penalty > 0, line = h("div", { class: "calc-line" }, "Как посчитан балл: ");
+      if (!hasPenalty && !S.capped) add(line, ["средний по критериям с учётом весов ", h("b", { text: dec(total, 1) }), ", штрафов нет"]);
+      else {
+        add(line, ["средний по критериям ", h("b", { text: dec(S.raw_total, 1) })]);
+        if (hasPenalty) add(line, [" − ", h("b", { text: dec(S.penalty, 1) }), " за " + (nMajor ? ruN(nMajor, ["серьёзный риск", "серьёзных риска", "серьёзных рисков"]) : "серьёзные риски")]);
+        if (S.capped) add(line, ", стоп-фактор ограничивает итог");
+        add(line, [" = ", h("b", { text: dec(total, 1) })]);
       }
-      notes.push(["Покрытие данных", "какая доля веса критериев подкреплена найденными данными."]);
-      notes.push(["Уверенность", "насколько полны и надёжны источники. Критерии с низкой уверенностью меньше влияют на итог."]);
-      right.appendChild(h("div", { class: "calc" }, h("b", { text: "Как посчитан балл" }), formula,
-        h("ul", null, notes.map(function (n) { return h("li", null, h("b", { text: n[0] }), ": " + n[1]); }))));
+      add(line, ". ");
+      add(line, h("a", { href: "#criteria", text: "Подробнее" }));
+      right.appendChild(line);
     }
 
     if (majorFlags.length) right.appendChild(h("div", { class: "alert alert-major", style: "margin-top:12px" }, h("b", { text: "Серьёзные риски" }), flagList(majorFlags)));
@@ -953,9 +1002,9 @@ li.is-old, .rev.is-old { opacity: .62; }
     right.appendChild(key);
 
     if (pros.length || cons.length) right.appendChild(h("div", { class: "short" },
-      h("div", null, h("h3", { text: "Сильные стороны" }), itemList(pros, "pros")),
-      h("div", null, h("h3", { text: "Риски" }), itemList(cons, "cons"))));
-    if (pros.concat(cons).some(function (x) { return !!itemDate(x); })) right.appendChild(dateLegend());
+      h("div", { class: "pc good" }, h("h3", { text: "Сильные стороны" }), pros.length ? itemList(pros, "pros") : h("div", { class: "empty", text: "нет" })),
+      h("div", { class: "pc bad" }, h("h3", { text: "Риски" }), cons.length ? itemList(cons, "cons") : h("div", { class: "empty", text: "нет" }))));
+    if (pros.concat(cons).some(function (x) { return !!itemDate(x); })) add(right, dateLegend());
 
     // what to do next
     var next = [];
@@ -970,7 +1019,7 @@ li.is-old, .rev.is-old { opacity: .62; }
     if (!view.length) CRIT_ORDER.forEach(function (k) { arr((C[k] || {}).check_in_person).forEach(function (t) { if (view.length < 2) view.push(t); }); });
     view.slice(0, 2).forEach(function (t) { next.push("На просмотре: " + lcFirst(deJargon(t))); });
     var heroCard = h("div", { class: "card" }, h("div", { class: "hero" }, ring, right),
-      next.length ? h("div", { class: "next" }, h("h3", { text: "Что сделать дальше" }), h("ol", null, next.slice(0, 6).map(function (t) { return h("li", { text: t }); }))) : null);
+      next.length ? h("div", { class: "next" }, h("h3", { text: "Что сделать дальше" }), h("ol", null, next.slice(0, 6).map(function (t) { return h("li", null, rich(t)); }))) : null);
 
     addSection("summary", "Итог", h("section", { id: "summary" }, heroCard));
   })();
@@ -1008,13 +1057,26 @@ li.is-old, .rev.is-old { opacity: .62; }
     var legend = h("div", { class: "legend" },
       h("span", null, confDot("high"), "высокая уверенность"), h("span", null, confDot("medium"), "средняя"),
       h("span", null, confDot("low"), "низкая"), h("span", null, confDot("none"), "нет данных, проверить лично"));
-    var card = h("div", { class: "card overview" }, h("div", { class: "radar" }, s), h("div", null, rows, legend));
+    // how the total is calculated (the summary keeps only a one-line formula)
+    var notes = [], profileName = S.profile_title ? " профиля «" + S.profile_title + "»" : " профиля";
+    notes.push(["Средний балл", "по критериям с баллом, с учётом весов" + profileName + " (процент у критерия) и надёжности данных."]);
+    if (isNum(S.penalty) && S.penalty > 0) {
+      var per = isNum(S.penalty_per_flag) ? S.penalty_per_flag : null;
+      notes.push(["Штраф за риски", (per ? "по " + dec(per, 1) + " за каждый серьёзный риск" + (isNum(S.penalty_max) ? ", всего не больше " + dec(S.penalty_max, 1) : "") + ". " : "") +
+        "Риски снижают итог, даже если по отдельным критериям объект выглядит хорошо. Штраф снимается, когда риск закрыт документами или проверкой."]);
+    }
+    if (S.capped) notes.push(["Стоп-фактор", "риск, при котором покупать нельзя, пока его не сняли. С ним итог не выше " + (isNum(S.stop_flag_cap) ? dec(S.stop_flag_cap, 1) : "порога") + ", как бы хорошо ни выглядело остальное."]);
+    notes.push(["Покрытие данных", "какая доля веса критериев подкреплена найденными данными."]);
+    notes.push(["Уверенность", "насколько полны и надёжны источники. Критерии с низкой уверенностью меньше влияют на итог."]);
+    var howto = h("details", { class: "howto" }, h("summary", { text: "Как считается итог" }),
+      h("ul", null, notes.map(function (n) { return h("li", null, h("b", { text: n[0] }), ": ", rich(n[1])); })));
+    var card = h("div", { class: "card overview" }, h("div", { class: "radar" }, s), h("div", null, rows, legend, howto));
     addSection("criteria", "Критерии", sectionCard("criteria", "Оценка по критериям", card, "процент: вес в итоге"));
   })();
 
   // ---------- criterion details ----------
   (function () {
-    var wrap = h("div");
+    var wrap = h("div"), anyDated = false;
     CRIT_ORDER.forEach(function (k) {
       var it = critInfo(k), c = it.c || {};
       var has = isNum(it.score);
@@ -1022,22 +1084,21 @@ li.is-old, .rev.is-old { opacity: .62; }
       if (c.summary) body.appendChild(para(c.summary));
       if (!has) body.appendChild(h("p", { class: "empty", text: "Достоверных данных не нашлось. Критерий не влияет на итог: проверьте его лично." }));
       if (arr(c.pros).length || arr(c.cons).length) body.appendChild(h("div", { class: "cols" },
-        h("div", null, h("h4", { text: "Плюсы" }), arr(c.pros).length ? itemList(c.pros, "pros") : h("div", { class: "empty", text: "нет" })),
-        h("div", null, h("h4", { text: "Минусы" }), arr(c.cons).length ? itemList(c.cons, "cons") : h("div", { class: "empty", text: "нет" }))));
+        h("div", { class: "pc good" }, h("h4", { text: "Плюсы" }), arr(c.pros).length ? itemList(c.pros, "pros") : h("div", { class: "empty", text: "нет" })),
+        h("div", { class: "pc bad" }, h("h4", { text: "Минусы" }), arr(c.cons).length ? itemList(c.cons, "cons") : h("div", { class: "empty", text: "нет" }))));
       var ev = arr(c.evidence).filter(function (e) { return e && e.text; });
       if (ev.length) body.appendChild(h("div", null, h("h4", { text: "На чём основана оценка" }),
         h("ul", { class: "ev" }, ev.map(function (e) {
           var src = safeUrl(e.source_url), fd = factDate(e.date);
-          return h("li", { class: fd && fd.cls === "old" ? "is-old" : null }, deJargon(e.text), fd ? fd.el : null,
+          return h("li", { class: fd && fd.cls === "old" ? "is-old" : null }, rich(deJargon(e.text)), fd ? fd.el : null,
             src ? srcMini(src) : (e.source_title ? h("span", { class: "muted small", text: " · " + deJargon(e.source_title) }) : null));
         }))));
-      var dated = arr(c.pros).concat(arr(c.cons), ev).some(function (x) { return !!itemDate(x); });
-      if (dated) body.appendChild(dateLegend());
+      if (arr(c.pros).concat(arr(c.cons), ev).some(function (x) { return !!itemDate(x); })) anyDated = true;
       var srcs = critSources(c);
       if (!srcs.length && has) body.appendChild(h("div", { class: "small muted", style: "margin-top:8px", text: "Ссылок-подтверждений нет: оценка по косвенным данным." }));
       var sum1 = splitSentences(c.summary || "")[0] || "";
       var oneLine = sum1.length > 120 ? sum1.slice(0, 117).replace(/\s+\S*$/, "") + "…" : sum1;
-      wrap.appendChild(h("details", { class: "crit", id: "c-" + k },
+      wrap.appendChild(h("details", { class: "crit", id: "c-" + k, open: "" },
         h("summary", { class: "crit-head" }, h("span", { class: "ic", text: it.icon }),
           h("span", { class: "t" }, it.title, h("span", { class: "src-count", text: srcs.length ? "📎 " + srcs.length : "📎 0" }),
             h("span", { class: "s1" }, oneLine, (oneLine ? " · " : "") + "уверенность: " + (CONF[it.conf] || "н/д"))),
@@ -1045,6 +1106,7 @@ li.is-old, .rev.is-old { opacity: .62; }
           h("span", { class: "chev", text: "▶" })),
         body));
     });
+    if (anyDated) { var lg = dateLegend(); if (lg) { lg.style.margin = "0 0 10px"; wrap.insertBefore(lg, wrap.firstChild); } }
     addSection("details", "Подробно", sectionCard("details", "Подробно по критериям", wrap));
   })();
 
@@ -1076,8 +1138,43 @@ li.is-old, .rev.is-old { opacity: .62; }
       card.appendChild(sc);
     }
 
+    // plain-language comparison: what the seller asks per m² vs what similar flats cost
+    var area = O.area_total, ppm = isNum(V.price_per_m2) ? V.price_per_m2 : (isNum(ask) && isNum(area) && area > 0 ? ask / area : null);
+    var adj = arr(V.comparables).map(function (c) { return isNum(c.adjusted_ppm2) ? c.adjusted_ppm2 : c.price_per_m2; }).filter(isNum).sort(function (a, b) { return a - b; });
+    var whyRows = [];
+    if (isNum(ppm)) whyRows.push(["Продавец просит за м²", rub(ppm)]);
+    // third item: the benchmark to compare with what the seller asks (a number or a [low, high] range)
+    if (isNum(V.house_median_ppm2)) whyRows.push(["Обычно в этом доме за м²", rub(V.house_median_ppm2), [V.house_median_ppm2, ppm]]);
+    if (isNum(V.district_median_ppm2)) whyRows.push(["Обычно в районе за м²", rub(V.district_median_ppm2), [V.district_median_ppm2, ppm]]);
+    if (adj.length) whyRows.push([ruN(adj.length, ["похожая квартира", "похожие квартиры", "похожих квартир"]) + " с учётом торга и ремонта, за м²",
+      adj.length > 1 ? rub(adj[0]) + " – " + rub(adj[adj.length - 1]) : rub(adj[0]), [[adj[0], adj[adj.length - 1]], ppm]]);
+    if (isNum(V.fair_price)) whyRows.push(["Справедливая цена" + (isNum(area) ? " за " + dec(area, area % 1 ? 1 : 0) + " м²" : ""), money(V.fair_price), [V.fair_price, ask]]);
+    var ou = V.over_under_pct, totalRow = null;
+    if (isNum(ou) && isNum(ask) && isNum(V.fair_price)) {
+      var tg = ou < -3 ? " good" : "";
+      totalRow = [h("span", { class: "total last", text: ou > 3 ? "Переплата" : ou < -3 ? "Выгода" : "Разница с рынком" }),
+        h("span", { class: "wv total last" + tg, text: money(Math.abs(ask - V.fair_price)) + " (" + pct(Math.abs(ou)) + ")" })];
+    }
+    // arrow next to a benchmark: red down when it is below the asking price (the seller asks more), green up when above
+    function cmpMark(c) {
+      if (!c || !isNum(c[1]) || c[1] <= 0) return null;
+      var b = c[0], lo = Array.isArray(b) ? b[0] : b, hi = Array.isArray(b) ? b[1] : b;
+      if (!isNum(lo) || !isNum(hi)) return null;
+      var d = ((lo + hi) / 2 - c[1]) / c[1] * 100;
+      if (hi < c[1] && Math.abs(d) >= 1) return h("span", { class: "cmp down", title: "Ниже цены продавца на " + pct(Math.abs(d)) + ": продавец просит больше", text: "▼ " + pct(Math.abs(d)) });
+      if (lo > c[1] && Math.abs(d) >= 1) return h("span", { class: "cmp up", title: "Выше цены продавца на " + pct(Math.abs(d)) + ": цена продавца ниже рынка", text: "▲ " + pct(Math.abs(d)) });
+      return h("span", { class: "cmp eq", title: "Примерно как у продавца", text: "≈" });
+    }
+    var whyShown = whyRows.length >= 2;
+    if (whyShown) card.appendChild(h("div", { class: "why" },
+      h("h3", { text: isNum(ou) && ou > 3 ? "Почему цена завышена" : isNum(ou) && ou < -3 ? "Почему цена ниже рынка" : "Откуда справедливая цена" }),
+      h("div", { class: "why-grid" }, whyRows.map(function (r, i) {
+        var last = !totalRow && i === whyRows.length - 1 ? " last" : "";
+        return [h("span", { class: last || null, text: r[0] }), h("span", { class: "wv" + last }, cmpMark(r[2]), r[1])];
+      }), totalRow)));
+
     var how = pointsEl(V.comment_points, V.comment, null, 7);
-    if (how) card.appendChild(h("div", null, h("div", { class: "sub-h", text: "Как считали" }), how));
+    if (how) card.appendChild(h("div", null, h("div", { class: "sub-h", text: "Подробности оценки" }), how));
 
     var cols = h("div", { class: "grid2", style: "margin-top:18px" });
     // liquidity
@@ -1099,15 +1196,16 @@ li.is-old, .rev.is-old { opacity: .62; }
     cols.appendChild(liq);
 
     // medians & noise
-    var side = h("div", null, h("h3", { style: "margin-bottom:8px", text: "Цена за м² и шум" }));
+    // prices per m² are already in the «why» block above: then only noise stays here
+    var side = h("div", null, h("h3", { style: "margin-bottom:8px", text: whyShown ? "Шум и цена" : "Цена за м² и шум" }));
     var tbl = h("table", null, h("tbody", null,
-      isNum(V.price_per_m2) ? h("tr", null, h("td", { text: "Этот объект" }), h("td", { class: "r num", text: rub(V.price_per_m2) })) : null,
-      isNum(V.house_median_ppm2) ? h("tr", null, h("td", { text: "Медиана по дому" }), h("td", { class: "r num", text: rub(V.house_median_ppm2) })) : null,
-      isNum(V.district_median_ppm2) ? h("tr", null, h("td", { text: "Медиана по району" }), h("td", { class: "r num", text: rub(V.district_median_ppm2) })) : null,
+      !whyShown && isNum(V.price_per_m2) ? h("tr", null, h("td", { text: "Этот объект" }), h("td", { class: "r num", text: rub(V.price_per_m2) })) : null,
+      !whyShown && isNum(V.house_median_ppm2) ? h("tr", null, h("td", { text: "Обычно в этом доме" }), h("td", { class: "r num", text: rub(V.house_median_ppm2) })) : null,
+      !whyShown && isNum(V.district_median_ppm2) ? h("tr", null, h("td", { text: "Обычно в районе" }), h("td", { class: "r num", text: rub(V.district_median_ppm2) })) : null,
       isNum(V.noise_discount_pct) ? h("tr", null, h("td", { text: "Скидка за шум снаружи" }),
         h("td", { class: "r num", text: V.noise_discount_pct > 0 ? "−" + dec(V.noise_discount_pct, 1) + "%" + (isNum(ask) ? " ≈ " + money(ask * V.noise_discount_pct / 100) : "") : "не влияет" })) : null));
     side.appendChild(tbl);
-    cols.appendChild(side);
+    if (tbl.querySelector("tr")) cols.appendChild(side);
     card.appendChild(cols);
 
     if (arr(V.comparables).length) {
@@ -1117,8 +1215,8 @@ li.is-old, .rev.is-old { opacity: .62; }
       keys = keys.filter(function (k) { return V.comparables.some(function (c) { var v = (c.adjustments_pct || {})[k]; return isNum(v) && v !== 0; }); });
       var ADJ = { bargain: "торг", date: "дата", location_metro: "локация", location: "локация", house_type_walls: "стены", walls: "стены", floor: "этаж", area: "площадь", condition: "ремонт" };
       var t = h("table", null,
-        h("thead", null, h("tr", null, h("th", { text: "Аналог" }), h("th", { class: "r", text: "Цена" }), h("th", { class: "r", text: "₽/м²" }),
-          keys.map(function (k) { return h("th", { class: "r", text: ADJ[k] || k }); }), h("th", { class: "r", text: "После поправок" }), h("th", { class: "r", text: "Сумма поправок" }))),
+        h("thead", null, h("tr", null, h("th", { text: "Квартира" }), h("th", { class: "r", text: "Цена" }), h("th", { class: "r", text: "₽/м²" }),
+          keys.map(function (k) { return h("th", { class: "r", text: ADJ[k] || k }); }), h("th", { class: "r", text: "₽/м² с поправками" }), h("th", { class: "r", text: "Отличие" }))),
         h("tbody", null, V.comparables.map(function (c, ci) {
           var weak = (isNum(c.net_adj_pct) && Math.abs(c.net_adj_pct) > 15) || (isNum(c.gross_adj_pct) && c.gross_adj_pct > 25);
           return h("tr", null,
@@ -1128,9 +1226,9 @@ li.is-old, .rev.is-old { opacity: .62; }
             h("td", { class: "r num", text: rub(c.adjusted_ppm2) }),
             h("td", { class: "r num muted", text: (isNum(c.net_adj_pct) ? pct(c.net_adj_pct, true) : "н/д") + " / " + (isNum(c.gross_adj_pct) ? pct(c.gross_adj_pct) : "н/д") }));
         })));
-      card.appendChild(h("h3", { style: "margin:20px 0 6px", text: "Аналоги и поправки (сравнительный подход)" }));
+      card.appendChild(h("h3", { style: "margin:20px 0 6px", text: "С чем сравнивали: похожие квартиры" }));
       card.appendChild(h("div", { class: "table-scroll" }, t));
-      card.appendChild(h("div", { class: "small muted", style: "margin-top:6px", text: "Сумма поправок: чистая / валовая. Аналог слабый, если чистая больше 15% или валовая больше 25%." }));
+      card.appendChild(h("div", { class: "small muted", style: "margin-top:6px", text: "Поправки приводят похожую квартиру к этой: торг, этаж, ремонт, стены. Отличие: итог поправок / их сумма без учёта знака. Если больше 15% / 25%, квартира слишком непохожа и мало влияет на оценку." }));
     }
     addSection("price", "Цена", sectionCard("price", "Цена и ликвидность", card));
   })();
@@ -1179,7 +1277,7 @@ li.is-old, .rev.is-old { opacity: .62; }
     if (arr(fc.assumptions).length) right.appendChild(h("div", null, h("h4", { class: "small muted", style: "margin:14px 0 4px;text-transform:uppercase;letter-spacing:.06em", text: "Допущения" }),
       h("ul", { class: "ev muted" }, fc.assumptions.map(function (a) { return h("li", { text: deJargon(a) }); }))));
     right.appendChild(h("div", { class: "disclaimer", text: "Прогноз номинальный и построен на сценариях. Рост цены не гарантирован: по исследованиям, большая часть эффекта от инфраструктуры закладывается в цену ещё до открытия." }));
-    addSection("future", "Будущее", sectionCard("future", "Будущее района и прогноз", h("div", { class: "grid2" }, left, right)));
+    addSection("future", "Перспективы", sectionCard("future", "Перспективы района и прогноз", h("div", { class: "grid2" }, left, right)));
   })();
 
   // ---------- investment ----------
@@ -1356,13 +1454,15 @@ li.is-old, .rev.is-old { opacity: .62; }
         pointsEl(points, summary, null, 5),
         list.length ? h("div", { style: "margin-top:6px" }, list.map(function (r) {
           var rd = factDate(r.date);
-          return h("div", { class: "rev" + (rd && rd.cls === "old" ? " is-old" : "") }, h("span", { class: "dot " + (r.sentiment || "neu") }),
-            h("div", null, h("div", { text: deJargon(r.text || "") }),
+          return h("div", { class: "rev rev-" + (r.sentiment || "neu") + (rd && rd.cls === "old" ? " is-old" : "") }, h("span", { class: "dot " + (r.sentiment || "neu") }),
+            h("div", null, h("div", { class: "rt" }, rich(deJargon(r.text || ""))),
               h("div", { class: "src" }, [topicRu(r.topic) ? h("span", { class: "tag", text: topicRu(r.topic) }) : null, r.url ? srcChip(r.url, r.source || hostOf(r.url)) : (r.source || ""), rd ? rd.el : (r.date ? " · " + r.date : "")])));
         })) : (siteEl ? null : h("div", { class: "empty", text: "Отзывов не найдено" })));
     }
-    addSection("reviews", "Отзывы", sectionCard("reviews", "Отзывы", h("div", { class: "grid2" },
-      col("О доме", R.house_points, R.house_summary, hs, site), col("О районе", R.district_points, R.district_summary, ds, null)), "пересказ, ссылки на источники"));
+    var lg = hs.concat(ds).some(function (r) { return !!factDate(r.date); }) ? dateLegend() : null;
+    if (lg) lg.style.margin = "0 0 10px";
+    addSection("reviews", "Отзывы", sectionCard("reviews", "Отзывы", [lg, h("div", { class: "grid2" },
+      col("О доме", R.house_points, R.house_summary, hs, site), col("О районе", R.district_points, R.district_summary, ds, null))], "пересказ, ссылки на источники"));
   })();
 
   // ---------- checklists ----------

@@ -105,15 +105,16 @@ Return at most 6 lines to the orchestrator: fair price and range, overpricing, l
 All text below goes into the report: write it in Russian.
 
 - `summary`: at most 2 sentences.
-- `pros` and `cons`: each item at most 12 words. Write a fact from the internet as an object with a link: `{"text": "На слышимость жалуются 3 из 9 отзывов", "url": "https://..."}`. A plain string without a link is allowed only for facts from the listing. Add `"date"` to a pro, con or evidence item whose fact has a date: the review date, the publication date of the news or document (`YYYY-MM-DD`, `YYYY-MM` or `YYYY`). Omit it for timeless facts (year built, distances, listing data). The report shows the date and marks old facts.
+- `pros` and `cons`: each item at most 12 words. Write a fact from the internet as an object with a link: `{"text": "На слышимость жалуются 3 из 9 отзывов", "url": "https://..."}`. A plain string without a link is allowed only for facts from the listing. Add `"date"` to a pro, con or evidence item whose fact has a date: the review date, the publication date of the news or document (`YYYY-MM-DD`, `YYYY-MM` or `YYYY`). Omit it for timeless facts (year built, distances, listing data). The report shows the date and marks old facts. A fact taken from reviews always has a date: the review date, or the date of the newest review for a count over several reviews («жалуются 3 из 9 отзывов»). Every review in `reviews.house` and `reviews.district` has `date` too (copy it from `reviews_site.json` or the source).
 - Links: a criterion with medium or high confidence has at least one link in `evidence` or in the items. noise, building, legal, value_liquidity have at least two, if they exist. Map facts (metro, schools, parks, roads) are added by the assembler with map links: do not duplicate them.
 - Long explanations only as a list of short points (`comment_points`, `house_points`, `district_points`, `assumptions`): 3–6 points, each at most 20 words. Do not fill the `comment` field.
 - Numbers in Russian format: 10,57 млн ₽; 199 342 ₽/м²; 14,5%; 1,3 км. Not «10.57 млн», not «199,342 ₽».
 - No technical words: net, gross, mortgage_eligible, priced_in, конфиг, suggested_scores, geo_brief, partial, OSM, category names in Latin script (rail_station, playground, university, etc.). Write «уже учтено в цене», «проходит по ипотеке», «по данным карты».
 - Bad: a paragraph «Сравнительный подход по 7 аналогам … net 15% / gross 25% … 199,342 ₽/м²». Good:
   - «Справедливая цена около 10,6 млн ₽ (диапазон 9,6–11,4 млн)»
-  - «Аналог в том же доме: 48 м², 11,2 млн ₽, 12-й этаж»
+  - «Похожая квартира в этом доме: 48 м², 11,2 млн ₽, 12-й этаж»
   - «Торг 7%: продавец пометил «Быстрая продажа»»
   - «Реалистичная цель торга 11,0–11,3 млн ₽»
 - Before replying, check your file: `python3 "$ROOT/scripts/validate.py" --style-only <file>`. Fix everything it reports.
+- `valuation.comment_points` is read by a buyer, not an appraiser. The first point answers «почему цена такая» in one plain sentence with numbers: «Продавец просит 254 473 ₽ за м², а похожие квартиры рядом стоят 216–228 тыс. ₽ за м²». Do not use «аналог», «запрос», «экспозиция», «поправки»: write «похожая квартира», «цена продавца», «срок продажи», «с учётом торга и ремонта».
 - `valuation.comment_points`: 4–6 points (fair price and range, comparable in the same building, bargaining, bargaining target, liquidity). `investment.comment_points`: 3–4 points.

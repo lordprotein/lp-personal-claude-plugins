@@ -85,11 +85,27 @@ def _texts(a):
 
 
 DATE_RE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
+# a pro or con retelling reviews: needs the date of the (newest) review
+REVIEW_WORDS = re.compile(r"отзыв|жалу|жильц|жител|хвал|соседи|соседей", re.I)
+REVIEW_HOSTS = re.compile(r"otzovik|flamp|irecommend|2gis\.|yandex\.\w+/maps", re.I)
+# words a buyer does not understand in the price explanation
+PRICE_JARGON = re.compile(r"аналог|экспозици|поправк|\bзапрос\w*", re.I)
 
 
 def check_style(a):
     """Warnings about links and text readability."""
     warns = []
+    rev = a.get("reviews") or {}
+    review_urls = set()
+    for blk in ("house", "district"):
+        for i, r in enumerate(rev.get(blk) or []):
+            if not isinstance(r, dict):
+                continue
+            if _is_http(r.get("url")):
+                review_urls.add(r["url"])
+            d = r.get("date")
+            if not d:
+                warns.append("reviews.%s[%d]: review without date: take it from the source" % (blk, i))
     crit = a.get("criteria") or {}
     for cid, c in crit.items():
         if not isinstance(c, dict):
@@ -99,6 +115,13 @@ def check_style(a):
                 d = p.get("date") if isinstance(p, dict) else None
                 if d and not (isinstance(d, str) and DATE_RE.match(d)):
                     warns.append("%s.%s[%d]: date «%s» not in format YYYY-MM-DD, YYYY-MM or YYYY" % (cid, k, i, d))
+        for k in ("pros", "cons"):
+            for i, p in enumerate(c.get(k) or []):
+                if not isinstance(p, dict) or p.get("date"):
+                    continue
+                url = p.get("url") or ""
+                if REVIEW_WORDS.search(p.get("text") or "") or REVIEW_HOSTS.search(url) or (url and url in review_urls):
+                    warns.append("%s.%s[%d]: fact from reviews without date: add the review date (newest one for a count over several reviews)" % (cid, k, i))
         if c.get("score") is None:
             continue
         links = sum(1 for e in (c.get("evidence") or []) if isinstance(e, dict) and _is_http(e.get("source_url")))
@@ -111,6 +134,10 @@ def check_style(a):
                 no_url = sum(1 for p in pts if not _point_url(p))
                 if no_url * 2 > len(pts):
                     warns.append("%s: %d of %d pros and cons have no link" % (cid, no_url, len(pts)))
+    for i, t in enumerate((a.get("valuation") or {}).get("comment_points") or []):
+        m = PRICE_JARGON.search(t) if isinstance(t, str) else None
+        if m:
+            warns.append("valuation.comment_points[%d]: «%s» is unclear to a buyer: say «похожая квартира», «цена продавца», «срок продажи», «с учётом торга и ремонта»" % (i, m.group(0)))
     seen = set()
     for where, text in _texts(a):
         if not text:
