@@ -364,11 +364,24 @@ class DomTest(unittest.TestCase):
         geo = text_of(section(self.dom, "geo"))
         for latin in ("rail_station", "stop_bus_tram", "university", "playground", "без названия"):
             self.assertNotIn(latin, geo)
-        for ru in ("Транспорт", "Ж/д станции и МЦД", "Остановки", "Детская площадка", "Что может мешать", "На цену не влияет"):
+        for ru in ("Транспорт", "Ж/д станции и МЦД", "Остановки", "Детская площадка", "Что может мешать"):
             self.assertIn(ru, geo)
         self.assertIn("4 остановки", geo)
-        self.assertIn("не загрузились", geo)
         self.assertNotIn("Вузы", geo)  # empty category is hidden
+
+    def test_noise_box_inside_noise_criterion(self):
+        noise = re.search(r'<details class="crit" id="c-noise".*?</details>', self.dom, re.S).group(0)
+        t = text_of(noise)
+        self.assertIn("Шум с улицы", t)
+        self.assertIn("Скидка за шум в справедливой цене", t)
+        self.assertIn("не загрузились", t)
+        self.assertNotIn("Шум с улицы", text_of(section(self.dom, "geo")))
+        self.assertNotIn("Скидка за шум", text_of(section(self.dom, "price")))
+
+    def test_summary_without_repeats(self):
+        t = text_of(section(self.dom, "summary"))
+        self.assertNotIn("Уверенность:", t)
+        self.assertEqual(t.count("рынк"), 1)
 
     def test_long_comment_is_split(self):
         price = section(self.dom, "price")

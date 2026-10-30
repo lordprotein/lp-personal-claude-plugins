@@ -734,6 +734,42 @@ li.is-old, .rev.is-old { opacity: .62; }
     arr(c.pros).concat(arr(c.cons)).forEach(function (x) { var u = itemUrl(x); if (u && !seen[u]) { seen[u] = 1; out.push([u, null]); } });
     return out;
   }
+  // major roads, rail and power lines did not load: the noise estimate may be too low
+  function geoPartial() {
+    var cats = G.categories || {};
+    return G.partial === true || (arr(G.errors).length > 0 && !["major_road", "railway_line", "tram_line", "powerline"].some(function (k) { return arr(cats[k]).length; }));
+  }
+  // street noise estimated from the map, shown inside the noise criterion
+  function noiseBox() {
+    var ne = G.noise_estimate || {};
+    var dbv = isNum(ne.est_db_combined) ? ne.est_db_combined : ne.est_db_max;
+    if (!isNum(dbv) && !arr(ne.sources).length) return null;
+    var lo = 35, hi = 80, posv = Math.max(lo, Math.min(hi, isNum(dbv) ? dbv : lo));
+    var zone = !isNum(dbv) ? "" : dbv < 45 ? "тихо" : dbv < 55 ? "норма" : dbv < 65 ? "шумно" : "очень шумно";
+    var colr = !isNum(dbv) ? "var(--muted)" : dbv < 45 ? "var(--good)" : dbv < 55 ? "var(--ok)" : dbv < 65 ? "var(--warn)" : "var(--bad)";
+    // the discount used in the fair price wins over the map range
+    var ask = isNum(V.asking_price) ? V.asking_price : O.price, discTxt;
+    if (isNum(V.noise_discount_pct)) discTxt = V.noise_discount_pct > 0 ? "Скидка за шум в справедливой цене: −" + dec(V.noise_discount_pct, 1) + "%" + (isNum(ask) ? " ≈ " + money(ask * V.noise_discount_pct / 100) : "") : "На цену не влияет";
+    else {
+      var disc = Array.isArray(ne.price_discount_pct) ? ne.price_discount_pct : null;
+      discTxt = disc && (disc[1] > 0 || disc[0] > 0) ? "Снижает цену примерно на " + dec(disc[0], 1) + "–" + dec(disc[1], 1) + "%" : "На цену не влияет";
+    }
+    var srcs = arr(ne.sources).map(function (s) {
+      var kind = { road_motorway: "трасса", road_trunk: "магистраль", road_primary: "крупная улица", road_secondary: "улица с движением", road_tertiary: "улица", rail: "ж/д", tram: "трамвай", aircraft: "самолёты" }[s.kind] || "";
+      if (kind && s.name && String(s.name).toLowerCase().indexOf(kind) >= 0) kind = "";
+      return h("li", null, (s.name || "Источник шума") + (kind ? " (" + kind + ")" : "") + ": " + meters(s.distance_m) + (isNum(s.est_db) ? ", около " + Math.round(s.est_db) + " дБ" : ""));
+    });
+    return h("div", { class: "noise-box" },
+      h("div", { class: "noise-head" }, h("b", { text: "🔊 Шум с улицы (расчёт по карте)" }),
+        h("span", null, h("span", { class: "noise-val num", style: "color:" + colr, text: isNum(dbv) ? "≈ " + Math.round(dbv) + " дБ" : "н/д" }), zone ? h("span", { class: "muted", text: " · " + zone }) : null)),
+      h("div", { class: "nscale" },
+        h("div", { class: "zones" }, h("i"), h("i"), h("i"), h("i")),
+        isNum(dbv) ? h("div", { class: "pin", style: "left:" + ((posv - lo) / (hi - lo) * 100) + "%" }, h("span", { text: Math.round(dbv) + " дБ" })) : null,
+        h("div", { class: "zlabs" }, h("span", { text: "тихо, до 45" }), h("span", { text: "норма, 45–55" }), h("span", { text: "шумно, 55–65" }), h("span", { text: "очень шумно, 65+" }))),
+      h("div", { class: "small", style: "margin-top:8px" }, h("b", { text: discTxt + "." }), " Окна во двор обычно тише на 10–20 дБ."),
+      srcs.length ? h("ul", { class: "points noise-src" }, srcs) : null,
+      geoPartial() ? h("div", { class: "env-warn", text: "⚠️ Данные о магистралях, ж/д и ЛЭП не загрузились: реальный шум от дорог может быть выше. Проверьте на месте в час пик." }) : null);
+  }
   function shortAddr(a) {
     a = String(a || "").replace(/^\s*\d{6},?\s*/, "").replace(/^\s*(Россия|Российская Федерация),\s*/i, "");
     var admin = /(обл\.|^обл$|област|(^|\s)край$|р-н|район|поселени|автономн|республик|городской округ|муниципальн)/i;
@@ -932,12 +968,8 @@ li.is-old, .rev.is-old { opacity: .62; }
     // plain-language summary of the verdict
     var scored = CRIT_ORDER.map(critInfo).filter(function (it) { return isNum(it.score); });
     var nStop = Math.max(stopFlags.length, arr(S.stop_flags).length), nMajor = Math.max(majorFlags.length, arr(S.major_flags).length);
+    // the price against the market is shown once, in the key figures below
     var sum = [];
-    if (isNum(V.over_under_pct) && Math.abs(V.over_under_pct) > 3) {
-      var diff = isNum(V.fair_price) && isNum(V.asking_price || O.price) ? Math.abs((V.asking_price || O.price) - V.fair_price) : null;
-      sum.push("Цена на " + pct(Math.abs(V.over_under_pct)) + (V.over_under_pct > 0 ? " выше" : " ниже") + " рынка" +
-        (diff ? (V.over_under_pct > 0 ? ": переплата около " : ": выгода около ") + money(diff) : ""));
-    }
     // the flags themselves are listed in the alerts right above and below
     if (nStop) sum.push(ruN(nStop, ["стоп-фактор", "стоп-фактора", "стоп-факторов"]) + ": покупать нельзя, пока не сняты (список выше)");
     if (nMajor) sum.push(ruN(nMajor, ["серьёзный риск", "серьёзных риска", "серьёзных рисков"]) + ", каждый снижает итог (список ниже)");
@@ -950,9 +982,7 @@ li.is-old, .rev.is-old { opacity: .62; }
     if (sum.length) right.appendChild(h("ul", { class: "sum-list" }, sum.map(function (t) { return h("li", null, rich(ucFirst(t))); })));
 
     var chips = h("div", { class: "chips" });
-    // the value is colored by how good it is
-    var confCls = { high: "c-good", medium: "c-warn", low: "c-bad" }[S.confidence] || "";
-    chips.appendChild(h("span", { class: "chip " + confCls }, "Уверенность: ", h("b", { text: CONF[S.confidence] || "н/д" })));
+    // the value is colored by how good it is; confidence itself is in the «Надёжность данных» tile
     if (isNum(S.coverage)) chips.appendChild(h("span", { class: "chip " + (S.coverage >= 0.8 ? "c-good" : S.coverage >= 0.5 ? "c-warn" : "c-bad") }, "Покрытие данных: ", h("b", { text: Math.round(S.coverage * 100) + "%" })));
     if (arr(S.missing).length) chips.appendChild(h("span", { class: "chip c-warn" }, "Нет данных: ", h("b", { text: S.missing.map(function (k) { return SHORT[k] || k; }).join(", ") })));
     right.appendChild(chips);
@@ -1082,6 +1112,8 @@ li.is-old, .rev.is-old { opacity: .62; }
       var has = isNum(it.score);
       var body = h("div", { class: "crit-body" });
       if (c.summary) body.appendChild(para(c.summary));
+      var nb = k === "noise" ? noiseBox() : null;
+      if (nb) body.appendChild(nb);
       if (!has) body.appendChild(h("p", { class: "empty", text: "Достоверных данных не нашлось. Критерий не влияет на итог: проверьте его лично." }));
       if (arr(c.pros).length || arr(c.cons).length) body.appendChild(h("div", { class: "cols" },
         h("div", { class: "pc good" }, h("h4", { text: "Плюсы" }), arr(c.pros).length ? itemList(c.pros, "pros") : h("div", { class: "empty", text: "нет" })),
@@ -1119,9 +1151,7 @@ li.is-old, .rev.is-old { opacity: .62; }
     var kpis = h("div", { class: "kpis" });
     function kpi(l, v, cls) { kpis.appendChild(h("div", { class: "kpi" }, h("div", { class: "l", text: l }), h("div", { class: "v num" + (cls ? " " + cls : ""), text: v }))); }
     kpi("Цена объявления", money(ask));
-    kpi("Справедливая цена", money(V.fair_price));
-    if (isNum(V.over_under_pct)) kpi(V.over_under_pct > 0 ? "Переплата" : "Ниже рынка", pct(Math.abs(V.over_under_pct)), V.over_under_pct > 3 ? "bad" : V.over_under_pct < -3 ? "good" : "");
-    if (isNum(V.bargain_discount_pct)) kpi("Типичный торг в городе", pct(V.bargain_discount_pct));
+    // fair price and overpayment tiles are added below, unless the «why» block already ends with them
     card.appendChild(kpis);
 
     if (isNum(V.fair_low) && isNum(V.fair_high) && isNum(ask)) {
@@ -1166,6 +1196,11 @@ li.is-old, .rev.is-old { opacity: .62; }
       return h("span", { class: "cmp eq", title: "Примерно как у продавца", text: "≈" });
     }
     var whyShown = whyRows.length >= 2;
+    if (!(whyShown && totalRow)) {
+      kpi("Справедливая цена", money(V.fair_price));
+      if (isNum(V.over_under_pct)) kpi(V.over_under_pct > 0 ? "Переплата" : "Ниже рынка", pct(Math.abs(V.over_under_pct)), V.over_under_pct > 3 ? "bad" : V.over_under_pct < -3 ? "good" : "");
+    }
+    if (isNum(V.bargain_discount_pct)) kpi("Типичный торг в городе", pct(V.bargain_discount_pct));
     if (whyShown) card.appendChild(h("div", { class: "why" },
       h("h3", { text: isNum(ou) && ou > 3 ? "Почему цена завышена" : isNum(ou) && ou < -3 ? "Почему цена ниже рынка" : "Откуда справедливая цена" }),
       h("div", { class: "why-grid" }, whyRows.map(function (r, i) {
@@ -1195,17 +1230,16 @@ li.is-old, .rev.is-old { opacity: .62; }
     }
     cols.appendChild(liq);
 
-    // medians & noise
-    // prices per m² are already in the «why» block above: then only noise stays here
-    var side = h("div", null, h("h3", { style: "margin-bottom:8px", text: whyShown ? "Шум и цена" : "Цена за м² и шум" }));
-    var tbl = h("table", null, h("tbody", null,
-      !whyShown && isNum(V.price_per_m2) ? h("tr", null, h("td", { text: "Этот объект" }), h("td", { class: "r num", text: rub(V.price_per_m2) })) : null,
-      !whyShown && isNum(V.house_median_ppm2) ? h("tr", null, h("td", { text: "Обычно в этом доме" }), h("td", { class: "r num", text: rub(V.house_median_ppm2) })) : null,
-      !whyShown && isNum(V.district_median_ppm2) ? h("tr", null, h("td", { text: "Обычно в районе" }), h("td", { class: "r num", text: rub(V.district_median_ppm2) })) : null,
-      isNum(V.noise_discount_pct) ? h("tr", null, h("td", { text: "Скидка за шум снаружи" }),
-        h("td", { class: "r num", text: V.noise_discount_pct > 0 ? "−" + dec(V.noise_discount_pct, 1) + "%" + (isNum(ask) ? " ≈ " + money(ask * V.noise_discount_pct / 100) : "") : "не влияет" })) : null));
-    side.appendChild(tbl);
-    if (tbl.querySelector("tr")) cols.appendChild(side);
+    // medians: only when the «why» block above has not shown them; the noise discount lives in the noise criterion
+    if (!whyShown) {
+      var side = h("div", null, h("h3", { style: "margin-bottom:8px", text: "Цена за м²" }));
+      var tbl = h("table", null, h("tbody", null,
+        isNum(V.price_per_m2) ? h("tr", null, h("td", { text: "Этот объект" }), h("td", { class: "r num", text: rub(V.price_per_m2) })) : null,
+        isNum(V.house_median_ppm2) ? h("tr", null, h("td", { text: "Обычно в этом доме" }), h("td", { class: "r num", text: rub(V.house_median_ppm2) })) : null,
+        isNum(V.district_median_ppm2) ? h("tr", null, h("td", { text: "Обычно в районе" }), h("td", { class: "r num", text: rub(V.district_median_ppm2) })) : null));
+      side.appendChild(tbl);
+      if (tbl.querySelector("tr")) cols.appendChild(side);
+    }
     card.appendChild(cols);
 
     if (arr(V.comparables).length) {
@@ -1308,8 +1342,7 @@ li.is-old, .rev.is-old { opacity: .62; }
   // ---------- geo ----------
   (function () {
     var cats = G.categories || {};
-    var ne = G.noise_estimate || {};
-    if (!Object.keys(cats).length && !ne.sources) return;
+    if (!Object.keys(cats).length) return;
     // key: [label, icon, label for unnamed, plural unit]
     var GEO = {
       metro: ["Метро", "🚇", "Станция метро", "станций"], rail_station: ["Ж/д станции и МЦД", "🚆", "Ж/д станция", "станций"],
@@ -1390,33 +1423,7 @@ li.is-old, .rev.is-old { opacity: .62; }
       card.appendChild(bt);
     }
 
-    var linear = ["major_road", "railway_line", "tram_line", "powerline"];
-    var partial = G.partial === true || (arr(G.errors).length > 0 && !linear.some(function (k) { return arr(cats[k]).length; }));
-
-    // noise
-    var dbv = isNum(ne.est_db_combined) ? ne.est_db_combined : ne.est_db_max;
-    if (isNum(dbv) || arr(ne.sources).length) {
-      var lo = 35, hi = 80, posv = Math.max(lo, Math.min(hi, isNum(dbv) ? dbv : lo));
-      var zone = !isNum(dbv) ? "" : dbv < 45 ? "тихо" : dbv < 55 ? "норма" : dbv < 65 ? "шумно" : "очень шумно";
-      var colr = !isNum(dbv) ? "var(--muted)" : dbv < 45 ? "var(--good)" : dbv < 55 ? "var(--ok)" : dbv < 65 ? "var(--warn)" : "var(--bad)";
-      var disc = Array.isArray(ne.price_discount_pct) ? ne.price_discount_pct : null;
-      var discTxt = disc && (disc[1] > 0 || disc[0] > 0) ? "Снижает цену примерно на " + dec(disc[0], 1) + "–" + dec(disc[1], 1) + "%" : "На цену не влияет";
-      var srcs = arr(ne.sources).map(function (s) {
-        var kind = { road_motorway: "трасса", road_trunk: "магистраль", road_primary: "крупная улица", road_secondary: "улица с движением", road_tertiary: "улица", rail: "ж/д", tram: "трамвай", aircraft: "самолёты" }[s.kind] || "";
-        if (kind && s.name && String(s.name).toLowerCase().indexOf(kind) >= 0) kind = "";
-        return h("li", null, (s.name || "Источник шума") + (kind ? " (" + kind + ")" : "") + ": " + meters(s.distance_m) + (isNum(s.est_db) ? ", около " + Math.round(s.est_db) + " дБ" : ""));
-      });
-      card.appendChild(h("div", { class: "noise-box" },
-        h("div", { class: "noise-head" }, h("b", { text: "🔊 Шум с улицы (расчёт по карте)" }),
-          h("span", null, h("span", { class: "noise-val num", style: "color:" + colr, text: isNum(dbv) ? "≈ " + Math.round(dbv) + " дБ" : "н/д" }), zone ? h("span", { class: "muted", text: " · " + zone }) : null)),
-        h("div", { class: "nscale" },
-          h("div", { class: "zones" }, h("i"), h("i"), h("i"), h("i")),
-          isNum(dbv) ? h("div", { class: "pin", style: "left:" + ((posv - lo) / (hi - lo) * 100) + "%" }, h("span", { text: Math.round(dbv) + " дБ" })) : null,
-          h("div", { class: "zlabs" }, h("span", { text: "тихо, до 45" }), h("span", { text: "норма, 45–55" }), h("span", { text: "шумно, 55–65" }), h("span", { text: "очень шумно, 65+" }))),
-        h("div", { class: "small", style: "margin-top:8px" }, h("b", { text: discTxt + "." }), " Окна во двор обычно тише на 10–20 дБ."),
-        srcs.length ? h("ul", { class: "points noise-src" }, srcs) : null,
-        partial ? h("div", { class: "env-warn", text: "⚠️ Данные о магистралях, ж/д и ЛЭП не загрузились: реальный шум от дорог может быть выше. Проверьте на месте в час пик." }) : null));
-    }
+    var partial = geoPartial();
 
     var groupsEl = h("div", { class: "env-groups" });
     GROUPS.forEach(function (g) {
